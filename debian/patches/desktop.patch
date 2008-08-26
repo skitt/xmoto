@@ -1,0 +1,11 @@
+Index: xmoto-0.4.2/extra/xmoto.desktop
+===================================================================
+--- xmoto-0.4.2.orig/extra/xmoto.desktop	2008-08-26 22:41:45.000000000 +0200
++++ xmoto-0.4.2/extra/xmoto.desktop	2008-08-26 22:42:11.000000000 +0200
+@@ -6,4 +6,5 @@
+ GenericName[fr_FR]=Jeu de moto
+ Icon=xmoto.xpm
+ Exec=xmoto
+-Categories=Game;SportsGame;
++Categories=Game;SportsGame;ArcadeGame;
++

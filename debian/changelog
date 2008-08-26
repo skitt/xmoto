@@ -1,3 +1,16 @@
+xmoto (0.4.2-2) UNRELEASED; urgency=low
+
+  [ Miriam Ruiz ]
+  * Upgraded Standards-Version to 3.8.0. No changes needed.
+  * Don't call atoi(NULL), fixes segfault on upgrade from etch
+    (Closes: #492414). Thanks to Julien Cristau <jcristau@debian.org>
+  * Added Homepage field to debian/control
+  * Added Suggests: xmoto to package xmoto-data
+  * Added ArcadeGame to desktop categories. Closes: #478974
+    Thanks to Daniel Dickinson <cshore@wightman.ca>
+
+ -- Miriam Ruiz <little_miry@yahoo.es>  Tue, 26 Aug 2008 21:42:52 +0200
+
 xmoto (0.4.2-1) unstable; urgency=low
 
   * New upstream release.
