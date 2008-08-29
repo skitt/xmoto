@@ -1,4 +1,4 @@
-xmoto (0.4.2-2) UNRELEASED; urgency=low
+xmoto (0.4.2-2) unstable; urgency=low
 
   [ Miriam Ruiz ]
   * Upgraded Standards-Version to 3.8.0. No changes needed.
