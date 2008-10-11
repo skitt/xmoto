@@ -1,3 +1,12 @@
+xmoto (0.4.2-3) unstable; urgency=med
+
+  [ Barry deFreese ]
+  * Don't segfault on NULL db values. (Closes: #492414).
+    + Thanks to Gustavo Noronha Silva for the patch.
+  * Add myself to uploaders.
+
+ -- Barry deFreese <bdefreese@comcast.net>  Sat, 11 Oct 2008 09:34:05 -0400
+
 xmoto (0.4.2-2) unstable; urgency=low
 
   [ Miriam Ruiz ]
