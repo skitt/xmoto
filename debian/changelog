@@ -1,8 +1,9 @@
-xmoto (0.4.2-3) unstable; urgency=med
+xmoto (0.4.2-3) unstable; urgency=medium
 
   [ Barry deFreese ]
   * Don't segfault on NULL db values. (Closes: #492414).
     + Thanks to Gustavo Noronha Silva for the patch.
+  * Add patch-stamp target.
   * Add myself to uploaders.
 
  -- Barry deFreese <bdefreese@debian.org>  Sat, 11 Oct 2008 09:34:05 -0400
