@@ -5,7 +5,7 @@ xmoto (0.4.2-3) unstable; urgency=med
     + Thanks to Gustavo Noronha Silva for the patch.
   * Add myself to uploaders.
 
- -- Barry deFreese <bdefreese@comcast.net>  Sat, 11 Oct 2008 09:34:05 -0400
+ -- Barry deFreese <bdefreese@debian.org>  Sat, 11 Oct 2008 09:34:05 -0400
 
 xmoto (0.4.2-2) unstable; urgency=low
 
