@@ -1,4 +1,4 @@
-xmoto (0.5.0-1) UNRELEASED; urgency=low
+xmoto (0.5.0-1) experimental; urgency=low
 
   [ Miriam Ruiz ]
   * New Upstream Release (Closes: #508286)
@@ -7,7 +7,10 @@ xmoto (0.5.0-1) UNRELEASED; urgency=low
   * Refreshed patches
   * Removed patch fix_segfault2.patch: Already fixed in upstream code
 
- -- Miriam Ruiz <little_miry@yahoo.es>  Wed, 10 Dec 2008 10:48:48 +0100
+  [ Samuel Mimram ]
+  * Add missing dependency on libsdl-net1.2-dev.
+
+ -- Samuel Mimram <smimram@debian.org>  Tue, 23 Dec 2008 15:55:40 +0100
 
 xmoto (0.4.2-3) unstable; urgency=medium
 
