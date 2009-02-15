@@ -1,3 +1,10 @@
+xmoto (0.5.0-2) unstable; urgency=low
+
+  * Upload to unstable.
+  * Use DejaVuSans.ttf from the package ttf-dejavu-core.
+
+ -- Samuel Mimram <smimram@debian.org>  Sun, 15 Feb 2009 22:10:00 +0100
+
 xmoto (0.5.0-1) experimental; urgency=low
 
   [ Miriam Ruiz ]

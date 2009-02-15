@@ -69,6 +69,7 @@ install: build
 
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	dh_install --sourcedir=debian/tmp --list-missing
+	rm -f debian/xmoto/usr/share/games/xmoto/Textures/Fonts/DejaVuSans.ttf
 	cp extra/xmoto.desktop debian/xmoto/usr/share/applications/
 	cp extra/xmoto.xpm debian/xmoto/usr/share/pixmaps/
 
