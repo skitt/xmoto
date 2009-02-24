@@ -15,7 +15,6 @@ Vcs-Svn: svn://svn.debian.org/svn/pkg-games/packages/trunk/xmoto/
 Package: xmoto
 Architecture: any
 Depends: ${shlibs:Depends}, xmoto-data (= ${source:Version})
-Suggests: xmoto-edit
 Description: 2D motocross platform game
  X-Moto is a challenging 2D motocross platform game, where physics play
  an all important role in the gameplay. You need to control your bike to
