@@ -5,6 +5,7 @@ xmoto (0.5.0-3) unstable; urgency=low
 
   [ Barry deFreese ]
   * Change libode0-dev build-depeds to libode-dev. (Closes: #520734).
+  * Bump Standards Version to 3.8.1. (No changes needed).
 
  -- Barry deFreese <bdefreese@debian.org>  Sun, 22 Mar 2009 21:00:05 -0400
 
