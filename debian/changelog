@@ -1,8 +1,12 @@
-xmoto (0.5.0-3) UNRELEASED; urgency=low
+xmoto (0.5.0-3) unstable; urgency=low
 
+  [ Samuel Mimram ]
   * Remove obsolete Suggests to xmoto-edit.
 
- -- Samuel Mimram <smimram@debian.org>  Tue, 24 Feb 2009 19:15:41 +0100
+  [ Barry deFreese ]
+  * Change libode0-dev build-depeds to libode-dev. (Closes: #520734).
+
+ -- Barry deFreese <bdefreese@debian.org>  Sun, 22 Mar 2009 21:00:05 -0400
 
 xmoto (0.5.0-2) unstable; urgency=low
 
