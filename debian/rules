@@ -30,8 +30,8 @@ patch:
 
 config.status: configure patch
 	dh_testdir
-	CFLAGS="$(CFLAGS) -Wl,-z,defs"; \
-	CXXFLAGS="$(CFLAGS) -Wl,-z,defs"; \
+	CFLAGS="$(CFLAGS) -Wl,-z,defs -DdDOUBLE"; \
+	CXXFLAGS="$(CFLAGS) -Wl,-z,defs -DdDOUBLE"; \
 	    if ! ./configure $(confflags) \
 	    	--prefix=/usr \
 	    	--bindir=\$${prefix}/games \

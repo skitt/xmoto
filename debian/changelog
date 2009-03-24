@@ -7,7 +7,11 @@ xmoto (0.5.0-3) unstable; urgency=low
   * Change libode0-dev build-depeds to libode-dev. (Closes: #520734).
   * Bump Standards Version to 3.8.1. (No changes needed).
 
- -- Barry deFreese <bdefreese@debian.org>  Sun, 22 Mar 2009 21:00:05 -0400
+  [ Gonéri Le Bouder ]
+  * Pass -DdDOUBLE to gcc, this should be done by pkg-config but xmoto
+    doesn't use it yet (Closes: #521013)
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 24 Mar 2009 12:27:21 +0100
 
 xmoto (0.5.0-2) unstable; urgency=low
 
