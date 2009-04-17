@@ -1,3 +1,9 @@
+xmoto (0.5.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Samuel Mimram <smimram@debian.org>  Fri, 17 Apr 2009 10:28:00 +0200
+
 xmoto (0.5.0-3) unstable; urgency=low
 
   [ Samuel Mimram ]
