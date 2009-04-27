@@ -99,7 +99,6 @@ binary-arch: build install
 	dh_installexamples -a
 	dh_installmenu -a
 	dh_installmime -a
-	dh_desktop -a
 	dh_installman -a
 	dh_link -a
 	dh_strip -a
