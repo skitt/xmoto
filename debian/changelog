@@ -1,3 +1,14 @@
+xmoto (0.5.2-1) unstable; urgency=low
+
+  [ Barry deFreese ]
+  * New upstream release.
+    + Remove desktop and gcc-4.4 patches as they are fixed upstream.
+  * Add README.source for quilt package.
+  * Bump debhelper build-dep to 5 to match compat.
+  * Bump Standards Version to 3.8.3. (No changes needed).
+
+ -- Barry deFreese <bdefreese@debian.org>  Sat, 26 Sep 2009 10:01:44 -0400
+
 xmoto (0.5.1-1) unstable; urgency=low
 
   * New upstream release.

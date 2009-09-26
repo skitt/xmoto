@@ -1,8 +1,8 @@
-Index: xmoto-0.5.0/src/states/StateMainMenu.cpp
+Index: xmoto-0.5.2/src/states/StateMainMenu.cpp
 ===================================================================
---- xmoto-0.5.0.orig/src/states/StateMainMenu.cpp	2008-11-23 10:30:46.000000000 +0100
-+++ xmoto-0.5.0/src/states/StateMainMenu.cpp	2008-12-10 10:58:22.000000000 +0100
-@@ -843,6 +843,7 @@
+--- xmoto-0.5.2.orig/src/states/StateMainMenu.cpp	2009-08-05 07:46:06.000000000 -0400
++++ xmoto-0.5.2/src/states/StateMainMenu.cpp	2009-09-26 10:10:50.000000000 -0400
+@@ -871,6 +871,7 @@
    int   v_nbDiffLevels    = 0;
    std::string v_level_name= "";
    xmDatabase* pDb = xmDatabase::instance("main");
@@ -10,7 +10,7 @@ Index: xmoto-0.5.0/src/states/StateMainMenu.cpp
    
    if(v_window != NULL){
      delete v_window;
-@@ -860,7 +861,8 @@
+@@ -888,7 +889,8 @@
      pDb->read_DB_free(v_result);
      return;
    }
@@ -20,7 +20,7 @@ Index: xmoto-0.5.0/src/states/StateMainMenu.cpp
    v_since           =      pDb->getResult(v_result, 2, 0, 1);  
    pDb->read_DB_free(v_result);
  
-@@ -876,11 +878,16 @@
+@@ -904,11 +906,16 @@
      pDb->read_DB_free(v_result);
      return;
    }
@@ -42,7 +42,7 @@ Index: xmoto-0.5.0/src/states/StateMainMenu.cpp
    pDb->read_DB_free(v_result);
  
    v_result = pDb->readDB("SELECT COUNT(DISTINCT(id_level)) "
-@@ -891,7 +898,8 @@
+@@ -919,7 +926,8 @@
      pDb->read_DB_free(v_result);
      return;
    }  
@@ -52,7 +52,7 @@ Index: xmoto-0.5.0/src/states/StateMainMenu.cpp
    pDb->read_DB_free(v_result);
  
    /* Per-player info */
-@@ -943,11 +951,16 @@
+@@ -971,11 +979,16 @@
      if(cy + 45 > nHeight) break; /* out of window */
      
      v_level_name      =      pDb->getResult(v_result, 6, i, 0);
