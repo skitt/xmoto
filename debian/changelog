@@ -1,3 +1,11 @@
+xmoto (0.5.2-2) unstable; urgency=low
+
+  [ Barry deFreese ]
+  * 64bit-ftbfs.diff - Fix FTBFS on 64bit. (Closes: #548511).
+    + Thanks to Peter De Wachter for the patch!
+
+ -- Barry deFreese <bdefreese@debian.org>  Sun, 27 Sep 2009 11:57:06 -0400
+
 xmoto (0.5.2-1) unstable; urgency=low
 
   [ Barry deFreese ]
