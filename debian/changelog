@@ -1,3 +1,14 @@
+xmoto (0.5.5-1) UNRELEASED; urgency=low
+
+  [ Stephen Kitt ]
+  * New upstream release. (Closes: #580428.)
+  * Update patches:
+    + fix_segfault.patch: refreshed;
+    + 64bit-ftbfs.patch: removed (applied upstream).
+  * Add libxdg-basedir-dev build-dependency.
+
+ -- Stephen Kitt <steve@sk2.org>  Sun, 20 Mar 2011 23:58:44 +0100
+
 xmoto (0.5.2-2) unstable; urgency=low
 
   [ Barry deFreese ]
