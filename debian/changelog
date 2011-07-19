@@ -1,4 +1,6 @@
-xmoto (0.5.5-1) UNRELEASED; urgency=low
+xmoto (0.5.5-1) unstable; urgency=low
+
+  * Team upload.
 
   [ Stephen Kitt ]
   * New upstream release. (Closes: #580428.)
@@ -7,7 +9,12 @@ xmoto (0.5.5-1) UNRELEASED; urgency=low
     + 64bit-ftbfs.patch: removed (applied upstream).
   * Add libxdg-basedir-dev build-dependency.
 
- -- Stephen Kitt <steve@sk2.org>  Sun, 20 Mar 2011 23:58:44 +0100
+  [ Bruno "Fuddl" Kleinert ]
+  * Prepare for libjpeg8 transition and depend on libjpeg-dev instead of
+    libjpeg62-dev. Thanks to Bill Allombert for pointing this out.
+    (Closes: #634648)
+
+ -- Bruno "Fuddl" Kleinert <fuddl@debian.org>  Tue, 19 Jul 2011 18:07:10 +0200
 
 xmoto (0.5.2-2) unstable; urgency=low
 
