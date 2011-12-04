@@ -4,7 +4,8 @@ xmoto (0.5.9-1) unstable; urgency=low
     + builds with libpng 1.5 (closes: #649797);
     + uses libxml2.
   * Update patches:
-    + fix_segfault.patch: refresh, add DEP-3 header.
+    + fix_segfault.patch: refresh, add DEP-3 header;
+    + desktop.patch: re-apply, add German translation (closes: #641822).
 
  -- Stephen Kitt <steve@sk2.org>  Wed, 10 Aug 2011 07:12:24 +0200
 
