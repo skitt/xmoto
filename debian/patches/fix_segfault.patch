@@ -1,6 +1,10 @@
---- xmoto-0.5.5.orig/src/states/StateMainMenu.cpp
-+++ xmoto-0.5.5/src/states/StateMainMenu.cpp
-@@ -893,6 +893,7 @@
+Description: Avoid segfaulting on NULL values in the database
+Author: Gustavo Noronha Silva <kov@debian.org>
+Origin: other, http://bugs.debian.org/492414
+
+--- xmoto-0.5.9.orig/src/states/StateMainMenu.cpp
++++ xmoto-0.5.9/src/states/StateMainMenu.cpp
+@@ -899,6 +899,7 @@
    int   v_nbDiffLevels    = 0;
    std::string v_level_name= "";
    xmDatabase* pDb = xmDatabase::instance("main");
@@ -8,7 +12,7 @@
    
    if(v_window != NULL){
      delete v_window;
-@@ -910,7 +911,8 @@
+@@ -916,7 +917,8 @@
      pDb->read_DB_free(v_result);
      return;
    }
@@ -18,7 +22,7 @@
    v_since           =      pDb->getResult(v_result, 2, 0, 1);  
    pDb->read_DB_free(v_result);
  
-@@ -926,11 +928,16 @@
+@@ -932,11 +934,16 @@
      pDb->read_DB_free(v_result);
      return;
    }
@@ -40,7 +44,7 @@
    pDb->read_DB_free(v_result);
  
    v_result = pDb->readDB("SELECT COUNT(DISTINCT(id_level)) "
-@@ -993,11 +1000,16 @@
+@@ -999,11 +1006,16 @@
      if(cy + 45 > nHeight) break; /* out of window */
      
      v_level_name      =      pDb->getResult(v_result, 6, i, 0);
