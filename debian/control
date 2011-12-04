@@ -6,9 +6,9 @@ Uploaders: Miriam Ruiz <little_miry@yahoo.es>, Samuel Mimram <smimram@debian.org
  Barry deFreese <bdefreese@debian.org>,
 Build-Depends: debhelper (>= 5.0.0), dpkg-dev (>= 1.13.19), autotools-dev, quilt,
  libsdl1.2-dev, libsdl-ttf2.0-dev, libsdl-mixer1.2-dev, libsdl-net1.2-dev,
- libjpeg-dev, libpng12-dev, zlib1g-dev, libgl1-mesa-dev | libgl-dev,
+ libjpeg-dev, libpng12-dev | libpng-dev, zlib1g-dev, libgl1-mesa-dev | libgl-dev,
  libode-dev, liblua5.1-0-dev, libcurl4-gnutls-dev, libbz2-dev, libsqlite3-dev,
- libxdg-basedir-dev
+ libxdg-basedir-dev, libxml2-dev
 Standards-Version: 3.8.3
 Homepage: http://xmoto.tuxfamily.org/
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-games/packages/trunk/xmoto/?op=log

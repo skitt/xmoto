@@ -1,3 +1,11 @@
+xmoto (0.5.9-1) unstable; urgency=low
+
+  * New upstream release (closes: #644234):
+    + builds with libpng 1.5 (closes: #649797);
+    + uses libxml2.
+
+ -- Stephen Kitt <steve@sk2.org>  Wed, 10 Aug 2011 07:12:24 +0200
+
 xmoto (0.5.5-1) unstable; urgency=low
 
   * Team upload.
