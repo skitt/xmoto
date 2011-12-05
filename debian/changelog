@@ -11,6 +11,7 @@ xmoto (0.5.9-1) unstable; urgency=low
   * Switch to dh 9 with simple rules.
   * Use source format "3.0 (quilt)".
   * Add ${misc:Depends} where appropriate.
+  * Patch the manpage to fix hyphens and a few spelling mistakes.
 
  -- Stephen Kitt <steve@sk2.org>  Mon, 05 Dec 2011 01:04:52 +0100
 
