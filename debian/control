@@ -25,8 +25,8 @@ Description: 2D motocross platform game
 
 Package: xmoto-data
 Architecture: all
-Depends: ${misc:Depends}
-Suggests: xmoto (>= ${source:Version}), ttf-dejavu-core
+Depends: ${misc:Depends}, ttd-dejavu-core
+Suggests: xmoto (>= ${source:Version})
 Description: 2D motocross platform game - data files
  X-Moto is a challenging 2D motocross platform game, where physics play
  an all important role in the gameplay. You need to control your bike to

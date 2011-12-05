@@ -2,7 +2,9 @@ xmoto (0.5.9-1) unstable; urgency=low
 
   * New upstream release (closes: #644234):
     + builds with libpng 1.5 (closes: #649797);
-    + uses libxml2.
+    + uses libxml2;
+    + uses DejaVuSansMono (add link and make ttf-dejavu-core a dependency
+      of xmoto-data).
   * Update patches:
     + fix_segfault.patch: refresh, add DEP-3 header;
     + desktop.patch: re-apply, add German translation (closes: #641822).
