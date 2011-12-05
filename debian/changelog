@@ -6,8 +6,11 @@ xmoto (0.5.9-1) unstable; urgency=low
   * Update patches:
     + fix_segfault.patch: refresh, add DEP-3 header;
     + desktop.patch: re-apply, add German translation (closes: #641822).
+  * Switch to dh 9 with simple rules.
+  * Use source format "3.0 (quilt)".
+  * Add ${misc:Depends} where appropriate.
 
- -- Stephen Kitt <steve@sk2.org>  Wed, 10 Aug 2011 07:12:24 +0200
+ -- Stephen Kitt <steve@sk2.org>  Mon, 05 Dec 2011 01:04:52 +0100
 
 xmoto (0.5.5-1) unstable; urgency=low
 

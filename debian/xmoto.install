@@ -1,3 +1,5 @@
 usr/games/xmoto
 usr/share/games/locale
 usr/share/man/man6/*
+extra/xmoto.desktop /usr/share/applications
+extra/xmoto.xpm /usr/share/pixmaps
