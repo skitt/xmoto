@@ -1,0 +1,274 @@
+Description: Fix a number of spelling mistakes
+Author: Stephen Kitt <steve@sk2.org>
+
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/ChangeLog
++++ xmoto-0.5.9.obsolete.0.892401299745874/ChangeLog
+@@ -125,7 +125,7 @@
+  * synchronisation of the database with the webserver to share it among the places you play X-Moto
+  * chipmunk integration. Blocks reacts to physics, joints and scripts calls (require special levels) - replay saving still unsupported
+  * save config separatly for each profile
+- * --noDBDirsCheck command line options added. It disables the files find when X-Moto detects that you changed your configuration directory (usefull if you use X-Moto on a USB key)
++ * --noDBDirsCheck command line options added. It disables the files find when X-Moto detects that you changed your configuration directory (useful if you use X-Moto on a USB key)
+  * --defaultTheme option to change the default theme for new profiles (and --with-default-theme= at compilation time) ; so that packager can change it.
+  * optimisations for particles handling
+  * joystick support improved
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/po/lt_LT.po
++++ xmoto-0.5.9.obsolete.0.892401299745874/po/lt_LT.po
+@@ -3693,7 +3693,7 @@
+ #~ msgid ""
+ #~ "X-Moto uses a database on your computer to save all your scores and "
+ #~ "statistics. You can send these data using your web account on the X-Moto "
+-#~ "server. It is usefull to save your data or if you play X-Moto from "
++#~ "server. It is useful to save your data or if you play X-Moto from "
+ #~ "different places."
+ #~ msgstr ""
+ #~ "X-Moto naudoja jūsų kompiuteryje duomenų bazę, kad išsaugotų visus jūsų "
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/po/nl_NL.po
++++ xmoto-0.5.9.obsolete.0.892401299745874/po/nl_NL.po
+@@ -3636,7 +3636,7 @@
+ #~ msgid ""
+ #~ "X-Moto uses a database on your computer to save all your scores and "
+ #~ "statistics. You can send these data using your web account on the X-Moto "
+-#~ "server. It is usefull to save your data or if you play X-Moto from "
++#~ "server. It is useful to save your data or if you play X-Moto from "
+ #~ "different places."
+ #~ msgstr ""
+ #~ "X-Moto gebruikt een lokale database om je scores in op te slaan. Deze "
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/po/zh_TW.po
++++ xmoto-0.5.9.obsolete.0.892401299745874/po/zh_TW.po
+@@ -3587,7 +3587,7 @@
+ #~ msgid ""
+ #~ "X-Moto uses a database on your computer to save all your scores and "
+ #~ "statistics. You can send these data using your web account on the X-Moto "
+-#~ "server. It is usefull to save your data or if you play X-Moto from "
++#~ "server. It is useful to save your data or if you play X-Moto from "
+ #~ "different places."
+ #~ msgstr ""
+ #~ "X-Moto在您的電腦裡增設了一個資料庫來儲存你 所有的紀錄與統計。你可以用你的"
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/Packager.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/Packager.cpp
+@@ -74,7 +74,7 @@
+ 	md5sumLen = fgetc(fp);
+ 	fread(md5sum,md5sumLen,1,fp);
+ 	md5sum[md5sumLen] = '\0';	
+-	/* this is not usefull for unpack */
++	/* this is not useful for unpack */
+ 
+         int nNameLen;
+         while((nNameLen=fgetc(fp)) >= 0) {  
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/Renderer.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/Renderer.cpp
+@@ -861,7 +861,7 @@
+       lines_drawn++;
+       v_last_size=fSize;
+   }
+-  //print amount of lines drawn and the camera's zoom value, usefull for testing.
++  //print amount of lines drawn and the camera's zoom value, useful for testing.
+   if( XMSession::instance()->debug() ) {
+     std::stringstream out; out << lines_drawn;
+     std::stringstream out2; out2 << v_cZoom;
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/XMArgs.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/XMArgs.cpp
+@@ -691,7 +691,7 @@
+   printf("\t--videoRecordingFramerate FRAMERATE\n\t\tChange video framerate.\n");
+   printf("\t--videoRecordingStartTime NBCENTSOFSECONDS\n\t\tStart recording video after this game time.\n");
+   printf("\t--videoRecordingEndTime NBCENTSOFSECONDS\n\t\tStop recording video after this game time.\n");
+-  printf("\t--hidePlayingInformation\n\t\tDon't show some information while playing/replaying ; usefull to make nicer video.\n");
++  printf("\t--hidePlayingInformation\n\t\tDon't show some information while playing/replaying ; useful to make nicer video.\n");
+   printf("\t--drawlib DRAWLIB\n\t\tChoose the render to use (default one is OPENGL if available).\n");
+   printf("\t--defaultTheme THEME\n\t\tDefault theme for new profiles created.\n");
+   printf("\t--noDBDirsCheck\n\t\tDon't check that system and user dirs changed at startup.\n");
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/chipmunk/cpSpace.h
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/chipmunk/cpSpace.h
+@@ -128,7 +128,7 @@
+ static inline int
+ queryFunc(void *p1, void *p2, void *data)
+ {
+-	// Cast the generic pointers from the spatial hash back to usefull types
++	// Cast the generic pointers from the spatial hash back to useful types
+ 	cpShape *a = (cpShape *)p1;
+ 	cpShape *b = (cpShape *)p2;
+ 	cpSpace *space = (cpSpace *)data;
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/states/GameState.h
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/states/GameState.h
+@@ -89,7 +89,7 @@
+     m_updatePeriod = (float)m_maxFps / (float)m_updateFps;
+   }
+ 
+-  // usefull to be sure to replace one state by another (and not always replace the upper state)
++  // useful to be sure to replace one state by another (and not always replace the upper state)
+   void setStateId(const std::string& i_id);
+   std::string getStateId() const;
+ 
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/VTexture.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/VTexture.cpp
+@@ -377,7 +377,7 @@
+       int i=1;
+       while(it != textures.end()){
+ 	if((*it)->curRegistrationStageMode != RSM_NORMAL || (*it)->curRegistrationStage.size() > 0) {
+-	  LogDebug("%3i   %s (%s)", i, (*it)->Name.c_str(), (*it)->curRegistrationStageMode == RSM_NORMAL ? "NORMAL" : "PERSISTANT");
++	  LogDebug("%3i   %s (%s)", i, (*it)->Name.c_str(), (*it)->curRegistrationStageMode == RSM_NORMAL ? "NORMAL" : "PERSISTENT");
+ 	  i++;
+ 	}
+ 	++it;
+@@ -405,7 +405,7 @@
+     std::vector<Texture*> textures = getTextures();
+     std::vector<Texture*>::iterator it = textures.begin();
+     while(it != textures.end()){
+-      if((*it)->curRegistrationStageMode != RSM_PERSISTANT) {
++      if((*it)->curRegistrationStageMode != RSM_PERSISTENT) {
+ 	for(unsigned int i=0; i<(*it)->curRegistrationStage.size(); i++) {
+ 	  LogDebug("  begin %s %d [%x]", (*it)->Name.c_str(), (*it)->curRegistrationStage[i], (*it));
+ 	}
+@@ -432,7 +432,7 @@
+ 
+     LogDebug("---End texture registration---");
+     while(it != textures.end()){
+-      if((*it)->curRegistrationStageMode != RSM_PERSISTANT) {
++      if((*it)->curRegistrationStageMode != RSM_PERSISTENT) {
+ 	for(unsigned int i=0; i<(*it)->curRegistrationStage.size(); i++) {
+ 	  LogDebug("  end %s %d [%x]", (*it)->Name.c_str(), (*it)->curRegistrationStage[i], (*it));
+ 	}
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/VTexture.h
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/VTexture.h
+@@ -51,9 +51,9 @@
+ //and nID is not a openGL specific structure
+ //it's
+ 
+-enum RegistrationStageMode { RSM_PERSISTANT, RSM_NORMAL };
++enum RegistrationStageMode { RSM_PERSISTENT, RSM_NORMAL };
+ 
+-#define PERSISTANT 0
++#define PERSISTENT 0
+ class Texture {
+ public:
+   Texture() {
+@@ -63,7 +63,7 @@
+     surface              = NULL;
+     nSize                = 0;
+     isAlpha              = false;
+-    curRegistrationStageMode = RSM_PERSISTANT;
++    curRegistrationStageMode = RSM_PERSISTENT;
+   }
+ 
+   std::string    Name;
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/GameText.h
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/GameText.h
+@@ -379,7 +379,7 @@
+ #define GAMETEXT_MAIN                 _("Main")
+ #define GAMETEXT_MOUSE                _("Mouse")
+ #define GAMETEXT_THEME                _("Theme")
+-#define GAMETEXT_TTF_MISSING          "You must install the font file for your langage:" // not translated because always displayed in english
++#define GAMETEXT_TTF_MISSING          "You must install the font file for your language:" // not translated because always displayed in english
+ #define GAMETEXT_MEDAL_BRONZE         _("Bronze")
+ #define GAMETEXT_MEDAL_GOLD           _("Gold")
+ #define GAMETEXT_MEDAL_SILVER         _("Silver")
+Binary files xmoto-0.5.9.obsolete.0.892401299745874.orig/bin/xmoto.bin and xmoto-0.5.9.obsolete.0.892401299745874/bin/xmoto.bin differ
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/GameInit.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/GameInit.cpp
+@@ -386,7 +386,7 @@
+   v_xmArgs.isOptReplay()    ||
+   v_xmArgs.isOptDemo());
+ 
+-  // network requires the input informations (to display the chat command)
++  // network requires the input information (to display the chat command)
+   if(v_useGraphics) {
+     InputHandler::instance()->init(m_userConfig, pDb, XMSession::instance()->profile(), XMSession::instance()->enableJoysticks());
+   }
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/LevelsManager.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/LevelsManager.cpp
+@@ -1531,7 +1531,7 @@
+     v_tables += "         AND g.id_profile = h.id_profile)";
+   }
+ 
+-  // highscore informations ? -- i = webhighscores of levels
++  // highscore information ? -- i = webhighscores of levels
+   // highscore driver 1/2
+   if(i_setHighscoreDriver != lprv_dontcare || i_limitToLastHighscores != 0) {
+     if(v_mustBeInWebHighscores) {
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/db/xmDatabase_sync.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/db/xmDatabase_sync.cpp
+@@ -57,7 +57,7 @@
+ 		      "WHERE sitekey=\"" + protectString(i_sitekey) + "\" AND id_profile=\"" + protectString(i_profile) + "\";", nrow);
+     if(nrow != 1) {
+       read_DB_free(v_result);
+-      throw Exception("Unable to retrieve informations");
++      throw Exception("Unable to retrieve information");
+     }
+ 
+     snprintf(v_line, 2048,
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/db/xmDatabase_web.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/db/xmDatabase_web.cpp
+@@ -67,7 +67,7 @@
+       throw Exception("unable to analyze xml highscore file");
+     }
+ 
+-    /* get Room informations */
++    /* get Room information */
+     v_roomName = XMLDocument::getOption(v_xmlElt, "roomname");
+     v_roomId   = XMLDocument::getOption(v_xmlElt, "roomid");
+ 
+@@ -235,7 +235,7 @@
+       if(v_MD5sum_web == "")
+ 	continue;
+ 	      
+-      /* web informations */
++      /* web information */
+       v_difficulty = XMLDocument::getOption(pSubElem, "web_difficulty");
+       if(v_difficulty == "")
+ 	continue;
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/net/NetClient.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/net/NetClient.cpp
+@@ -215,7 +215,7 @@
+     throw Exception("Already connected");
+   }
+ 
+-  // reset udp server informations
++  // reset udp server information
+   m_serverReceivesUdp = false;
+   m_serverSendsUdp    =  false;
+ 
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/states/StateManager.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/states/StateManager.cpp
+@@ -905,7 +905,7 @@
+ void
+ StateManager::registerAsEmitter(std::string message)
+ {
+-  // TODO::show debug informations
++  // TODO::show debug information
+   return registerAsObserver(message, NULL);
+ }
+ 
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/states/StateManager.h
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/states/StateManager.h
+@@ -73,7 +73,7 @@
+   // yourself as an observer of this message
+   void registerAsObserver(std::string message,   GameState* self);
+   void unregisterAsObserver(std::string message, GameState* self);
+-  // register as emitter only for debug informations
++  // register as emitter only for debug information
+   void registerAsEmitter(std::string message);
+ 
+   // send the message to registered states
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/states/StateReplaying.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/states/StateReplaying.cpp
+@@ -75,7 +75,7 @@
+ 
+   try {
+     if(XMSession::instance()->hidePlayingInformation() == false) {
+-      // display replay informations
++      // display replay information
+       char c_tmp[1024];
+       snprintf(c_tmp, 1024,
+ 	       GAMETEXT_BY_PLAYER,
+--- xmoto-0.5.9.obsolete.0.892401299745874.orig/src/states/StateUpdate.cpp
++++ xmoto-0.5.9.obsolete.0.892401299745874/src/states/StateUpdate.cpp
+@@ -116,7 +116,7 @@
+   }
+ 
+   if(m_threadStarted == true){
+-    // update the frame with the thread informations only when progress change
++    // update the frame with the thread information only when progress change
+     // to avoid spending tooo much time waiting for mutexes.
+     int progress = m_pThread->getThreadProgress();
+     if(progress != m_progress){
