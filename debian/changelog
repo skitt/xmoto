@@ -14,8 +14,9 @@ xmoto (0.5.9-1) unstable; urgency=low
   * Patch the manpage to fix hyphens and a few spelling mistakes.
   * Add myself to uploaders.
   * Update debian/copyright.
+  * Standards-Version 3.9.2 (no further change required).
 
- -- Stephen Kitt <steve@sk2.org>  Mon, 05 Dec 2011 07:20:44 +0100
+ -- Stephen Kitt <steve@sk2.org>  Mon, 05 Dec 2011 22:48:24 +0100
 
 xmoto (0.5.5-1) unstable; urgency=low
 

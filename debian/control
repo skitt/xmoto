@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 8.1.3), dpkg-dev (>= 1.13.19), autotools-dev,
  libjpeg-dev, libpng12-dev | libpng-dev, zlib1g-dev, libgl1-mesa-dev | libgl-dev,
  libode-dev, liblua5.1-0-dev, libcurl4-gnutls-dev, libbz2-dev, libsqlite3-dev,
  libxdg-basedir-dev, libxml2-dev
-Standards-Version: 3.8.3
+Standards-Version: 3.9.2
 Homepage: http://xmoto.tuxfamily.org/
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-games/packages/trunk/xmoto/?op=log
 Vcs-Svn: svn://svn.debian.org/svn/pkg-games/packages/trunk/xmoto/
