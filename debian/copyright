@@ -98,7 +98,7 @@ License: MIT
 Files: src/intl/*
 Copyright: 1984-2006 Free Software Foundation, Inc.
 License: LGPL-2+
- 
+
 Files: debian/*
 Copyright: 2005-2009 Samuel Mimram <smimram@debian.org>
            2008 Miriam Ruiz <little_miry@yahoo.es>

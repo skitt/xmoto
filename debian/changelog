@@ -18,8 +18,9 @@ xmoto (0.5.9-1) unstable; urgency=low
   * Fix spelling mistakes spotted by Lintian.
   * Use dh-autoreconf to update config.{guess,sub} (thanks to Ansgar
     Burchardt for the hint).
+  * wrap-and-sort control files.
 
- -- Stephen Kitt <steve@sk2.org>  Wed, 28 Mar 2012 00:01:08 +0200
+ -- Stephen Kitt <steve@sk2.org>  Wed, 28 Mar 2012 00:07:26 +0200
 
 xmoto (0.5.5-1) unstable; urgency=low
 

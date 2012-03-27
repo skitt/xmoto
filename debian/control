@@ -2,13 +2,29 @@ Source: xmoto
 Section: games
 Priority: optional
 Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
-Uploaders: Miriam Ruiz <little_miry@yahoo.es>, Samuel Mimram <smimram@debian.org>,
- Barry deFreese <bdefreese@debian.org>, Stephen Kitt <steve@sk2.org>
-Build-Depends: debhelper (>= 9), dh-autoreconf, dpkg-dev (>= 1.13.19), autotools-dev,
- libsdl1.2-dev, libsdl-ttf2.0-dev, libsdl-mixer1.2-dev, libsdl-net1.2-dev,
- libjpeg-dev, libpng12-dev | libpng-dev, zlib1g-dev, libgl1-mesa-dev | libgl-dev,
- libode-dev, liblua5.1-0-dev, libcurl4-gnutls-dev, libbz2-dev, libsqlite3-dev,
- libxdg-basedir-dev, libxml2-dev
+Uploaders: Miriam Ruiz <little_miry@yahoo.es>,
+           Samuel Mimram <smimram@debian.org>,
+           Barry deFreese <bdefreese@debian.org>,
+           Stephen Kitt <steve@sk2.org>
+Build-Depends: autotools-dev,
+               debhelper (>= 9),
+               dh-autoreconf,
+               dpkg-dev (>= 1.13.19),
+               libbz2-dev,
+               libcurl4-gnutls-dev,
+               libgl1-mesa-dev | libgl-dev,
+               libjpeg-dev,
+               liblua5.1-0-dev,
+               libode-dev,
+               libpng12-dev | libpng-dev,
+               libsdl-mixer1.2-dev,
+               libsdl-net1.2-dev,
+               libsdl-ttf2.0-dev,
+               libsdl1.2-dev,
+               libsqlite3-dev,
+               libxdg-basedir-dev,
+               libxml2-dev,
+               zlib1g-dev
 Standards-Version: 3.9.2
 Homepage: http://xmoto.tuxfamily.org/
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-games/packages/trunk/xmoto/?op=log
@@ -16,7 +32,7 @@ Vcs-Svn: svn://svn.debian.org/svn/pkg-games/packages/trunk/xmoto/
 
 Package: xmoto
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, xmoto-data (= ${source:Version})
+Depends: xmoto-data (= ${source:Version}), ${misc:Depends}, ${shlibs:Depends}
 Description: 2D motocross platform game
  X-Moto is a challenging 2D motocross platform game, where physics play
  an all important role in the gameplay. You need to control your bike to
@@ -25,7 +41,7 @@ Description: 2D motocross platform game
 
 Package: xmoto-data
 Architecture: all
-Depends: ${misc:Depends}, ttf-dejavu-core
+Depends: ttf-dejavu-core, ${misc:Depends}
 Suggests: xmoto (>= ${source:Version})
 Description: 2D motocross platform game - data files
  X-Moto is a challenging 2D motocross platform game, where physics play
