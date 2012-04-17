@@ -2,3 +2,4 @@ fix_segfault.patch
 desktop.patch
 manpage.patch
 spelling.patch
+gcc-4.7-fixes.patch
