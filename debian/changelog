@@ -1,10 +1,16 @@
-xmoto (0.5.9-1) unstable; urgency=low
+xmoto (0.5.9+dfsg-1) unstable; urgency=low
 
   * New upstream release (closes: #644234):
     + builds with libpng 1.5 (closes: #649797);
     + uses libxml2;
     + uses DejaVuSansMono (add link and make ttf-dejavu-core a dependency
       of xmoto-data).
+  * Repacked to avoid licensing problems:
+    + remove src/glext.h, licensed under SGI License B version 1.1;
+    + add the missing contents in bin (closes: #661340).
+    (I'm hoping that both issues will be fixed upstream, so I haven't
+    added a get-orig-source target to debian/rules. README.dfsg in the
+    repacked source explains the changes.)
   * Update patches:
     + fix_segfault.patch: refresh, add DEP-3 header, forward upstream;
     + desktop.patch: re-apply, add German translation (closes: #641822),
@@ -27,8 +33,9 @@ xmoto (0.5.9-1) unstable; urgency=low
   * Fix "ftbfs with GCC-4.7" by including unistd.h where appropriate
     (closes: #667422; thanks to Cyril Brulebois for his patch for another
     gcc-4.7-related issue, which was already included upstream).
+  * Fix the Vcs-Browser URL.
 
- -- Stephen Kitt <steve@sk2.org>  Sun, 22 Apr 2012 14:20:08 +0200
+ -- Stephen Kitt <steve@sk2.org>  Sun, 22 Apr 2012 23:34:22 +0200
 
 xmoto (0.5.5-1) unstable; urgency=low
 
