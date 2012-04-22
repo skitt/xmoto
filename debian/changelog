@@ -24,7 +24,7 @@ xmoto (0.5.9+dfsg-1) unstable; urgency=low
   * Patch the manpage to fix hyphens and a few spelling mistakes.
   * Add myself to uploaders.
   * Update debian/copyright.
-  * Standards-Version 3.9.2 (no further change required).
+  * Standards-Version 3.9.3 (no further change required).
   * Fix spelling mistakes spotted by Lintian.
   * Use dh-autoreconf to update config.{guess,sub} (thanks to Ansgar
     Burchardt for the hint).
@@ -36,7 +36,7 @@ xmoto (0.5.9+dfsg-1) unstable; urgency=low
     gcc-4.7-related issue, which was already included upstream).
   * Fix the Vcs-Browser URL.
 
- -- Stephen Kitt <steve@sk2.org>  Mon, 23 Apr 2012 00:07:02 +0200
+ -- Stephen Kitt <steve@sk2.org>  Mon, 23 Apr 2012 00:07:50 +0200
 
 xmoto (0.5.5-1) unstable; urgency=low
 
