@@ -27,7 +27,7 @@ Build-Depends: autotools-dev,
                zlib1g-dev
 Standards-Version: 3.9.2
 Homepage: http://xmoto.tuxfamily.org/
-Vcs-Browser: http://svn.debian.org/wsvn/pkg-games/packages/trunk/xmoto/?op=log
+Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-games/packages/trunk/xmoto/
 Vcs-Svn: svn://svn.debian.org/svn/pkg-games/packages/trunk/xmoto/
 
 Package: xmoto
