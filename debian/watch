@@ -1,3 +1,4 @@
 version=3
 
-http://xmoto.tuxfamily.org/ .*/xmoto-([\d\.]+)-src\.tar\.gz
+opts=dversionmangle=s/.dfsg$// \
+  http://xmoto.tuxfamily.org/ .*/xmoto-([\d\.]+)-src\.tar\.gz
