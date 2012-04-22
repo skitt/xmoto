@@ -6,8 +6,11 @@ xmoto (0.5.9-1) unstable; urgency=low
     + uses DejaVuSansMono (add link and make ttf-dejavu-core a dependency
       of xmoto-data).
   * Update patches:
-    + fix_segfault.patch: refresh, add DEP-3 header;
-    + desktop.patch: re-apply, add German translation (closes: #641822).
+    + fix_segfault.patch: refresh, add DEP-3 header, forward upstream;
+    + desktop.patch: re-apply, add German translation (closes: #641822),
+      forward upstream;
+    + spelling.patch: refresh, forward upstream;
+    + manpage.patch: forward upstream.
   * Switch to dh 9 with simple rules.
   * Use source format "3.0 (quilt)".
   * Add ${misc:Depends} where appropriate.
@@ -25,7 +28,7 @@ xmoto (0.5.9-1) unstable; urgency=low
     (closes: #667422; thanks to Cyril Brulebois for his patch for another
     gcc-4.7-related issue, which was already included upstream).
 
- -- Stephen Kitt <steve@sk2.org>  Tue, 17 Apr 2012 08:18:03 +0200
+ -- Stephen Kitt <steve@sk2.org>  Sun, 22 Apr 2012 14:20:08 +0200
 
 xmoto (0.5.5-1) unstable; urgency=low
 
