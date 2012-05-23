@@ -6,6 +6,7 @@ Uploaders: Miriam Ruiz <little_miry@yahoo.es>,
            Samuel Mimram <smimram@debian.org>,
            Barry deFreese <bdefreese@debian.org>,
            Stephen Kitt <steve@sk2.org>
+DM-Upload-Allowed: yes
 Build-Depends: autotools-dev,
                debhelper (>= 9),
                dh-autoreconf,
