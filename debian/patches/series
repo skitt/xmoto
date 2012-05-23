@@ -1,3 +1,4 @@
+remove-glext.patch
 fix_segfault.patch
 desktop.patch
 manpage.patch

@@ -5,14 +5,13 @@ xmoto (0.5.9+dfsg-1) unstable; urgency=low
     + uses libxml2;
     + uses DejaVuSansMono (add link and make ttf-dejavu-core a dependency
       of xmoto-data).
-  * Repacked to avoid licensing problems:
-    + remove src/glext.h, licensed under SGI License B version 1.1;
-    + add the missing contents in bin (closes: #661340).
-    (I'm hoping that both issues will be fixed upstream, so I haven't
-    added a get-orig-source target to debian/rules. README.dfsg in the
-    repacked source explains the changes.)
+  * Repacked to remove src/glext.h, licensed under SGI License B version
+    1.1. (I'm hoping that this will be fixed upstream, so I haven't added
+    a get-orig-source target to debian/rules.)
   * Update debian/watch accordingly.
   * Update patches:
+    + remove-glext.patch: add (allows building without glext.h), forward
+      upstream;
     + fix_segfault.patch: refresh, add DEP-3 header, forward upstream;
     + desktop.patch: re-apply, add German translation (closes: #641822),
       forward upstream;
@@ -20,7 +19,11 @@ xmoto (0.5.9+dfsg-1) unstable; urgency=low
     + manpage.patch: forward upstream;
     + gcc44-ftbfs.patch: no longer used, delete.
   * Switch to dh 9 with simple rules.
-  * Use source format "3.0 (quilt)".
+  * Use source format "3.0 (quilt)", drop explanations from
+    README.source.
+  * Update README.source to explain the removal of glext.h, and the use of
+    "xmoto --unpack" and "xmoto --pack" to manipulate xmoto.bin (closes:
+    #661340).
   * Add ${misc:Depends} where appropriate.
   * Patch the manpage to fix hyphens and a few spelling mistakes.
   * Add myself to uploaders.
