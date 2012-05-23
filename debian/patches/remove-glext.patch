@@ -1,3 +1,7 @@
+Description: Allow building without upstream-supplied glext.h
+Author: Stephen Kitt <steve@sk2.org>
+Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=803
+
 --- xmoto-0.5.9+dfsg.orig/src/include/xm_OpenGL.h
 +++ xmoto-0.5.9+dfsg/src/include/xm_OpenGL.h
 @@ -1,7 +1,6 @@
