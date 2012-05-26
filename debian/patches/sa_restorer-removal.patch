@@ -1,0 +1,16 @@
+Description: sa_restorer isn't defined in POSIX and is being removed
+Author: Stephen Kitt <steve@sk2.org>
+Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=805
+
+--- xmoto-0.5.9+dfsg.orig/src/GameInit.cpp
++++ xmoto-0.5.9+dfsg/src/GameInit.cpp
+@@ -269,9 +269,6 @@
+     struct sigaction v_act;
+ 
+     v_act.sa_handler  = xmexit_term;
+-#if !defined(__APPLE__) && !defined(__FreeBSD__)
+-    v_act.sa_restorer = NULL;
+-#endif
+     sigemptyset(&v_act.sa_mask);
+     v_act.sa_flags = 0;
+ 

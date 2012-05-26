@@ -1,3 +1,10 @@
+xmoto (0.5.9+dfsg-2) unstable; urgency=low
+
+  * Remove reference to sa_restorer which is deprecated generally and
+    not available on some architectures.
+
+ -- Stephen Kitt <steve@sk2.org>  Sat, 26 May 2012 11:55:37 +0200
+
 xmoto (0.5.9+dfsg-1) unstable; urgency=low
 
   * New upstream release (closes: #644234):
