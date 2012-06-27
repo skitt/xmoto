@@ -2,9 +2,9 @@ Description: Fix a number of spelling mistakes
 Author: Stephen Kitt <steve@sk2.org>
 Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
 
---- xmoto-0.5.9.orig/ChangeLog
-+++ xmoto-0.5.9/ChangeLog
-@@ -125,7 +125,7 @@
+--- xmoto-0.5.10+dfsg.orig/ChangeLog
++++ xmoto-0.5.10+dfsg/ChangeLog
+@@ -131,7 +131,7 @@
   * synchronisation of the database with the webserver to share it among the places you play X-Moto
   * chipmunk integration. Blocks reacts to physics, joints and scripts calls (require special levels) - replay saving still unsupported
   * save config separatly for each profile
@@ -13,9 +13,9 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
   * --defaultTheme option to change the default theme for new profiles (and --with-default-theme= at compilation time) ; so that packager can change it.
   * optimisations for particles handling
   * joystick support improved
---- xmoto-0.5.9.orig/po/lt_LT.po
-+++ xmoto-0.5.9/po/lt_LT.po
-@@ -3693,7 +3693,7 @@
+--- xmoto-0.5.10+dfsg.orig/po/lt_LT.po
++++ xmoto-0.5.10+dfsg/po/lt_LT.po
+@@ -3697,7 +3697,7 @@
  #~ msgid ""
  #~ "X-Moto uses a database on your computer to save all your scores and "
  #~ "statistics. You can send these data using your web account on the X-Moto "
@@ -24,9 +24,9 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  #~ "different places."
  #~ msgstr ""
  #~ "X-Moto naudoja jūsų kompiuteryje duomenų bazę, kad išsaugotų visus jūsų "
---- xmoto-0.5.9.orig/po/nl_NL.po
-+++ xmoto-0.5.9/po/nl_NL.po
-@@ -3636,7 +3636,7 @@
+--- xmoto-0.5.10+dfsg.orig/po/nl_NL.po
++++ xmoto-0.5.10+dfsg/po/nl_NL.po
+@@ -3640,7 +3640,7 @@
  #~ msgid ""
  #~ "X-Moto uses a database on your computer to save all your scores and "
  #~ "statistics. You can send these data using your web account on the X-Moto "
@@ -35,9 +35,9 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  #~ "different places."
  #~ msgstr ""
  #~ "X-Moto gebruikt een lokale database om je scores in op te slaan. Deze "
---- xmoto-0.5.9.orig/po/zh_TW.po
-+++ xmoto-0.5.9/po/zh_TW.po
-@@ -3587,7 +3587,7 @@
+--- xmoto-0.5.10+dfsg.orig/po/zh_TW.po
++++ xmoto-0.5.10+dfsg/po/zh_TW.po
+@@ -3591,7 +3591,7 @@
  #~ msgid ""
  #~ "X-Moto uses a database on your computer to save all your scores and "
  #~ "statistics. You can send these data using your web account on the X-Moto "
@@ -46,8 +46,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  #~ "different places."
  #~ msgstr ""
  #~ "X-Moto在您的電腦裡增設了一個資料庫來儲存你 所有的紀錄與統計。你可以用你的"
---- xmoto-0.5.9.orig/src/Packager.cpp
-+++ xmoto-0.5.9/src/Packager.cpp
+--- xmoto-0.5.10+dfsg.orig/src/Packager.cpp
++++ xmoto-0.5.10+dfsg/src/Packager.cpp
 @@ -74,7 +74,7 @@
  	md5sumLen = fgetc(fp);
  	fread(md5sum,md5sumLen,1,fp);
@@ -57,8 +57,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  
          int nNameLen;
          while((nNameLen=fgetc(fp)) >= 0) {  
---- xmoto-0.5.9.orig/src/Renderer.cpp
-+++ xmoto-0.5.9/src/Renderer.cpp
+--- xmoto-0.5.10+dfsg.orig/src/Renderer.cpp
++++ xmoto-0.5.10+dfsg/src/Renderer.cpp
 @@ -861,7 +861,7 @@
        lines_drawn++;
        v_last_size=fSize;
@@ -68,8 +68,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    if( XMSession::instance()->debug() ) {
      std::stringstream out; out << lines_drawn;
      std::stringstream out2; out2 << v_cZoom;
---- xmoto-0.5.9.orig/src/XMArgs.cpp
-+++ xmoto-0.5.9/src/XMArgs.cpp
+--- xmoto-0.5.10+dfsg.orig/src/XMArgs.cpp
++++ xmoto-0.5.10+dfsg/src/XMArgs.cpp
 @@ -691,7 +691,7 @@
    printf("\t--videoRecordingFramerate FRAMERATE\n\t\tChange video framerate.\n");
    printf("\t--videoRecordingStartTime NBCENTSOFSECONDS\n\t\tStart recording video after this game time.\n");
@@ -79,8 +79,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    printf("\t--drawlib DRAWLIB\n\t\tChoose the render to use (default one is OPENGL if available).\n");
    printf("\t--defaultTheme THEME\n\t\tDefault theme for new profiles created.\n");
    printf("\t--noDBDirsCheck\n\t\tDon't check that system and user dirs changed at startup.\n");
---- xmoto-0.5.9.orig/src/chipmunk/cpSpace.h
-+++ xmoto-0.5.9/src/chipmunk/cpSpace.h
+--- xmoto-0.5.10+dfsg.orig/src/chipmunk/cpSpace.h
++++ xmoto-0.5.10+dfsg/src/chipmunk/cpSpace.h
 @@ -128,7 +128,7 @@
  static inline int
  queryFunc(void *p1, void *p2, void *data)
@@ -90,8 +90,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  	cpShape *a = (cpShape *)p1;
  	cpShape *b = (cpShape *)p2;
  	cpSpace *space = (cpSpace *)data;
---- xmoto-0.5.9.orig/src/states/GameState.h
-+++ xmoto-0.5.9/src/states/GameState.h
+--- xmoto-0.5.10+dfsg.orig/src/states/GameState.h
++++ xmoto-0.5.10+dfsg/src/states/GameState.h
 @@ -89,7 +89,7 @@
      m_updatePeriod = (float)m_maxFps / (float)m_updateFps;
    }
@@ -101,8 +101,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    void setStateId(const std::string& i_id);
    std::string getStateId() const;
  
---- xmoto-0.5.9.orig/src/VTexture.cpp
-+++ xmoto-0.5.9/src/VTexture.cpp
+--- xmoto-0.5.10+dfsg.orig/src/VTexture.cpp
++++ xmoto-0.5.10+dfsg/src/VTexture.cpp
 @@ -377,7 +377,7 @@
        int i=1;
        while(it != textures.end()){
@@ -130,8 +130,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  	for(unsigned int i=0; i<(*it)->curRegistrationStage.size(); i++) {
  	  LogDebug("  end %s %d [%x]", (*it)->Name.c_str(), (*it)->curRegistrationStage[i], (*it));
  	}
---- xmoto-0.5.9.orig/src/VTexture.h
-+++ xmoto-0.5.9/src/VTexture.h
+--- xmoto-0.5.10+dfsg.orig/src/VTexture.h
++++ xmoto-0.5.10+dfsg/src/VTexture.h
 @@ -51,9 +51,9 @@
  //and nID is not a openGL specific structure
  //it's
@@ -153,8 +153,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    }
  
    std::string    Name;
---- xmoto-0.5.9.orig/src/GameText.h
-+++ xmoto-0.5.9/src/GameText.h
+--- xmoto-0.5.10+dfsg.orig/src/GameText.h
++++ xmoto-0.5.10+dfsg/src/GameText.h
 @@ -379,7 +379,7 @@
  #define GAMETEXT_MAIN                 _("Main")
  #define GAMETEXT_MOUSE                _("Mouse")
@@ -164,8 +164,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  #define GAMETEXT_MEDAL_BRONZE         _("Bronze")
  #define GAMETEXT_MEDAL_GOLD           _("Gold")
  #define GAMETEXT_MEDAL_SILVER         _("Silver")
---- xmoto-0.5.9.orig/src/GameInit.cpp
-+++ xmoto-0.5.9/src/GameInit.cpp
+--- xmoto-0.5.10+dfsg.orig/src/GameInit.cpp
++++ xmoto-0.5.10+dfsg/src/GameInit.cpp
 @@ -386,7 +386,7 @@
    v_xmArgs.isOptReplay()    ||
    v_xmArgs.isOptDemo());
@@ -175,8 +175,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    if(v_useGraphics) {
      InputHandler::instance()->init(m_userConfig, pDb, XMSession::instance()->profile(), XMSession::instance()->enableJoysticks());
    }
---- xmoto-0.5.9.orig/src/LevelsManager.cpp
-+++ xmoto-0.5.9/src/LevelsManager.cpp
+--- xmoto-0.5.10+dfsg.orig/src/LevelsManager.cpp
++++ xmoto-0.5.10+dfsg/src/LevelsManager.cpp
 @@ -1531,7 +1531,7 @@
      v_tables += "         AND g.id_profile = h.id_profile)";
    }
@@ -186,8 +186,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    // highscore driver 1/2
    if(i_setHighscoreDriver != lprv_dontcare || i_limitToLastHighscores != 0) {
      if(v_mustBeInWebHighscores) {
---- xmoto-0.5.9.orig/src/db/xmDatabase_sync.cpp
-+++ xmoto-0.5.9/src/db/xmDatabase_sync.cpp
+--- xmoto-0.5.10+dfsg.orig/src/db/xmDatabase_sync.cpp
++++ xmoto-0.5.10+dfsg/src/db/xmDatabase_sync.cpp
 @@ -57,7 +57,7 @@
  		      "WHERE sitekey=\"" + protectString(i_sitekey) + "\" AND id_profile=\"" + protectString(i_profile) + "\";", nrow);
      if(nrow != 1) {
@@ -197,8 +197,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
      }
  
      snprintf(v_line, 2048,
---- xmoto-0.5.9.orig/src/db/xmDatabase_web.cpp
-+++ xmoto-0.5.9/src/db/xmDatabase_web.cpp
+--- xmoto-0.5.10+dfsg.orig/src/db/xmDatabase_web.cpp
++++ xmoto-0.5.10+dfsg/src/db/xmDatabase_web.cpp
 @@ -67,7 +67,7 @@
        throw Exception("unable to analyze xml highscore file");
      }
@@ -217,8 +217,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
        v_difficulty = XMLDocument::getOption(pSubElem, "web_difficulty");
        if(v_difficulty == "")
  	continue;
---- xmoto-0.5.9.orig/src/net/NetClient.cpp
-+++ xmoto-0.5.9/src/net/NetClient.cpp
+--- xmoto-0.5.10+dfsg.orig/src/net/NetClient.cpp
++++ xmoto-0.5.10+dfsg/src/net/NetClient.cpp
 @@ -215,7 +215,7 @@
      throw Exception("Already connected");
    }
@@ -228,30 +228,30 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    m_serverReceivesUdp = false;
    m_serverSendsUdp    =  false;
  
---- xmoto-0.5.9.orig/src/states/StateManager.cpp
-+++ xmoto-0.5.9/src/states/StateManager.cpp
+--- xmoto-0.5.10+dfsg.orig/src/states/StateManager.cpp
++++ xmoto-0.5.10+dfsg/src/states/StateManager.cpp
 @@ -905,7 +905,7 @@
  void
- StateManager::registerAsEmitter(std::string message)
+ StateManager::registerAsEmitter(const std::string& message)
  {
 -  // TODO::show debug informations
 +  // TODO::show debug information
    return registerAsObserver(message, NULL);
  }
  
---- xmoto-0.5.9.orig/src/states/StateManager.h
-+++ xmoto-0.5.9/src/states/StateManager.h
+--- xmoto-0.5.10+dfsg.orig/src/states/StateManager.h
++++ xmoto-0.5.10+dfsg/src/states/StateManager.h
 @@ -73,7 +73,7 @@
    // yourself as an observer of this message
-   void registerAsObserver(std::string message,   GameState* self);
-   void unregisterAsObserver(std::string message, GameState* self);
+   void registerAsObserver(const std::string& message,   GameState* self);
+   void unregisterAsObserver(const std::string& message, GameState* self);
 -  // register as emitter only for debug informations
 +  // register as emitter only for debug information
-   void registerAsEmitter(std::string message);
+   void registerAsEmitter(const std::string& message);
  
    // send the message to registered states
---- xmoto-0.5.9.orig/src/states/StateReplaying.cpp
-+++ xmoto-0.5.9/src/states/StateReplaying.cpp
+--- xmoto-0.5.10+dfsg.orig/src/states/StateReplaying.cpp
++++ xmoto-0.5.10+dfsg/src/states/StateReplaying.cpp
 @@ -75,7 +75,7 @@
  
    try {
@@ -261,8 +261,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
        char c_tmp[1024];
        snprintf(c_tmp, 1024,
  	       GAMETEXT_BY_PLAYER,
---- xmoto-0.5.9.orig/src/states/StateUpdate.cpp
-+++ xmoto-0.5.9/src/states/StateUpdate.cpp
+--- xmoto-0.5.10+dfsg.orig/src/states/StateUpdate.cpp
++++ xmoto-0.5.10+dfsg/src/states/StateUpdate.cpp
 @@ -116,7 +116,7 @@
    }
  

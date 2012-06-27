@@ -1,3 +1,9 @@
+xmoto (0.5.10+dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Stephen Kitt <steve@sk2.org>  Wed, 27 Jun 2012 07:57:03 +0200
+
 xmoto (0.5.9+dfsg-3) unstable; urgency=low
 
   * Pino Toscano provided a better patch to remove the use of sa_restorer,
