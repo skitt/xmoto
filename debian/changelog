@@ -1,3 +1,10 @@
+xmoto (0.5.9+dfsg-3) unstable; urgency=low
+
+  * Pino Toscano provided a better patch to remove the use of sa_restorer,
+    thanks! (Closes: #674636.)
+
+ -- Stephen Kitt <steve@sk2.org>  Sat, 26 May 2012 20:31:17 +0200
+
 xmoto (0.5.9+dfsg-2) unstable; urgency=low
 
   * Remove reference to sa_restorer which is deprecated generally and
