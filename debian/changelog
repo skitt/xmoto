@@ -1,3 +1,9 @@
+xmoto (0.5.10+dfsg-2) UNRELEASED; urgency=low
+
+  * Correct Vcs-* URLs to point to anonscm.debian.org
+
+ -- Evgeni Golov <evgeni@debian.org>  Mon, 15 Jul 2013 22:22:23 +0200
+
 xmoto (0.5.10+dfsg-1) unstable; urgency=low
 
   * New upstream release.

@@ -29,7 +29,7 @@ Build-Depends: autotools-dev,
 Standards-Version: 3.9.3
 Homepage: http://xmoto.tuxfamily.org/
 Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-games/packages/trunk/xmoto/
-Vcs-Svn: svn://svn.debian.org/svn/pkg-games/packages/trunk/xmoto/
+Vcs-Svn: svn://anonscm.debian.org/pkg-games/packages/trunk/xmoto/
 
 Package: xmoto
 Architecture: any
