@@ -1,2 +1,6 @@
-?package(xmoto):needs="X11" section="Games/Action"\
-  title="xmoto" command="/usr/games/xmoto"
+?package(xmoto):needs="X11" \
+  section="Games/Action" \
+  title="XMoto" \
+  longtitle="XMoto - 2D motocross platform game" \
+  command="/usr/games/xmoto" \
+  icon="/usr/share/pixmaps/xmoto.xpm"
