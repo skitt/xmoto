@@ -1,12 +1,15 @@
 xmoto (0.5.10+dfsg-2) UNRELEASED; urgency=medium
 
-  * Team upload.
+  [ Markus Koschany ]
   * Update xmoto.menu and add an icon entry. (Closes: #726905)
 
   [ Evgeni Golov ]
   * Correct Vcs-* URLs to point to anonscm.debian.org
 
- -- Markus Koschany <apo@gambaru.de>  Wed, 19 Mar 2014 14:53:13 +0100
+  [ Stephen Kitt ]
+  * Switch to my Debian address and drop DMUA.
+
+ -- Stephen Kitt <skitt@debian.org>  Fri, 21 Mar 2014 07:25:02 +0100
 
 xmoto (0.5.10+dfsg-1) unstable; urgency=low
 
