@@ -8,6 +8,7 @@ xmoto (0.5.10+dfsg-2) UNRELEASED; urgency=medium
 
   [ Stephen Kitt ]
   * Switch to my Debian address and drop DMUA.
+  * Standards-Version 3.9.5, no further change required.
 
  -- Stephen Kitt <skitt@debian.org>  Fri, 21 Mar 2014 07:25:02 +0100
 
