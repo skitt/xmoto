@@ -1,3 +1,9 @@
+xmoto (0.5.10+dfsg-3) UNRELEASED; urgency=medium
+
+  * Move the packaging repository to git.
+
+ -- Stephen Kitt <skitt@debian.org>  Mon, 05 May 2014 07:52:24 +0200
+
 xmoto (0.5.10+dfsg-2) unstable; urgency=medium
 
   [ Markus Koschany ]
