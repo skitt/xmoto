@@ -1,10 +1,11 @@
-xmoto (0.5.10+dfsg-3) UNRELEASED; urgency=medium
+xmoto (0.5.11+dfsg-1) unstable; urgency=medium
 
+  * New upstream release.
   * Move the packaging repository to git.
   * Use a "Files-Excluded" directive in debian/copyright to remove
     glext.h.
 
- -- Stephen Kitt <skitt@debian.org>  Mon, 05 May 2014 07:52:24 +0200
+ -- Stephen Kitt <skitt@debian.org>  Mon, 05 May 2014 08:02:36 +0200
 
 xmoto (0.5.10+dfsg-2) unstable; urgency=medium
 

@@ -5,7 +5,7 @@ Files-Excluded: src/glext.h
 
 Files: *
 Copyright: 2005-2006 Rasmus Neckelmann
-           2006-2011 Nicolas Adenis-Lamarre
+           2006-2014 Nicolas Adenis-Lamarre
            2007-2011 Emmanuel Gorse
            2009-2010 Jens Erler
 License: GPL-2+

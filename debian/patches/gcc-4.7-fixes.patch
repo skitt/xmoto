@@ -10,5 +10,5 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=800
  #include <sstream>
 +#include <unistd.h>
  
- std::vector<std::string>* System::getDisplayModes(int windowed) {
-     std::vector<std::string>* modes = new std::vector<std::string>;
+ #if defined(WIN32) || defined(__APPLE__)
+ #else
