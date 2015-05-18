@@ -2,9 +2,9 @@ Description: Fix a number of spelling mistakes
 Author: Stephen Kitt <steve@sk2.org>
 Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
 
---- xmoto-0.5.10+dfsg.orig/ChangeLog
-+++ xmoto-0.5.10+dfsg/ChangeLog
-@@ -131,7 +131,7 @@
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -135,7 +135,7 @@
   * synchronisation of the database with the webserver to share it among the places you play X-Moto
   * chipmunk integration. Blocks reacts to physics, joints and scripts calls (require special levels) - replay saving still unsupported
   * save config separatly for each profile
@@ -13,41 +13,120 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
   * --defaultTheme option to change the default theme for new profiles (and --with-default-theme= at compilation time) ; so that packager can change it.
   * optimisations for particles handling
   * joystick support improved
---- xmoto-0.5.10+dfsg.orig/po/lt_LT.po
-+++ xmoto-0.5.10+dfsg/po/lt_LT.po
-@@ -3697,7 +3697,7 @@
+--- a/po/lt_LT.po
++++ b/po/lt_LT.po
+@@ -9,7 +9,7 @@
+ "Project-Id-Version: xmoto 0.3.4\n"
+ "Report-Msgid-Bugs-To: xmoto@tuxfamily.org\n"
+ "POT-Creation-Date: 2012-05-04 19:14+0200\n"
+-"PO-Revision-Date: 2009-05-15 12:45+0300\n"
++"PO-Revision-Date: 2015-05-19 00:14+0200\n"
+ "Last-Translator: Tadas Masiulionis <tadzikaz@gmail.com>\n"
+ "Language-Team: Lithuanian <tadzikaz@gmail.com>\n"
+ "Language: lt\n"
+@@ -471,7 +471,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+@@ -3695,17 +3695,6 @@
+ #~ msgstr "X-Moto lygiai su fonine muzika"
+ 
  #~ msgid ""
- #~ "X-Moto uses a database on your computer to save all your scores and "
- #~ "statistics. You can send these data using your web account on the X-Moto "
+-#~ "X-Moto uses a database on your computer to save all your scores and "
+-#~ "statistics. You can send these data using your web account on the X-Moto "
 -#~ "server. It is usefull to save your data or if you play X-Moto from "
-+#~ "server. It is useful to save your data or if you play X-Moto from "
- #~ "different places."
- #~ msgstr ""
- #~ "X-Moto naudoja jūsų kompiuteryje duomenų bazę, kad išsaugotų visus jūsų "
---- xmoto-0.5.10+dfsg.orig/po/nl_NL.po
-+++ xmoto-0.5.10+dfsg/po/nl_NL.po
-@@ -3640,7 +3640,7 @@
+-#~ "different places."
+-#~ msgstr ""
+-#~ "X-Moto naudoja jūsų kompiuteryje duomenų bazę, kad išsaugotų visus jūsų "
+-#~ "balus ir statistiką. Jūs galite siųsti duomenis naudodami savo tinklo "
+-#~ "paskyrą X-Moto serveryje. Naudinga išsaugoti jūsų duomenis, jei žaidžiate "
+-#~ "X-Moto iš skirtingų vietų."
+-
+-#~ msgid ""
+ #~ "If you manually copied the X-Moto user files (.xmoto) on some other "
+ #~ "computers, you should not use this functionnality otherwise your "
+ #~ "statistics will be duplicated/not synchronized. If you did that, you "
+--- a/po/nl_NL.po
++++ b/po/nl_NL.po
+@@ -3,7 +3,7 @@
+ "Project-Id-Version: XMoto Dutch\n"
+ "Report-Msgid-Bugs-To: xmoto@tuxfamily.org\n"
+ "POT-Creation-Date: 2012-05-04 19:14+0200\n"
+-"PO-Revision-Date: \n"
++"PO-Revision-Date: 2015-05-19 00:13+0200\n"
+ "Last-Translator: Andre Parhan <dyingmuppet@gmail.com>\n"
+ "Language-Team: \n"
+ "Language: \n"
+@@ -462,7 +462,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+@@ -3638,16 +3638,6 @@
+ #~ msgstr "Muziek aanzetten"
+ 
  #~ msgid ""
- #~ "X-Moto uses a database on your computer to save all your scores and "
- #~ "statistics. You can send these data using your web account on the X-Moto "
+-#~ "X-Moto uses a database on your computer to save all your scores and "
+-#~ "statistics. You can send these data using your web account on the X-Moto "
 -#~ "server. It is usefull to save your data or if you play X-Moto from "
-+#~ "server. It is useful to save your data or if you play X-Moto from "
- #~ "different places."
- #~ msgstr ""
- #~ "X-Moto gebruikt een lokale database om je scores in op te slaan. Deze "
---- xmoto-0.5.10+dfsg.orig/po/zh_TW.po
-+++ xmoto-0.5.10+dfsg/po/zh_TW.po
-@@ -3591,7 +3591,7 @@
+-#~ "different places."
+-#~ msgstr ""
+-#~ "X-Moto gebruikt een lokale database om je scores in op te slaan. Deze "
+-#~ "data kunnen naar een X-Moto webaccount gestuurd worden, zodat jouw data "
+-#~ "nooit verloren gaat en overal ter wereld X-Moto kan spelen."
+-
+-#~ msgid ""
+ #~ "If you manually copied the X-Moto user files (.xmoto) on some other "
+ #~ "computers, you should not use this functionnality otherwise your "
+ #~ "statistics will be duplicated/not synchronized. If you did that, you "
+--- a/po/zh_TW.po
++++ b/po/zh_TW.po
+@@ -3,7 +3,7 @@
+ "Project-Id-Version: X-Moto\n"
+ "Report-Msgid-Bugs-To: xmoto@tuxfamily.org\n"
+ "POT-Creation-Date: 2012-05-04 19:14+0200\n"
+-"PO-Revision-Date: 2006-09-04 19:52+0100\n"
++"PO-Revision-Date: 2015-05-19 00:16+0200\n"
+ "Last-Translator: KuanYen\n"
+ "Language-Team: X-Moto\n"
+ "Language: \n"
+@@ -459,7 +459,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+@@ -3589,16 +3589,6 @@
+ #~ "http://xmoto.tuxfamily.org來得到更多更多的資訊"
+ 
  #~ msgid ""
- #~ "X-Moto uses a database on your computer to save all your scores and "
- #~ "statistics. You can send these data using your web account on the X-Moto "
+-#~ "X-Moto uses a database on your computer to save all your scores and "
+-#~ "statistics. You can send these data using your web account on the X-Moto "
 -#~ "server. It is usefull to save your data or if you play X-Moto from "
-+#~ "server. It is useful to save your data or if you play X-Moto from "
- #~ "different places."
- #~ msgstr ""
- #~ "X-Moto在您的電腦裡增設了一個資料庫來儲存你 所有的紀錄與統計。你可以用你的"
---- xmoto-0.5.10+dfsg.orig/src/Packager.cpp
-+++ xmoto-0.5.10+dfsg/src/Packager.cpp
+-#~ "different places."
+-#~ msgstr ""
+-#~ "X-Moto在您的電腦裡增設了一個資料庫來儲存你 所有的紀錄與統計。你可以用你的"
+-#~ "帳號來傳送這玩意到X-moto的伺服器。這對想要備份紀錄或是想要 在不同地方玩X-"
+-#~ "moto的人很有用。"
+-
+-#~ msgid ""
+ #~ "If you manually copied the X-Moto user files (.xmoto) on some other "
+ #~ "computers, you should not use this functionnality otherwise your "
+ #~ "statistics will be duplicated/not synchronized. If you did that, you "
+--- a/src/Packager.cpp
++++ b/src/Packager.cpp
 @@ -74,7 +74,7 @@
  	md5sumLen = fgetc(fp);
  	fread(md5sum,md5sumLen,1,fp);
@@ -57,8 +136,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  
          int nNameLen;
          while((nNameLen=fgetc(fp)) >= 0) {  
---- xmoto-0.5.10+dfsg.orig/src/Renderer.cpp
-+++ xmoto-0.5.10+dfsg/src/Renderer.cpp
+--- a/src/Renderer.cpp
++++ b/src/Renderer.cpp
 @@ -861,7 +861,7 @@
        lines_drawn++;
        v_last_size=fSize;
@@ -68,8 +147,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    if( XMSession::instance()->debug() ) {
      std::stringstream out; out << lines_drawn;
      std::stringstream out2; out2 << v_cZoom;
---- xmoto-0.5.10+dfsg.orig/src/XMArgs.cpp
-+++ xmoto-0.5.10+dfsg/src/XMArgs.cpp
+--- a/src/XMArgs.cpp
++++ b/src/XMArgs.cpp
 @@ -691,7 +691,7 @@
    printf("\t--videoRecordingFramerate FRAMERATE\n\t\tChange video framerate.\n");
    printf("\t--videoRecordingStartTime NBCENTSOFSECONDS\n\t\tStart recording video after this game time.\n");
@@ -79,8 +158,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    printf("\t--drawlib DRAWLIB\n\t\tChoose the render to use (default one is OPENGL if available).\n");
    printf("\t--defaultTheme THEME\n\t\tDefault theme for new profiles created.\n");
    printf("\t--noDBDirsCheck\n\t\tDon't check that system and user dirs changed at startup.\n");
---- xmoto-0.5.10+dfsg.orig/src/chipmunk/cpSpace.h
-+++ xmoto-0.5.10+dfsg/src/chipmunk/cpSpace.h
+--- a/src/chipmunk/cpSpace.h
++++ b/src/chipmunk/cpSpace.h
 @@ -128,7 +128,7 @@
  static inline int
  queryFunc(void *p1, void *p2, void *data)
@@ -90,8 +169,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  	cpShape *a = (cpShape *)p1;
  	cpShape *b = (cpShape *)p2;
  	cpSpace *space = (cpSpace *)data;
---- xmoto-0.5.10+dfsg.orig/src/states/GameState.h
-+++ xmoto-0.5.10+dfsg/src/states/GameState.h
+--- a/src/states/GameState.h
++++ b/src/states/GameState.h
 @@ -89,7 +89,7 @@
      m_updatePeriod = (float)m_maxFps / (float)m_updateFps;
    }
@@ -101,8 +180,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    void setStateId(const std::string& i_id);
    std::string getStateId() const;
  
---- xmoto-0.5.10+dfsg.orig/src/VTexture.cpp
-+++ xmoto-0.5.10+dfsg/src/VTexture.cpp
+--- a/src/VTexture.cpp
++++ b/src/VTexture.cpp
 @@ -377,7 +377,7 @@
        int i=1;
        while(it != textures.end()){
@@ -130,8 +209,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  	for(unsigned int i=0; i<(*it)->curRegistrationStage.size(); i++) {
  	  LogDebug("  end %s %d [%x]", (*it)->Name.c_str(), (*it)->curRegistrationStage[i], (*it));
  	}
---- xmoto-0.5.10+dfsg.orig/src/VTexture.h
-+++ xmoto-0.5.10+dfsg/src/VTexture.h
+--- a/src/VTexture.h
++++ b/src/VTexture.h
 @@ -51,9 +51,9 @@
  //and nID is not a openGL specific structure
  //it's
@@ -153,8 +232,17 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    }
  
    std::string    Name;
---- xmoto-0.5.10+dfsg.orig/src/GameText.h
-+++ xmoto-0.5.10+dfsg/src/GameText.h
+--- a/src/GameText.h
++++ b/src/GameText.h
+@@ -171,7 +171,7 @@
+     ":Tadas Masiulionis (" + std::string(_("Lithuanian")) + ");"                             \
+     ":Anil Ozbek (" + std::string(_("Turkish")) + ");"                                       \
+     ":Zoltán Balogh (" + std::string(_("Hungarian")) + ");"                                  \
+-    ":Luís Garcia, Sérgio Marques (" + std::string(_("Portugese")) + ");"                    \
++    ":Luís Garcia, Sérgio Marques (" + std::string(_("Portuguese")) + ");"                    \
+     ":Andre Parhan ("+ std::string(_("Dutch")) + ");"                                        \
+     ":KuanYen ("+ std::string(_("Taiwanese")) + ");"                                         \
+     ":Adrián Chaves Fernández (" + std::string(_("Galician")) + ");"                         \
 @@ -379,7 +379,7 @@
  #define GAMETEXT_MAIN                 _("Main")
  #define GAMETEXT_MOUSE                _("Mouse")
@@ -164,8 +252,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  #define GAMETEXT_MEDAL_BRONZE         _("Bronze")
  #define GAMETEXT_MEDAL_GOLD           _("Gold")
  #define GAMETEXT_MEDAL_SILVER         _("Silver")
---- xmoto-0.5.10+dfsg.orig/src/GameInit.cpp
-+++ xmoto-0.5.10+dfsg/src/GameInit.cpp
+--- a/src/GameInit.cpp
++++ b/src/GameInit.cpp
 @@ -386,7 +386,7 @@
    v_xmArgs.isOptReplay()    ||
    v_xmArgs.isOptDemo());
@@ -175,8 +263,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    if(v_useGraphics) {
      InputHandler::instance()->init(m_userConfig, pDb, XMSession::instance()->profile(), XMSession::instance()->enableJoysticks());
    }
---- xmoto-0.5.10+dfsg.orig/src/LevelsManager.cpp
-+++ xmoto-0.5.10+dfsg/src/LevelsManager.cpp
+--- a/src/LevelsManager.cpp
++++ b/src/LevelsManager.cpp
 @@ -1531,7 +1531,7 @@
      v_tables += "         AND g.id_profile = h.id_profile)";
    }
@@ -186,8 +274,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    // highscore driver 1/2
    if(i_setHighscoreDriver != lprv_dontcare || i_limitToLastHighscores != 0) {
      if(v_mustBeInWebHighscores) {
---- xmoto-0.5.10+dfsg.orig/src/db/xmDatabase_sync.cpp
-+++ xmoto-0.5.10+dfsg/src/db/xmDatabase_sync.cpp
+--- a/src/db/xmDatabase_sync.cpp
++++ b/src/db/xmDatabase_sync.cpp
 @@ -57,7 +57,7 @@
  		      "WHERE sitekey=\"" + protectString(i_sitekey) + "\" AND id_profile=\"" + protectString(i_profile) + "\";", nrow);
      if(nrow != 1) {
@@ -197,8 +285,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
      }
  
      snprintf(v_line, 2048,
---- xmoto-0.5.10+dfsg.orig/src/db/xmDatabase_web.cpp
-+++ xmoto-0.5.10+dfsg/src/db/xmDatabase_web.cpp
+--- a/src/db/xmDatabase_web.cpp
++++ b/src/db/xmDatabase_web.cpp
 @@ -67,7 +67,7 @@
        throw Exception("unable to analyze xml highscore file");
      }
@@ -217,8 +305,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
        v_difficulty = XMLDocument::getOption(pSubElem, "web_difficulty");
        if(v_difficulty == "")
  	continue;
---- xmoto-0.5.10+dfsg.orig/src/net/NetClient.cpp
-+++ xmoto-0.5.10+dfsg/src/net/NetClient.cpp
+--- a/src/net/NetClient.cpp
++++ b/src/net/NetClient.cpp
 @@ -215,7 +215,7 @@
      throw Exception("Already connected");
    }
@@ -228,8 +316,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    m_serverReceivesUdp = false;
    m_serverSendsUdp    =  false;
  
---- xmoto-0.5.10+dfsg.orig/src/states/StateManager.cpp
-+++ xmoto-0.5.10+dfsg/src/states/StateManager.cpp
+--- a/src/states/StateManager.cpp
++++ b/src/states/StateManager.cpp
 @@ -905,7 +905,7 @@
  void
  StateManager::registerAsEmitter(const std::string& message)
@@ -239,8 +327,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    return registerAsObserver(message, NULL);
  }
  
---- xmoto-0.5.10+dfsg.orig/src/states/StateManager.h
-+++ xmoto-0.5.10+dfsg/src/states/StateManager.h
+--- a/src/states/StateManager.h
++++ b/src/states/StateManager.h
 @@ -73,7 +73,7 @@
    // yourself as an observer of this message
    void registerAsObserver(const std::string& message,   GameState* self);
@@ -250,8 +338,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
    void registerAsEmitter(const std::string& message);
  
    // send the message to registered states
---- xmoto-0.5.10+dfsg.orig/src/states/StateReplaying.cpp
-+++ xmoto-0.5.10+dfsg/src/states/StateReplaying.cpp
+--- a/src/states/StateReplaying.cpp
++++ b/src/states/StateReplaying.cpp
 @@ -75,7 +75,7 @@
  
    try {
@@ -261,8 +349,8 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
        char c_tmp[1024];
        snprintf(c_tmp, 1024,
  	       GAMETEXT_BY_PLAYER,
---- xmoto-0.5.10+dfsg.orig/src/states/StateUpdate.cpp
-+++ xmoto-0.5.10+dfsg/src/states/StateUpdate.cpp
+--- a/src/states/StateUpdate.cpp
++++ b/src/states/StateUpdate.cpp
 @@ -116,7 +116,7 @@
    }
  
@@ -272,3 +360,278 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
      // to avoid spending tooo much time waiting for mutexes.
      int progress = m_pThread->getThreadProgress();
      if(progress != m_progress){
+--- a/intl/localename.c
++++ b/intl/localename.c
+@@ -727,7 +727,7 @@
+     { "Belarusian",            "be" },
+     { "Belorussian",           "be" },
+     { "Bengali",               "bn" },
+-    { "Brazilian Portugese",   "pt_BR" },
++    { "Brazilian Portuguese",   "pt_BR" },
+     { "Brazilian Portuguese",  "pt_BR" },
+     { "Breton",                "br" },
+     { "Bulgarian",             "bg" },
+--- a/po/ca_AD.po
++++ b/po/ca_AD.po
+@@ -459,7 +459,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/ca_ES.po
++++ b/po/ca_ES.po
+@@ -459,7 +459,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/ca_FR.po
++++ b/po/ca_FR.po
+@@ -459,7 +459,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/ca_IT.po
++++ b/po/ca_IT.po
+@@ -459,7 +459,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/cs_CZ.po
++++ b/po/cs_CZ.po
+@@ -461,7 +461,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/da_DK.po
++++ b/po/da_DK.po
+@@ -463,7 +463,7 @@
+ msgstr "Ungansk"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portugisisk"
+ 
+ #: src/GameText.h:175
+--- a/po/de_DE.po
++++ b/po/de_DE.po
+@@ -465,7 +465,7 @@
+ msgstr "Ungarisch"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portugiesisch"
+ 
+ #: src/GameText.h:175
+--- a/po/es_ES.po
++++ b/po/es_ES.po
+@@ -459,7 +459,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/fi_FI.po
++++ b/po/fi_FI.po
+@@ -467,7 +467,7 @@
+ msgstr "unkari"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/fr_FR.po
++++ b/po/fr_FR.po
+@@ -461,7 +461,7 @@
+ msgstr "Hongrois"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portugais"
+ 
+ #: src/GameText.h:175
+--- a/po/gl_ES.po
++++ b/po/gl_ES.po
+@@ -470,7 +470,7 @@
+ msgstr "Húngaro"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portugués"
+ 
+ #: src/GameText.h:175
+--- a/po/hu_HU.po
++++ b/po/hu_HU.po
+@@ -461,7 +461,7 @@
+ msgstr "Magyar"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portugál"
+ 
+ #: src/GameText.h:175
+--- a/po/it_IT.po
++++ b/po/it_IT.po
+@@ -461,7 +461,7 @@
+ msgstr "Ungherese"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portoghese"
+ 
+ #: src/GameText.h:175
+--- a/po/lv_LV.po
++++ b/po/lv_LV.po
+@@ -471,7 +471,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/nb_NO.po
++++ b/po/nb_NO.po
+@@ -471,7 +471,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/nn_NO.po
++++ b/po/nn_NO.po
+@@ -471,7 +471,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/pl_PL.po
++++ b/po/pl_PL.po
+@@ -469,7 +469,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/pt_BR.po
++++ b/po/pt_BR.po
+@@ -466,7 +466,7 @@
+ msgstr "Húngaro"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Português"
+ 
+ #: src/GameText.h:175
+--- a/po/pt_PT.po
++++ b/po/pt_PT.po
+@@ -471,7 +471,7 @@
+ msgstr "Húngaro"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Português"
+ 
+ #: src/GameText.h:175
+--- a/po/ru_RU.po
++++ b/po/ru_RU.po
+@@ -469,7 +469,7 @@
+ msgstr "Венгерский"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Португальский"
+ 
+ #: src/GameText.h:175
+--- a/po/sk_SK.po
++++ b/po/sk_SK.po
+@@ -470,7 +470,7 @@
+ msgstr "Maďarčina"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portugalčina"
+ 
+ #: src/GameText.h:175
+--- a/po/sv_SE.po
++++ b/po/sv_SE.po
+@@ -469,7 +469,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
+--- a/po/tr_TR.po
++++ b/po/tr_TR.po
+@@ -467,7 +467,7 @@
+ msgstr "Macarca"
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr "Portekizce"
+ 
+ #: src/GameText.h:175
+--- a/po/xmoto.pot
++++ b/po/xmoto.pot
+@@ -462,7 +462,7 @@
+ msgstr ""
+ 
+ #: src/GameText.h:174
+-msgid "Portugese"
++msgid "Portuguese"
+ msgstr ""
+ 
+ #: src/GameText.h:175
