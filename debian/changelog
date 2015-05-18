@@ -1,3 +1,11 @@
+xmoto (0.5.11+dfsg-2) UNRELEASED; urgency=medium
+
+  * src/helpers/utf8.h uses the same guard macro as g++'s new
+    unicode/utf8.h; using a more specific guard allows the package to
+    build again.
+
+ -- Stephen Kitt <skitt@debian.org>  Mon, 18 May 2015 23:48:44 +0200
+
 xmoto (0.5.11+dfsg-1) unstable; urgency=medium
 
   * New upstream release.

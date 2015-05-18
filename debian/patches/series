@@ -5,3 +5,4 @@ manpage.patch
 spelling.patch
 gcc-4.7-fixes.patch
 sa_restorer-removal.patch
+utf8.patch
