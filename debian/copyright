@@ -12,7 +12,7 @@ License: GPL-2+
 
 Files: src/bzip2/*
 Copyright: 1996-2005 Julian R. Steward
-License: BSD
+License: BSD-4-clause
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions
  are met:
@@ -46,7 +46,7 @@ License: BSD
 
 Files: src/md5sum/*
 Copyright: 1999, 2002 Aladdin Enterprises
-License: BSD
+License: BSD-3-clause
  This software is provided 'as-is', without any express or implied
  warranty.  In no event will the authors be held liable for any
  damages arising from the use of this software.
@@ -69,25 +69,6 @@ Copyright: 1991, 1992, 1996, 1997, 1999 Free Software Foundation,
                                         Inc.
 License: LGPL-2.1+
 
-Files: src/glext.h
-Copyright: 1991-2004 Silicon Graphics, Inc.
-License: FreeB
- License Applicability. Except to the extent portions of this file are
- made subject to an alternative license as permitted in the SGI Free
- Software License B, Version 1.1 (the "License"), the contents of this
- file are subject only to the provisions of the License. You may not
- use this file except in compliance with the License. You may obtain a
- copy of the License at Silicon Graphics, Inc., attn: Legal Services,
- 1600 Amphitheatre Parkway, Mountain View, CA 94043-1351, or at:
- .
- http://oss.sgi.com/projects/FreeB
- .
- Note that, as provided in the License, the Software is distributed on
- an "AS IS" basis, with ALL EXPRESS AND IMPLIED WARRANTIES AND
- CONDITIONS DISCLAIMED, INCLUDING, WITHOUT LIMITATION, ANY IMPLIED
- WARRANTIES AND CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY,
- FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
-
 Files: src/chipmunk/*
 Copyright: 2007 Scott Lembcke
 License: MIT
@@ -96,17 +77,13 @@ Files: src/xdgbasedir/*
 Copyright: 2007 Mark Nevill
 License: MIT
 
-Files: src/intl/*
-Copyright: 1984-2006 Free Software Foundation, Inc.
-License: LGPL-2+
-
 Files: debian/*
 Copyright: 2005-2009 Samuel Mimram <smimram@debian.org>
            2008 Miriam Ruiz <little_miry@yahoo.es>
            2008-2009 Barry deFreese <bdefreese@debian.org>
            2009 Gonéri Le Bouder <goneri@rulezlan.org>
            2011 Bruno "Fuddl" Kleinert <fuddl@debian.org>
-           2011, 2012, 2014 Stephen Kitt <skitt@debian.org>
+           2011, 2012, 2014, 2015 Stephen Kitt <skitt@debian.org>
 License: GPL-2+
 
 License: GPL-2+
@@ -128,26 +105,6 @@ License: GPL-2+
  On Debian systems the full text of the GNU General Public License
  version 2 can be found in the `/usr/share/common-licenses/GPL-2'
  file.
-
-License: LGPL-2+
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU Library General Public License as
- published by the Free Software Foundation; either version 2, or (at
- your option) any later version.
- .
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- Library General Public License for more details.
- .
- You should have received a copy of the GNU Library General Public
- License along with this program; if not, write to the Free Software
- Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- 02110-1301, USA.
- .
- On Debian systems the full text of the GNU Library General Public
- License version 2 can be found in the
- `/usr/share/common-licenses/LGPL-2' file.
 
 License: LGPL-2.1+
  The GNU C Library is free software; you can redistribute it and/or
