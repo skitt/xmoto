@@ -1,6 +1,7 @@
 xmoto (0.5.11+dfsg-3) UNRELEASED; urgency=medium
 
   * Avoid __DATE__ and __TIME__ to build reproducibly.
+  * Drop Debian menu and XPM icon.
 
  -- Stephen Kitt <skitt@debian.org>  Sat, 10 Oct 2015 19:43:16 +0200
 
