@@ -1,6 +1,7 @@
 xmoto (0.5.11+dfsg-4) UNRELEASED; urgency=medium
 
   * Allow building with libode 0.13.
+  * Fix all string constant warnings.
 
  -- Stephen Kitt <skitt@debian.org>  Fri, 16 Oct 2015 23:47:53 +0200
 

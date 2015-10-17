@@ -8,3 +8,4 @@ sa_restorer-removal.patch
 utf8.patch
 reproducible.patch
 ode13.patch
+string-constants.patch
