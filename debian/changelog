@@ -1,11 +1,11 @@
-xmoto (0.5.11+dfsg-4) UNRELEASED; urgency=medium
+xmoto (0.5.11+dfsg-4) unstable; urgency=medium
 
   * Allow building with libode 0.13.
   * Fix all string constant warnings.
   * Build with g++ 4.9 for now, builds with g++ 5 don't display text.
     (Closes: #802017.)
 
- -- Stephen Kitt <skitt@debian.org>  Fri, 16 Oct 2015 23:47:53 +0200
+ -- Stephen Kitt <skitt@debian.org>  Sat, 17 Oct 2015 22:54:09 +0200
 
 xmoto (0.5.11+dfsg-3) unstable; urgency=medium
 
