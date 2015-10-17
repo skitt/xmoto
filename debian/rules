@@ -7,6 +7,7 @@
 	dh $@ --with autoreconf
 
 override_dh_auto_configure:
+	rm -rf src/ode
 	dh_auto_configure -- \
 		--prefix=/usr \
 		--bindir=\$${prefix}/games \

@@ -1,3 +1,9 @@
+xmoto (0.5.11+dfsg-4) UNRELEASED; urgency=medium
+
+  * Allow building with libode 0.13.
+
+ -- Stephen Kitt <skitt@debian.org>  Fri, 16 Oct 2015 23:47:53 +0200
+
 xmoto (0.5.11+dfsg-3) unstable; urgency=medium
 
   * Avoid __DATE__ and __TIME__ to build reproducibly.
