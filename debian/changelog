@@ -1,3 +1,10 @@
+xmoto (0.5.11+dfsg-5) unstable; urgency=medium
+
+  * ode13.patch is apparently no longer necessary and breaks the build on
+    armel, mips and mipsel, so drop it. (Closes: #804839.)
+
+ -- Stephen Kitt <skitt@debian.org>  Sun, 15 Nov 2015 22:51:37 +0100
+
 xmoto (0.5.11+dfsg-4) unstable; urgency=medium
 
   * Allow building with libode 0.13.
