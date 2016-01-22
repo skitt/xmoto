@@ -28,8 +28,8 @@ Build-Depends: autotools-dev,
                zlib1g-dev
 Standards-Version: 3.9.6
 Homepage: http://xmoto.tuxfamily.org/
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-games/xmoto.git
-Vcs-Git: git://anonscm.debian.org/pkg-games/xmoto.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-games/xmoto.git
+Vcs-Git: https://anonscm.debian.org/git/pkg-games/xmoto.git
 
 Package: xmoto
 Architecture: any
