@@ -1,4 +1,4 @@
-xmoto (0.5.11+dfsg-6) UNRELEASED; urgency=medium
+xmoto (0.5.11+dfsg-6) unstable; urgency=medium
 
   * Switch to https: VCS URIs (see #810378).
   * Pull in part of upstream's svn version 3421 to build with gcc 5.
@@ -9,7 +9,7 @@ xmoto (0.5.11+dfsg-6) UNRELEASED; urgency=medium
     debian/control using cme).
   * Drop obsolete versioned dependency on dpkg-dev.
 
- -- Stephen Kitt <skitt@debian.org>  Fri, 22 Jan 2016 19:03:31 +0100
+ -- Stephen Kitt <skitt@debian.org>  Mon, 21 Mar 2016 00:06:55 +0100
 
 xmoto (0.5.11+dfsg-5) unstable; urgency=medium
 
