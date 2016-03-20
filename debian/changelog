@@ -5,6 +5,8 @@ xmoto (0.5.11+dfsg-6) UNRELEASED; urgency=medium
     (Closes: #818782.)
   * Update the spelling fixes.
   * Enable all hardening options.
+  * Standards-Version 3.9.7, no change required (but clean up
+    debian/control using cme).
 
  -- Stephen Kitt <skitt@debian.org>  Fri, 22 Jan 2016 19:03:31 +0100
 

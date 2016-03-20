@@ -1,15 +1,15 @@
 Source: xmoto
-Section: games
-Priority: optional
 Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
 Uploaders: Miriam Ruiz <little_miry@yahoo.es>,
            Samuel Mimram <smimram@debian.org>,
            Barry deFreese <bdefreese@debian.org>,
            Stephen Kitt <skitt@debian.org>
+Section: games
+Priority: optional
 Build-Depends: autotools-dev,
                debhelper (>= 9),
                dh-autoreconf,
-               dpkg-dev (>= 1.13.19),
+               dpkg-dev,
                libbz2-dev,
                libcurl4-gnutls-dev,
                libgl1-mesa-dev | libgl-dev,
@@ -25,14 +25,16 @@ Build-Depends: autotools-dev,
                libxdg-basedir-dev,
                libxml2-dev,
                zlib1g-dev
-Standards-Version: 3.9.6
-Homepage: http://xmoto.tuxfamily.org/
+Standards-Version: 3.9.7
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-games/xmoto.git
 Vcs-Git: https://anonscm.debian.org/git/pkg-games/xmoto.git
+Homepage: http://xmoto.tuxfamily.org/
 
 Package: xmoto
 Architecture: any
-Depends: xmoto-data (= ${source:Version}), ${misc:Depends}, ${shlibs:Depends}
+Depends: xmoto-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
 Description: 2D motocross platform game
  X-Moto is a challenging 2D motocross platform game, where physics play
  an all important role in the gameplay. You need to control your bike to
@@ -41,7 +43,8 @@ Description: 2D motocross platform game
 
 Package: xmoto-data
 Architecture: all
-Depends: ttf-dejavu-core, ${misc:Depends}
+Depends: ttf-dejavu-core,
+         ${misc:Depends}
 Suggests: xmoto (>= ${source:Version})
 Description: 2D motocross platform game - data files
  X-Moto is a challenging 2D motocross platform game, where physics play
