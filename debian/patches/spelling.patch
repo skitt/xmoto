@@ -254,6 +254,22 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  #define GAMETEXT_MEDAL_SILVER         _("Silver")
 --- a/src/GameInit.cpp
 +++ b/src/GameInit.cpp
+@@ -127,12 +127,12 @@
+ 
+     printf("fatal exception : %s\n", e.getMsg().c_str());        
+     SDL_Quit(); /* make sure SDL shuts down gracefully */
+-    
++
+ #if defined(WIN32)
+     char cBuf[1024];
+-    snprintf(cBuf, 1024, "Fatal exception occured: %s\n"
++    snprintf(cBuf, 1024, "Fatal exception occurred: %s\n"
+ 	    "Consult the file xmoto.log for more information about what\n"
+-	    "might has occured.\n",e.getMsg().c_str());                    
++	    "might has occurred.\n",e.getMsg().c_str());
+     MessageBox(NULL,cBuf,"X-Moto Error",MB_OK|MB_ICONERROR);
+ #endif
+   }
 @@ -386,7 +386,7 @@
    v_xmArgs.isOptReplay()    ||
    v_xmArgs.isOptDemo());
@@ -635,3 +651,140 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
  msgstr ""
  
  #: src/GameText.h:175
+--- a/m4/sdl.m4
++++ b/m4/sdl.m4
+@@ -209,7 +209,7 @@
+           echo "*** If you have an old version installed, it is best to remove it, although"
+           echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
+         [ echo "*** The test program failed to compile or link. See the file config.log for the"
+-          echo "*** exact error that occured. This usually means SDL was incorrectly installed"
++          echo "*** exact error that occurred. This usually means SDL was incorrectly installed"
+           echo "*** or that you have moved SDL since it was installed. In the latter case, you"
+           echo "*** may want to edit the sdl-config script: $SDL_CONFIG" ])
+           CFLAGS="$ac_save_CFLAGS"
+--- a/src/LuaLibGame.cpp
++++ b/src/LuaLibGame.cpp
+@@ -797,7 +797,7 @@
+ 	if(v_timer!=NULL){
+ 		v_timer->SetTimerDelay(v_delay);
+ 	}else{
+-		luaL_error (pL, "An error occured, timer doesn't exist!");   
++		luaL_error (pL, "An error occurred, timer doesn't exist!");
+ 	}
+ 	return 0; //return no values to the script
+ }
+@@ -809,7 +809,7 @@
+   if(v_timer!=NULL){ //timer is found
+ 		v_timer->PauseTimer(); //pause it
+   }else{
+-		luaL_error (pL, "An error occured, timer doesn't exist!"); 
++		luaL_error (pL, "An error occurred, timer doesn't exist!");
+ 	}
+   return 0; //return no values to the script
+ }
+--- a/src/image/tim.h
++++ b/src/image/tim.h
+@@ -54,7 +54,7 @@
+ 	TIM_RV_ERR_INTERNAL_LIMIT = -3,		/* Internal limit (array bound) reached */    
+ 	TIM_RV_ERR_MEMORY = -4,						/* Some memoryrelated problem */
+ 	TIM_RV_ERR_NOT_FOUND = -5,				/* Something wasn't found */
+-	TIM_RV_ERR_LIBRARY = -6,					/* Error occured in some external library */
++	TIM_RV_ERR_LIBRARY = -6,					/* Error occurred in some external library */
+ 	TIM_RV_ERR_INVALID_FORMAT = -7		/* Invalid parameter format */		
+ } tim_retval_t;
+ 
+--- a/src/net/thread/ServerThread.cpp
++++ b/src/net/thread/ServerThread.cpp
+@@ -313,7 +313,7 @@
+ 
+   LogInfo("server: starting");
+ 
+-  // this is not really required here, but it will not start the server if an error occured
++  // this is not really required here, but it will not start the server if an error occurred
+   // init rules
+   try {
+     reloadRules(XM_SERVER_DEFAULT_RULES);
+@@ -405,7 +405,7 @@
+   SP2_setPhase(SP2_PHASE_NONE);
+ 
+   // disconnection
+-  LogInfo("server: %i client(s) still connnected", m_clients.size());
++  LogInfo("server: %i client(s) still connected", m_clients.size());
+ 
+   // disconnect all clients
+   i=0;
+@@ -1929,7 +1929,7 @@
+   } catch(Exception &e) {
+     /* ok, no pb retry with the error */
+     try {
+-      NA_srvCmdAsw na("An error occured: " + e.getMsg());
++      NA_srvCmdAsw na("An error occurred: " + e.getMsg());
+       sendToClient(&na, i_client, -1, 0);
+     } catch(Exception &e2) {
+       /* ok, no pb */
+--- a/src/xdgbasedir/include/basedir_fs.h
++++ b/src/xdgbasedir/include/basedir_fs.h
+@@ -86,7 +86,7 @@
+   * @param mode The permissions to use for created directories. This parameter
+   * 	is modified by the process's umask. For details, see mkdir(2)'s mode
+   * 	parameter.
+-  * @return Zero on success, -1 if an error occured (in which case errno will
++  * @return Zero on success, -1 if an error occurred (in which case errno will
+   * 	be set appropriately)
+   */
+ int xdgMakePath(const char * path, mode_t mode);
+--- a/src/xmscene/BikeGhost.cpp
++++ b/src/xmscene/BikeGhost.cpp
+@@ -345,7 +345,7 @@
+ 	// interpolate only if the state are near in the space
+ 	v_distance < INTERPOLATION_MAXIMUM_SPACE;
+       if(m_teleportationOccured) {
+-	v_can_interpolate = false; // in this case, we sure that interpolation occured; (but in case of a ghost, we don't read the events)
++	v_can_interpolate = false; // in this case, we sure that interpolation occurred; (but in case of a ghost, we don't read the events)
+       }
+ 
+       if(m_doInterpolation && v_can_interpolate) {
+--- a/src/xmscene/BikeGhost.h
++++ b/src/xmscene/BikeGhost.h
+@@ -87,7 +87,7 @@
+   std::vector<float> m_lastToTakeEntities;
+   bool m_isActiv;
+   double m_linearVelocity;
+-  bool m_teleportationOccured; // true if the teleportation occured since the last update
++  bool m_teleportationOccured; // true if the teleportation occurred since the last update
+ 
+  /* because we have not the real one, but the one before and the one after */
+  std::vector<BikeState*> m_ghostBikeStates;
+--- a/src/xmscene/GhostTrail.cpp
++++ b/src/xmscene/GhostTrail.cpp
+@@ -78,7 +78,7 @@
+       v_vecTmp = Vector2f(dx,dy);
+       
+       // this is very ugly code, to clean, to clean
+-      //check if teleportation occured, lets assume that 7 is a size big enough for beeing usable as marker
++      //check if teleportation occurred, lets assume that 7 is a size big enough for beeing usable as marker
+       Vector2f v_checkTeleport = Vector2f(  m_trailData[i].x -  v_P_old.x, m_trailData[i].y - v_P_old.y);
+       if( v_checkTeleport.length() > 5 ) {
+ 	continue;  
+--- a/src/XMKey.cpp
++++ b/src/XMKey.cpp
+@@ -66,7 +66,7 @@
+     break;
+ 
+   default:
+-    throw Exception("Unknow key");
++    throw Exception("Unknown key");
+   }
+ }
+ 
+--- a/src/GameEvents.cpp
++++ b/src/GameEvents.cpp
+@@ -1769,7 +1769,7 @@
+   }
+ 
+   std::string MGE_PenalityTime::toString() {
+-    return "Time penality";
++    return "Time penalty";
+   }
+ 
+   //////////////////////////////
