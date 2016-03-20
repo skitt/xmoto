@@ -13,5 +13,4 @@ override_dh_auto_configure:
 		--bindir=\$${prefix}/games \
 		--datadir=\$${prefix}/share/games \
 		--mandir=\$${prefix}/share/man \
-		--localedir=\$${prefix}/share/games/locale \
-		CXX=g++-4.9
+		--localedir=\$${prefix}/share/games/locale

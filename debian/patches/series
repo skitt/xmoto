@@ -8,3 +8,4 @@ sa_restorer-removal.patch
 utf8.patch
 reproducible.patch
 string-constants.patch
+svn3421.patch
