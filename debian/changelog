@@ -4,6 +4,7 @@ xmoto (0.5.11+dfsg-6) UNRELEASED; urgency=medium
   * Pull in part of upstream's svn version 3421 to build with gcc 5.
     (Closes: #818782.)
   * Update the spelling fixes.
+  * Enable all hardening options.
 
  -- Stephen Kitt <skitt@debian.org>  Fri, 22 Jan 2016 19:03:31 +0100
 
