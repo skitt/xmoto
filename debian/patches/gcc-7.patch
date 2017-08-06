@@ -1,4 +1,4 @@
-Description: Avoid comparing points with booleans
+Description: Avoid comparing pointers with booleans
 Author: Stephen Kitt <skitt@debian.org>
 
 --- a/src/WWW.cpp
