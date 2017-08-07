@@ -1045,6 +1045,7 @@ void StateMainMenu::updateStats() {
   int v_nbDiffLevels = 0;
   std::string v_level_name = "";
   xmDatabase *pDb = xmDatabase::instance("main");
+  char *tmpresult;
 
   if (v_window != NULL) {
     delete v_window;
@@ -1065,7 +1066,8 @@ void StateMainMenu::updateStats() {
     pDb->read_DB_free(v_result);
     return;
   }
-  v_nbStarts = atoi(pDb->getResult(v_result, 2, 0, 0));
+  tmpresult = pDb->getResult(v_result, 2, 0, 0);
+  v_nbStarts = tmpresult ? atoi(tmpresult) : 0;
   v_since = pDb->getResult(v_result, 2, 0, 1);
   pDb->read_DB_free(v_result);
 
@@ -1084,11 +1086,16 @@ void StateMainMenu::updateStats() {
     pDb->read_DB_free(v_result);
     return;
   }
-  v_totalPlayedTime = atoi(pDb->getResult(v_result, 5, 0, 0));
-  v_nbPlayed = atoi(pDb->getResult(v_result, 5, 0, 1));
-  v_nbDied = atoi(pDb->getResult(v_result, 5, 0, 2));
-  v_nbCompleted = atoi(pDb->getResult(v_result, 5, 0, 3));
-  v_nbRestarted = atoi(pDb->getResult(v_result, 5, 0, 4));
+  tmpresult = pDb->getResult(v_result, 5, 0, 0);
+  v_totalPlayedTime = tmpresult ? atoi(tmpresult) : 0;
+  tmpresult = pDb->getResult(v_result, 5, 0, 1);
+  v_nbPlayed = tmpresult ? atoi(tmpresult) : 0;
+  tmpresult = pDb->getResult(v_result, 5, 0, 2);
+  v_nbDied = tmpresult ? atoi(tmpresult) : 0;
+  tmpresult = pDb->getResult(v_result, 5, 0, 3);
+  v_nbCompleted = tmpresult ? atoi(tmpresult) : 0;
+  tmpresult = pDb->getResult(v_result, 5, 0, 4);
+  v_nbRestarted = tmpresult ? atoi(tmpresult) : 0;
   pDb->read_DB_free(v_result);
 
   v_result = pDb->readDB(
@@ -1101,7 +1108,8 @@ void StateMainMenu::updateStats() {
     pDb->read_DB_free(v_result);
     return;
   }
-  v_nbDiffLevels = atoi(pDb->getResult(v_result, 1, 0, 0));
+  tmpresult = pDb->getResult(v_result, 1, 0, 0);
+  v_nbDiffLevels = tmpresult ? atoi(tmpresult) : 0;
   pDb->read_DB_free(v_result);
 
   /* Per-player info */
@@ -1188,11 +1196,16 @@ void StateMainMenu::updateStats() {
       break; /* out of window */
 
     v_level_name = pDb->getResult(v_result, 6, i, 0);
-    v_totalPlayedTime = atoi(pDb->getResult(v_result, 6, i, 5));
-    v_nbDied = atoi(pDb->getResult(v_result, 6, i, 2));
-    v_nbPlayed = atoi(pDb->getResult(v_result, 6, i, 1));
-    v_nbCompleted = atoi(pDb->getResult(v_result, 6, i, 3));
-    v_nbRestarted = atoi(pDb->getResult(v_result, 6, i, 4));
+    tmpresult = pDb->getResult(v_result, 6, i, 5);
+    v_totalPlayedTime = tmpresult ? atoi(tmpresult) : 0;
+    tmpresult = pDb->getResult(v_result, 6, i, 2);
+    v_nbDied = tmpresult ? atoi(tmpresult) : 0;
+    tmpresult = pDb->getResult(v_result, 6, i, 1);
+    v_nbPlayed = tmpresult ? atoi(tmpresult) : 0;
+    tmpresult = pDb->getResult(v_result, 6, i, 3);
+    v_nbCompleted = tmpresult ? atoi(tmpresult) : 0;
+    tmpresult = pDb->getResult(v_result, 6, i, 4);
+    v_nbRestarted = tmpresult ? atoi(tmpresult) : 0;
 
     snprintf(
       cBuf,
