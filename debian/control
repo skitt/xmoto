@@ -6,9 +6,7 @@ Uploaders: Miriam Ruiz <little_miry@yahoo.es>,
            Stephen Kitt <skitt@debian.org>
 Section: games
 Priority: optional
-Build-Depends: autotools-dev,
-               debhelper (>= 9),
-               dh-autoreconf,
+Build-Depends: debhelper (>= 10),
                libbz2-dev,
                libcurl4-gnutls-dev,
                libgl1-mesa-dev | libgl-dev,
