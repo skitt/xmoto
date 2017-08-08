@@ -1,6 +1,7 @@
 Description: Fix hyphens and some spelling mistakes
 Author: Stephen Kitt <steve@sk2.org>
 Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=801
+Forwarded: https://github.com/xmoto/xmoto/pull/18
 
 --- xmoto-0.5.9.orig/xmoto.6
 +++ xmoto-0.5.9/xmoto.6

@@ -1,5 +1,6 @@
 Description: Avoid comparing pointers with booleans
 Author: Stephen Kitt <skitt@debian.org>
+Forwarded: https://github.com/xmoto/xmoto/pull/16
 
 --- a/src/WWW.cpp
 +++ b/src/WWW.cpp

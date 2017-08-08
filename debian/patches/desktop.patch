@@ -2,6 +2,8 @@ Description: Add "arcade" sub-menu, and German translation
 Origin: other, http://bugs.debian.org/478974
 Origin: other, http://bugs.debian.org/641822
 Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=802
+Forwarded: https://github.com/xmoto/xmoto/pull/13
+Forwarded: https://github.com/xmoto/xmoto/pull/19
 
 --- xmoto-0.5.9.orig/extra/xmoto.desktop
 +++ xmoto-0.5.9/extra/xmoto.desktop

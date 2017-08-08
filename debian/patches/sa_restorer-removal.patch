@@ -1,6 +1,7 @@
 Description: sa_restorer isn't defined in POSIX and is being removed
 Author: Pino Toscano <pino@debian.org>
 Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=806
+Forwarded: https://github.com/xmoto/xmoto/pull/17
 
 --- xmoto-0.5.9+dfsg.orig/src/GameInit.cpp
 +++ xmoto-0.5.9+dfsg/src/GameInit.cpp

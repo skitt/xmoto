@@ -2,6 +2,7 @@ Description: Avoid segfaulting on NULL values in the database
 Author: Gustavo Noronha Silva <kov@debian.org>
 Origin: other, http://bugs.debian.org/492414
 Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=799
+Forwarded: https://github.com/xmoto/xmoto/pull/15
 
 --- xmoto-0.5.9.orig/src/states/StateMainMenu.cpp
 +++ xmoto-0.5.9/src/states/StateMainMenu.cpp
