@@ -1,4 +1,4 @@
-xmoto (0.5.11+dfsg-7) UNRELEASED; urgency=medium
+xmoto (0.5.11+dfsg-7) unstable; urgency=medium
 
   * Avoid comparing pointers with booleans. (Closes: #853712.)
   * Update debian/copyright.
@@ -6,7 +6,7 @@ xmoto (0.5.11+dfsg-7) UNRELEASED; urgency=medium
   * Switch to debhelper compatibility level 10.
   * Update forwarded patches.
 
- -- Stephen Kitt <skitt@debian.org>  Sun, 06 Aug 2017 23:23:05 +0200
+ -- Stephen Kitt <skitt@debian.org>  Tue, 08 Aug 2017 13:12:11 +0200
 
 xmoto (0.5.11+dfsg-6) unstable; urgency=medium
 
