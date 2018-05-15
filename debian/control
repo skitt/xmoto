@@ -22,7 +22,7 @@ Build-Depends: debhelper (>= 11~),
                libxdg-basedir-dev,
                libxml2-dev,
                zlib1g-dev
-Standards-Version: 4.0.0
+Standards-Version: 4.1.4
 Vcs-Browser: https://salsa.debian.org/games-team/xmoto
 Vcs-Git: https://salsa.debian.org/games-team/xmoto.git
 Homepage: http://xmoto.tuxfamily.org/
