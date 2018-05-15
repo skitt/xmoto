@@ -1,3 +1,9 @@
+xmoto (0.5.11+dfsg-8) UNRELEASED; urgency=medium
+
+  * Migrate to Salsa.
+
+ -- Stephen Kitt <skitt@debian.org>  Tue, 15 May 2018 20:34:06 +0200
+
 xmoto (0.5.11+dfsg-7) unstable; urgency=medium
 
   * Avoid comparing pointers with booleans. (Closes: #853712.)
