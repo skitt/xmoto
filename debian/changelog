@@ -1,10 +1,10 @@
-xmoto (0.5.11+dfsg-8) UNRELEASED; urgency=medium
+xmoto (0.5.11+dfsg-8) unstable; urgency=medium
 
   * Migrate to Salsa.
   * Switch to debhelper compatibility level 11.
   * Standards-Version 4.1.4, no further change required.
 
- -- Stephen Kitt <skitt@debian.org>  Tue, 15 May 2018 20:34:06 +0200
+ -- Stephen Kitt <skitt@debian.org>  Tue, 15 May 2018 20:42:54 +0200
 
 xmoto (0.5.11+dfsg-7) unstable; urgency=medium
 
