@@ -40,7 +40,7 @@ Description: 2D motocross platform game
 
 Package: xmoto-data
 Architecture: all
-Depends: ttf-dejavu-core,
+Depends: fonts-dejavu-core,
          ${misc:Depends}
 Suggests: xmoto (>= ${source:Version})
 Description: 2D motocross platform game - data files
