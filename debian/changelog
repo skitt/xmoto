@@ -1,6 +1,7 @@
 xmoto (0.5.11+dfsg-9) UNRELEASED; urgency=medium
 
   * Depend on fonts-dejavu-core instead of ttf-dejavu-core.
+    Closes: #946057.
 
  -- Stephen Kitt <skitt@debian.org>  Sat, 19 May 2018 17:31:01 +0200
 
