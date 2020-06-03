@@ -27,6 +27,7 @@ Standards-Version: 4.1.4
 Vcs-Browser: https://salsa.debian.org/games-team/xmoto
 Vcs-Git: https://salsa.debian.org/games-team/xmoto.git
 Homepage: http://xmoto.tuxfamily.org/
+Rules-Requires-Root: no
 
 Package: xmoto
 Architecture: any
