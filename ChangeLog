@@ -1,3 +1,23 @@
+X-Moto 0.6.0 2020-05-03
+--------------------------------
+ * Build system:
+ * Build system changed from autotools to CMake
+ * Support for both cross-compilation and native builds for Win32
+ * Easy packaging for each supported platform
+ * FreeBSD and macOS support temporarily dropped
+ * Minor changes:
+ * Chat history is now shown when the chat box is opened
+ * Checkpoint color in ugly mode matches minimap
+ * Some code fixes
+ * glext.h dropped in favor of a proper GL loader
+ * Bug fixes:
+ * Favorite levels can be viewed again
+ * Safe mode now stays on after restarting a level
+
+X-Moto 0.5.12 201
+--------------------------------
+ * remove several warnings (including replacing hash_map by unordered_map)
+
 X-Moto 0.5.11 2014-03-29
 --------------------------------
  * handles lua 5.2 library loading changes
@@ -135,7 +155,7 @@ X-Moto 0.5.0 2008-11-28
  * synchronisation of the database with the webserver to share it among the places you play X-Moto
  * chipmunk integration. Blocks reacts to physics, joints and scripts calls (require special levels) - replay saving still unsupported
  * save config separatly for each profile
- * --noDBDirsCheck command line options added. It disables the files find when X-Moto detects that you changed your configuration directory (usefull if you use X-Moto on a USB key)
+ * --noDBDirsCheck command line options added. It disables the files find when X-Moto detects that you changed your configuration directory (useful if you use X-Moto on a USB key)
  * --defaultTheme option to change the default theme for new profiles (and --with-default-theme= at compilation time) ; so that packager can change it.
  * optimisations for particles handling
  * joystick support improved
