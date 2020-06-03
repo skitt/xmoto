@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: XMOTO
 Source: http://xmoto.tuxfamily.org/
-Files-Excluded: src/glext.h
+Files-Excluded: tools/windows_translation
 
 Files: *
 Copyright: 2005-2006 Rasmus Neckelmann
