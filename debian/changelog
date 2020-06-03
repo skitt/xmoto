@@ -5,6 +5,7 @@ xmoto (0.6.0+repack-1) UNRELEASED; urgency=medium
     Closes: #946057.
   * Update debian/watch to download from GitHub.
   * Exclude the Windows translation tools.
+  * Switch to debhelper compatibility level 12.
 
  -- Stephen Kitt <skitt@debian.org>  Sun, 03 May 2020 14:16:20 +0200
 
