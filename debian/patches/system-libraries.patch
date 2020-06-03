@@ -1,0 +1,19 @@
+Description: Ensure we use system libraries
+Author: Stephen Kitt <skitt@debian.org>
+
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -59,13 +59,8 @@
+ 
+ # sources
+ 
+-add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/bzip2" bzip2)
+-add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/libccd" libccd)
+ add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/chipmunk" chipmunk)
+-add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/lua" lua)
+ add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/md5sum" md5sum)
+-add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/ode" ode)
+-add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/xdgbasedir" xdgbasedir)
+ add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/glad" glad)
+ 
+ set(common_src

@@ -1,12 +1,4 @@
-remove-glext.patch
 fix_segfault.patch
-desktop.patch
-manpage.patch
-spelling.patch
 gcc-4.7-fixes.patch
-sa_restorer-removal.patch
-utf8.patch
-reproducible.patch
-string-constants.patch
-svn3421.patch
-gcc-7.patch
+system-libraries.patch
+installation-directories.patch

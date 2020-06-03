@@ -1,11 +1,12 @@
-xmoto (0.5.11+dfsg-9) UNRELEASED; urgency=medium
+xmoto (0.6.0+repack-1) UNRELEASED; urgency=medium
 
+  * New upstream release, merging most patches.
   * Depend on fonts-dejavu-core instead of ttf-dejavu-core.
     Closes: #946057.
   * Update debian/watch to download from GitHub.
   * Exclude the Windows translation tools.
 
- -- Stephen Kitt <skitt@debian.org>  Sat, 19 May 2018 17:31:01 +0200
+ -- Stephen Kitt <skitt@debian.org>  Sun, 03 May 2020 14:16:20 +0200
 
 xmoto (0.5.11+dfsg-8) unstable; urgency=medium
 

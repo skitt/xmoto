@@ -1,0 +1,38 @@
+Description: Adjust installation directories
+Author: Stephen Kitt <skitt@debian.org>
+
+--- a/bin/CMakeLists.txt
++++ b/bin/CMakeLists.txt
+@@ -19,7 +19,7 @@
+   install(DIRECTORY Textures/Musics DESTINATION ./Textures)
+   install(DIRECTORY Textures/Fonts DESTINATION ./Textures)
+ else()
+-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xmoto.bin" DESTINATION share/xmoto)
+-  install(DIRECTORY Textures/Musics DESTINATION share/xmoto/Textures)
+-  install(DIRECTORY Textures/Fonts DESTINATION share/xmoto/Textures)
++  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xmoto.bin" DESTINATION share/games/xmoto)
++  install(DIRECTORY Textures/Musics DESTINATION share/games/xmoto/Textures)
++  install(DIRECTORY Textures/Fonts DESTINATION share/games/xmoto/Textures)
+ endif()
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -484,7 +484,7 @@
+     if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+       set_source_files_properties("${mo}" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/${lang}.lproj")
+     else()
+-      install(FILES "${mo}" DESTINATION share/locale/${lang}/LC_MESSAGES)
++      install(FILES "${mo}" DESTINATION share/games/locale/${lang}/LC_MESSAGES)
+ 
+       # work around a problem where cpack thinks it's a good
+       # idea to throw in the parent directories of files in
+--- a/src/common/VFileIO.cpp
++++ b/src/common/VFileIO.cpp
+@@ -1286,7 +1286,7 @@
+     }
+   }
+   if (!m_bGotSystemDataDir) {
+-    m_SystemDataDir = std::string("/usr/share/");
++    m_SystemDataDir = std::string("/usr/share/games/");
+     if (isDir(m_SystemDataDir)) {
+       m_bGotSystemDataDir = true;
+     }
