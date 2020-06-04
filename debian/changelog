@@ -1,4 +1,4 @@
-xmoto (0.6.0+repack-1) UNRELEASED; urgency=medium
+xmoto (0.6.0+repack-1) unstable; urgency=medium
 
   * New upstream release, merging most patches.
   * Depend on fonts-dejavu-core instead of ttf-dejavu-core.
@@ -9,7 +9,7 @@ xmoto (0.6.0+repack-1) UNRELEASED; urgency=medium
   * Set “Rules-Requires-Root: no”.
   * Standards-Version 4.5.0, no further change required.
 
- -- Stephen Kitt <skitt@debian.org>  Sun, 03 May 2020 14:16:20 +0200
+ -- Stephen Kitt <skitt@debian.org>  Thu, 04 Jun 2020 06:38:40 +0200
 
 xmoto (0.5.11+dfsg-8) unstable; urgency=medium
 
