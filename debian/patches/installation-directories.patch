@@ -3,9 +3,9 @@ Author: Stephen Kitt <skitt@debian.org>
 
 --- a/bin/CMakeLists.txt
 +++ b/bin/CMakeLists.txt
-@@ -19,7 +19,7 @@
-   install(DIRECTORY Textures/Musics DESTINATION ./Textures)
-   install(DIRECTORY Textures/Fonts DESTINATION ./Textures)
+@@ -55,7 +55,7 @@
+   )
+   ")
  else()
 -  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xmoto.bin" DESTINATION share/xmoto)
 -  install(DIRECTORY Textures/Musics DESTINATION share/xmoto/Textures)
@@ -16,9 +16,9 @@ Author: Stephen Kitt <skitt@debian.org>
  endif()
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -484,7 +484,7 @@
-     if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-       set_source_files_properties("${mo}" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/${lang}.lproj")
+@@ -507,7 +507,7 @@
+         MACOSX_PACKAGE_LOCATION "Resources/locale/${lang}/LC_MESSAGES"
+       )
      else()
 -      install(FILES "${mo}" DESTINATION share/locale/${lang}/LC_MESSAGES)
 +      install(FILES "${mo}" DESTINATION share/games/locale/${lang}/LC_MESSAGES)
@@ -27,12 +27,21 @@ Author: Stephen Kitt <skitt@debian.org>
        # idea to throw in the parent directories of files in
 --- a/src/common/VFileIO.cpp
 +++ b/src/common/VFileIO.cpp
-@@ -1286,7 +1286,7 @@
-     }
-   }
+@@ -1323,7 +1323,7 @@
+   /* Try some default fallbacks */
    if (!m_bGotSystemDataDir) {
--    m_SystemDataDir = std::string("/usr/share/");
-+    m_SystemDataDir = std::string("/usr/share/games/");
-     if (isDir(m_SystemDataDir)) {
-       m_bGotSystemDataDir = true;
-     }
+     const std::vector<std::string> dataDirs = {
+-      "/usr/share", "/usr/local/share",
++      "/usr/share/games"
+     };
+     for (auto &dir : dataDirs) {
+       if (isDir(dir + "/xmoto")) {
+@@ -1335,7 +1335,7 @@
+   }
+   /* Default to /usr/share */
+   if (!m_bGotSystemDataDir) {
+-    m_SystemDataDir = "/usr/share";
++    m_SystemDataDir = "/usr/share/games";
+   }
+ 
+   m_SystemLocaleDir = m_SystemDataDir + "/locale";

@@ -1,4 +1,3 @@
-fix_segfault.patch
 gcc-4.7-fixes.patch
 system-libraries.patch
 installation-directories.patch
