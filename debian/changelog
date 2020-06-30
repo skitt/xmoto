@@ -1,6 +1,7 @@
 xmoto (0.6.1+repack-1) UNRELEASED; urgency=medium
 
   * New upstream release, merging fix_segfault.patch.
+  * Switch to debhelper compatibility level 13.
 
  -- Stephen Kitt <skitt@debian.org>  Mon, 29 Jun 2020 22:25:48 +0200
 

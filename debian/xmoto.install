@@ -1,4 +1,4 @@
-extra/xmoto.desktop /usr/share/applications
-extra/xmoto.xpm /usr/share/pixmaps
+/usr/share/applications
+/usr/share/pixmaps
 usr/bin/xmoto /usr/games
 usr/share/games/locale
