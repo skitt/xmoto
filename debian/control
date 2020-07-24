@@ -9,6 +9,7 @@ Priority: optional
 Build-Depends: cmake,
                debhelper-compat (= 13),
                libbz2-dev,
+               libchipmunk-dev,
                libcurl4-gnutls-dev,
                libgl1-mesa-dev | libgl-dev,
                libjpeg-dev,
