@@ -1,3 +1,11 @@
+xmoto (0.6.1+repack-3) unstable; urgency=medium
+
+  * Team upload.
+  * Fixed xmoto-data: Broken links to DejaVu fonts. DejaVus TrueType fonts have
+    moved. Updated symbolic links to point to the new location. Closes: #969909.
+
+ -- Bruno Kleinert <fuddl@debian.org>  Wed, 09 Sep 2020 07:05:01 +0200
+
 xmoto (0.6.1+repack-2) unstable; urgency=medium
 
   * Port to Chipmunk2D 7, and build using the packaged version.
