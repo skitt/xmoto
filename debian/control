@@ -24,7 +24,7 @@ Build-Depends: cmake,
                libxdg-basedir-dev,
                libxml2-dev,
                zlib1g-dev
-Standards-Version: 4.5.0
+Standards-Version: 4.5.1
 Vcs-Browser: https://salsa.debian.org/games-team/xmoto
 Vcs-Git: https://salsa.debian.org/games-team/xmoto.git
 Homepage: http://xmoto.tuxfamily.org/
