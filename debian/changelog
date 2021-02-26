@@ -1,10 +1,10 @@
-xmoto (0.6.1+repack-4) UNRELEASED; urgency=medium
+xmoto (0.6.1+repack-4) unstable; urgency=medium
 
   * Initialise static and dynamic bodies using the correct constructors.
     Closes: #983493.
   * Standards-Version 4.5.1, no change required.
 
- -- Stephen Kitt <skitt@debian.org>  Fri, 26 Feb 2021 16:50:15 +0100
+ -- Stephen Kitt <skitt@debian.org>  Fri, 26 Feb 2021 18:04:03 +0100
 
 xmoto (0.6.1+repack-3) unstable; urgency=medium
 
