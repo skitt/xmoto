@@ -1,0 +1,3 @@
+Tests: start-server
+Depends: @, gcc, libc-dev
+Restrictions: isolation-container, superficial
