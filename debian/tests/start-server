@@ -1,0 +1,3 @@
+#!/bin/sh -e
+gcc debian/tests/start-server.c -o "$AUTOPKGTEST_TMP"/start-server
+"$AUTOPKGTEST_TMP"/start-server

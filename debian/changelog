@@ -1,3 +1,10 @@
+xmoto (0.6.1+repack-5) UNRELEASED; urgency=medium
+
+  [ John Scott ]
+  * Add a superficial DEP-8 test that serving an X-Moto server works.
+
+ -- Debian Games Team <pkg-games-devel@lists.alioth.debian.org>  Sat, 21 Aug 2021 18:19:43 -0400
+
 xmoto (0.6.1+repack-4) unstable; urgency=medium
 
   * Initialise static and dynamic bodies using the correct constructors.
