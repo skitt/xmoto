@@ -7,12 +7,3 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 %:
 	dh $@
-
-override_dh_auto_configure:
-	rm -rf src/ode
-	dh_auto_configure -- \
-		--prefix=/usr \
-		--bindir=\$${prefix}/games \
-		--datadir=\$${prefix}/share/games \
-		--mandir=\$${prefix}/share/man \
-		--localedir=\$${prefix}/share/games/locale
