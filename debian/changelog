@@ -6,6 +6,7 @@ xmoto (0.6.1+repack-5) UNRELEASED; urgency=medium
   [ Stephen Kitt ]
   * Drop the dh_auto_configure override, it’s obsolete since the switch
     to CMake. Closes: #997398.
+  * Standards-Version 4.6.0, no change required.
 
  -- Debian Games Team <pkg-games-devel@lists.alioth.debian.org>  Sat, 21 Aug 2021 18:19:43 -0400
 
