@@ -1,4 +1,4 @@
-xmoto (0.6.1+repack-5) UNRELEASED; urgency=medium
+xmoto (0.6.1+repack-5) unstable; urgency=medium
 
   [ John Scott ]
   * Add a superficial DEP-8 test that serving an X-Moto server works.
@@ -8,7 +8,7 @@ xmoto (0.6.1+repack-5) UNRELEASED; urgency=medium
     to CMake. Closes: #997398.
   * Standards-Version 4.6.0, no change required.
 
- -- Debian Games Team <pkg-games-devel@lists.alioth.debian.org>  Sat, 21 Aug 2021 18:19:43 -0400
+ -- Stephen Kitt <skitt@debian.org>  Mon, 25 Oct 2021 13:20:47 +0200
 
 xmoto (0.6.1+repack-4) unstable; urgency=medium
 
