@@ -34,8 +34,9 @@ int main(void) {
 
 	/* Try IPv6 first, then IPv4. */
 	sa_family_t fam = AF_INET6;
+	int sock;
 startconn:
-	int sock = socket(fam, SOCK_STREAM, IPPROTO_TCP);
+	sock = socket(fam, SOCK_STREAM, IPPROTO_TCP);
 	if(sock == -1) {
 		perror("Failed to create socket");
 		if(kill(xmoto, SIGTERM) == -1) {
