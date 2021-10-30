@@ -69,7 +69,7 @@ startconn:
 		abort();
 	}
 
-	sleep(1U); /* X-Moto needs a chance to start */
+	sleep(3U); /* X-Moto needs a chance to start */
 	if(connect(sock, &addr.sa, sizeof(addr)) == -1) {
 		if(fam == AF_INET6) {
 			/* Try again with IPv4. */

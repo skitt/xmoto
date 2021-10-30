@@ -1,3 +1,9 @@
+xmoto (0.6.1+repack-7) unstable; urgency=medium
+
+  * Give X-Moto more time to start in the autopkgtests.
+
+ -- Stephen Kitt <skitt@debian.org>  Sat, 30 Oct 2021 10:12:12 +0200
+
 xmoto (0.6.1+repack-6) unstable; urgency=medium
 
   * Allow the autopkgtest to build with GCC 10 (thanks John Scott!).
