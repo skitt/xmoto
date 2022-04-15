@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: 2021 John Scott <jscott@posteo.net>
+ * SPDX-FileCopyrightText: 2022 Stephen Kitt <skitt@debian.org>
  * SPDX-LicenseIdentifier: GPL-2.0-or-later */
 #define _POSIX_C_SOURCE 200809L
+#include <errno.h>
 #include <netinet/in.h>
 #include <signal.h>
 #include <spawn.h>
@@ -85,6 +87,11 @@ int main(void) {
 				/* Success! */
 				cleanup(xmoto, sock, EXIT_SUCCESS);
 			}
+			if (errno != ECONNREFUSED) {
+				/* Failure */
+				cleanup(xmoto, sock, EXIT_FAILURE);
+			}
+			/* Connection refused, try again */
 			if (close(sock) == -1) {
 				perror("Failed to close socket");
 				cleanup(xmoto, -1, EXIT_FAILURE);
