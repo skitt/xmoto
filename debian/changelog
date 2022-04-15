@@ -1,3 +1,12 @@
+xmoto (0.6.1+repack-8) unstable; urgency=medium
+
+  * Rework the autopkgtest: set up the signal to detect if the X-Moto
+    server exits during the test, and repeat the connection test for up to
+    60 seconds. Thanks to Simon McVittie for the suggestions!
+    Closes: #1006815.
+
+ -- Stephen Kitt <skitt@debian.org>  Fri, 15 Apr 2022 21:33:09 +0200
+
 xmoto (0.6.1+repack-7) unstable; urgency=medium
 
   * Give X-Moto more time to start in the autopkgtests.
