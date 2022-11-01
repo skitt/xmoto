@@ -47,6 +47,7 @@ Depends: fonts-arphic-bkai00mp,
          fonts-dejavu-core,
          ${misc:Depends}
 Suggests: xmoto (>= ${source:Version})
+Multi-Arch: foreign
 Description: 2D motocross platform game - data files
  X-Moto is a challenging 2D motocross platform game, where physics play
  an all important role in the gameplay. You need to control your bike to
