@@ -1,7 +1,12 @@
 xmoto (0.6.1+repack-9) UNRELEASED; urgency=medium
 
+  [ Stephen Kitt ]
   * Make the autopkgtest abort early on errors other than ECONNREFUSED.
   * Mark xmoto-data as “Multi-Arch: foreign”.
+
+  [ Debian Janitor ]
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository-Browse.
+  * Update standards version to 4.6.1, no changes needed.
 
  -- Stephen Kitt <skitt@debian.org>  Fri, 15 Apr 2022 21:38:52 +0200
 
