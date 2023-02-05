@@ -3,6 +3,7 @@ xmoto (0.6.1+repack-9) UNRELEASED; urgency=medium
   [ Stephen Kitt ]
   * Make the autopkgtest abort early on errors other than ECONNREFUSED.
   * Mark xmoto-data as “Multi-Arch: foreign”.
+  * Build-depend on libgl-dev only, instead of libgl1-mesa-dev.
 
   [ Debian Janitor ]
   * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository-Browse.
