@@ -34,9 +34,7 @@ Central place to keep many in-game text strings
 
 #define GAMETEXT_11KHZ _("11 kHz")
 #define GAMETEXT_16BIT _("16-bit")
-#define GAMETEXT_16BPP _("16 bits per pixel")
 #define GAMETEXT_22KHZ _("22 kHz")
-#define GAMETEXT_32BPP _("32 bits per pixel")
 #define GAMETEXT_44KHZ _("44 kHz")
 #define GAMETEXT_8BIT _("8-bit")
 #define GAMETEXT_ABORT _("Quit level")
@@ -56,6 +54,9 @@ Central place to keep many in-game text strings
 #define GAMETEXT_AUTOMATIC _("Automatic")
 #define GAMETEXT_AUTOSAVEREPLAYS _("Automatic saving of replays")
 #define GAMETEXT_SHOWANIMATIONS _("Disable Animations")
+#define GAMETEXT_HIDESPRITESUGLY _("Hide sprites in ugly mode")
+#define GAMETEXT_HIDESPRITESMINIMAP _("Hide sprites from the minimap")
+#define GAMETEXT_USETHEMECURSOR _("Use theme cursor")
 #define GAMETEXT_SHOWGAMEINFORMATIONINCONSOLE \
   _("Show game information in the console")
 #define GAMETEXT_AUTOZOOM _("Auto zoom")
@@ -85,10 +86,10 @@ Central place to keep many in-game text strings
 #define GAMETEXT_CHOOSELEVEL _("Choose Level")
 #define GAMETEXT_CLEAN _("Clean")
 #define GAMETEXT_CLEAN_CONFIRM(A)                       \
-  ngettext("Are you sure you want to delete %i replay", \
-           "Are you sure you want to delete %i replay", \
+  ngettext("Are you sure you want to delete %i replay?", \
+           "Are you sure you want to delete %i replays?", \
            A)
-#define GAMETEXT_CLEAN_NOTHING_TO_DO _("There is no replay to clean")
+#define GAMETEXT_CLEAN_NOTHING_TO_DO _("There are no replays to clean")
 #define GAMETEXT_CLOSE _("Close")
 #define GAMETEXT_CONFIGUREJOYSTICK _("Configure Joystick...")
 #define GAMETEXT_CONSOLEHISTORYMINUS _("Decrease console history size")
@@ -399,7 +400,7 @@ Central place to keep many in-game text strings
                          "finish\nthe level.")) +                             \
     "\n" +                                                                    \
     std::string(_("Read the README file or check out the website "            \
-                  "at\nhttp://xmoto.tuxfamily.org\nfor more information."))
+                  "at\nhttps://xmoto.tuxfamily.org\nfor more information."))
 
 #define GAMETEXT_HELPTEXT_PLAYINGLEVEL(accelerate_KEY,                         \
                                        brake_KEY,                              \
@@ -411,6 +412,7 @@ Central place to keep many in-game text strings
                                        next_level_KEY,                         \
                                        switch_wwwaccess_KEY,                   \
                                        screenshot_KEY,                         \
+                                       levelinfo_KEY,                          \
                                        fps_KEY,                                \
                                        switch_uglymode_KEY,                    \
                                        switch_player_KEY,                      \
@@ -443,7 +445,7 @@ Central place to keep many in-game text strings
     previous_level_KEY + "/" + next_level_KEY + " - " +                        \
     std::string(_("Previous/Next level")) + "\n"                               \
                                             "  ctrl+M - " +                    \
-    std::string(_("change mirror mode")) + "\n"                                \
+    std::string(_("Change mirror mode")) + "\n"                                \
                                            "  ctrl+B - " +                     \
     std::string(_("Toggle blacklist")) + "\n"                                  \
                                          "  ctrl+S - " +                       \
@@ -480,7 +482,9 @@ Central place to keep many in-game text strings
     switch_gfx_mode_KEY + " - " +                                              \
     std::string(_("Toggle theme and ugly over mode")) + "\n"                   \
                                                         "  " +                 \
-    screenshot_KEY + " - " + std::string(_("Take a screenshot")) + "\n"
+    screenshot_KEY + " - " + std::string(_("Take a screenshot")) + "\n"        \
+                                                                   "  " +      \
+    levelinfo_KEY + " - " + std::string(_("Show level info")) + "\n"
 
 #define GAMETEXT_HIDEGHOSTS _("Hide ghosts")
 #define GAMETEXT_HIGH _("High")
@@ -489,7 +493,7 @@ Central place to keep many in-game text strings
 #define GAMETEXT_LOAD_LEVEL_HOOK \
   _("Levels are being added into the database. Please wait.")
 #define GAMETEXT_INETCONF _("Internet Configuration")
-#define GAMETEXT_INFOS _("Infos")
+#define GAMETEXT_INFO _("Info")
 #define GAMETEXT_INITZOOM _("View Level Initially")
 #define GAMETEXT_JOYSTICK _("Joystick")
 #define GAMETEXT_ENABLEJOYSTICKS _("Enable joysticks")
@@ -508,11 +512,16 @@ Central place to keep many in-game text strings
 #define GAMETEXT_LEVEL_DELETED_FROM_FAVORITE _("Deleted from favorites")
 #define GAMETEXT_LEVEL_ADDED_TO_BLACKLIST _("Added to blacklist")
 #define GAMETEXT_LEVEL_DELETED_FROM_BLACKLIST _("Deleted from blacklist")
-#define GAMETEXT_LEVELINFO _("Level Info...")
+#define GAMETEXT_LEVELINFO _("Level Info")
 #define GAMETEXT_LEVELNAME _("Level Name")
+#define GAMETEXT_LEVELFILE _("Level File")
+#define GAMETEXT_LEVELID _("Level ID")
+#define GAMETEXT_LEVELCOPYPATH _("Copy path")
+#define GAMETEXT_LEVELPATHBUILTIN _("Built-in")
 #define GAMETEXT_LEVELCANNOTBELOADED _("Level '%s' cannot be loaded")
 #define GAMETEXT_LEVELLOADINGFAILURE \
   _("The level failed while loading with the following error :")
+#define GAMETEXT_COPYTOCLIPBOARDFAILED _("Failed to copy to clipboard")
 #define GAMETEXT_SENDMSGTOADMINS \
   _("Do you want to send a report to website administrators ?")
 #define GAMETEXT_SENDING_REPORT _("Sending the report...")
@@ -531,6 +540,7 @@ Central place to keep many in-game text strings
 #define GAMETEXT_LOGIN _("Login")
 #define GAMETEXT_LOW _("Low")
 #define GAMETEXT_MAIN _("Main")
+#define GAMETEXT_MAX_FRAMERATE _("Max Framerate")
 #define GAMETEXT_MOUSE _("Mouse")
 #define GAMETEXT_THEME _("Theme")
 #define GAMETEXT_TTF_MISSING \
@@ -589,7 +599,7 @@ Central place to keep many in-game text strings
     "Mail bugs, ideas, comments, feature requests, hatemail, etc\n" \
     "to xmoto@tuxfamily.org\n"                                      \
     "\n"                                                            \
-    "Also visit http://xmoto.tuxfamily.org to make sure you've\n"   \
+    "Also visit https://xmoto.tuxfamily.org to make sure you've\n"   \
     "got the latest version.")
 #define GAMETEXT_NUMLEVELS _("# Levels")
 #define GAMETEXT_OK _("OK")
@@ -740,6 +750,8 @@ Central place to keep many in-game text strings
 #define GAMETEXT_WWWROOMSTAB_REFERENCE _("Reference room")
 #define GAMETEXT_WWWROOMSTAB_OTHER _("Room %i")
 
+#define GAMETEXT_XFILES(A) ngettext("%d file", "%d files", A)
+
 #define GAMETEXT_XHOURS _("%d hours")
 #define GAMETEXT_XMINUTES _("%d minutes")
 #define GAMETEXT_XONLY(A) ngettext("only %i", "only %i", A)
@@ -789,6 +801,8 @@ Central place to keep many in-game text strings
 #define GAMETEXT_CLIENTDISCONNECTSERVER _("%s left the game")
 #define GAMETEXT_CLIENTPLAYING _("%s is playing level %s")
 #define GAMETEXT_CLIENTSTARTUPCONNEXION _("Connexion at startup")
+#define GAMETEXT_CLIENTCONNECTDISCONNECT \
+  _("Connect to/disconnect from the server")
 #define UNTRANSLATED_GAMETEXT_TOO_MUCH_CLIENTS \
   "Sorry, there are already too much clients connected"
 #define UNTRANSLATED_GAMETEXT_SERVER_PROTOCOL_VERSION_INCOMPATIBLE \
@@ -850,10 +864,9 @@ Central place to keep many in-game text strings
 #define CONTEXTHELP_PERMANENTCONSOLE _("Make console messages not disappear")
 #define CONTEXTHELP_ALLOWWEBFORMS \
   _("Allow X-Moto to ask you your mind about levels")
-#define CONTEXTHELP_HIGHCOLOR _("Enable high-color graphics")
-#define CONTEXTHELP_TRUECOLOR _("Enable true-color graphics")
 #define CONTEXTHELP_RESOLUTION _("Select graphics resolution")
 #define CONTEXTHELP_RUN_IN_WINDOW _("Run the game in a window")
+#define CONTEXTHELP_MAX_FRAMERATE _("Set the maximum framerate the game can run at")
 #define CONTEXTHELP_LOW_MENU _("Not so fancy menu graphics")
 #define CONTEXTHELP_MEDIUM_MENU _("A bit more fancy menu graphics")
 #define CONTEXTHELP_HIGH_MENU _("Fanciest menu graphics")
@@ -930,6 +943,8 @@ Central place to keep many in-game text strings
   _("If you make a highscore it will automatically be saved as a replay")
 #define CONTEXTHELP_SHOWANIMATIONS \
   _("Disable block animations (if X-Moto runs slowly)")
+#define CONTEXTHELP_USETHEMECURSOR \
+  _("Whether to show the theme cursor or the system cursor")
 #define CONTEXTHELP_VIEWTHEHIGHSCORE \
   _("View the replay of the room's highscore")
 
@@ -1027,7 +1042,8 @@ Central place to keep many in-game text strings
   _("Synchronise your database when your quit X-Moto")
 #define CONTEXTHELP_ENABLEJOYSTICKS _("Enable joysticks events")
 #define CONTEXTHELP_BEATINGMODE \
-  _("Preselect the retry button when dying or finishing a level")
+  _("Preselect the retry button when dying or finishing a level,\n" \
+    "and allow levels to be restarted with 'return to checkpoint' key")
 
 #define GAMETEXT_GIVEYOURMING _("Give your mind about this level")
 #define GAMETEXT_NOIDEA _("No idea")
@@ -1049,6 +1065,18 @@ Central place to keep many in-game text strings
 #define GAMETEXT_SWITCHPLAYER _("Switch player")
 #define GAMETEXT_SWITCHTRACKINGSHOTMODE _("Switch trackingshot mode")
 #define GAMETEXT_SWITCHREDERGHOSTTRAIL _("Switch ghosttrail rendering")
+
+#define GAMETEXT_CLEARLEVELCACHE _("Clear level cache")
+#define GAMETEXT_LEVELCACHECLEARED _("Level cache cleared")
+#define GAMETEXT_CONFIRMCLEARLEVELCACHE \
+  _("Are you sure you want to clear the level cache?")
+
+#define GAMETEXT_DELETELEVELCACHEFILE _("Delete cache file")
+#define GAMETEXT_LEVELCACHEFILEDELETED _("Cache file deleted")
+
+#define CONTEXTHELP_CLEARLEVELCACHE _("Clear level cache")
+#define CONTEXTHELP_DELETE_CACHED_LEVEL_FILE \
+  _("Delete cached level file from disk to force a clean state (safe)")
 
 #define CONTEXTHELP_NOIDEA _("You don't want to vote")
 #define CONTEXTHELP_DBEGINNER _("Really easy")

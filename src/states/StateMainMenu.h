@@ -44,6 +44,8 @@ public:
   /* input */
   virtual void xmKey(InputEventType i_type, const XMKey &i_xmkey);
 
+  virtual void fileDrop(const std::string &path);
+
   static void clean();
   static void refreshStaticCaptions();
 
@@ -99,6 +101,8 @@ private:
   void updateOptions();
   void updateInfoFrame();
   void updateReplaysRights();
+
+  void promptForQuit();
 
   UILevelList *getInfoFrameLevelsList();
   std::string getInfoFrameLevelId();

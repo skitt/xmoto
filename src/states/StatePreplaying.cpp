@@ -47,6 +47,7 @@ StatePreplaying::StatePreplaying(const std::string i_idlevel, bool i_sameLevel)
   m_name = "StatePreplaying";
   m_idlevel = i_idlevel;
   m_isInitialized = false;
+  m_animationReady = false;
 
   m_sameLevel = i_sameLevel;
   /* if the level is not the same, ask to play the animation */
@@ -164,7 +165,7 @@ void StatePreplaying::enter() {
       false, m_universe->getScenes()[0]->getGravity());
 
     // reset handler, set mirror mode
-    InputHandler::instance()->reset();
+    Input::instance()->reset();
     for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
       for (unsigned int i = 0; i < m_universe->getScenes()[j]->Cameras().size();
            i++) {
@@ -315,6 +316,16 @@ bool StatePreplaying::update() {
 }
 
 bool StatePreplaying::render() {
+  /*
+   * If the framerate is >100, there's a one frame long gap where the camera animation
+   * is not zoomed out properly when the level is loaded or restarted.
+   * This effectively skips the frame to stop it from causing a quick flash on the screen
+   */
+  if (!m_animationReady) {
+    m_animationReady = true;
+    return true;
+  }
+
   if (m_isInitialized == false) {
     GameApp::instance()->getDrawLib()->clearGraphics();
     return true;
@@ -329,7 +340,7 @@ bool StatePreplaying::render() {
 void StatePreplaying::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   StateScene::xmKey(i_type, i_xmkey);
 
-  if (i_type == INPUT_DOWN && !i_xmkey.isDirectionnel()) {
+  if (i_type == INPUT_DOWN && !i_xmkey.isDirectional()) {
     // don't allow down key so that xmoto -l 1 works with the animation at
     // startup : some pad give events at startup about their status
     m_playAnimation = false;

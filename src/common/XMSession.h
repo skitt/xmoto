@@ -97,8 +97,8 @@ private:
   virtual ~XMSession(){};
 
 public:
-  void load(const XMArguments *i_xmargs);
-  void load(UserConfig *m_Config);
+  void loadArgs(const XMArguments *i_xmargs);
+  void loadConfig(UserConfig *m_Config, bool loadProfile = true);
   void loadProfile(const std::string &i_id_profile,
                    xmDatabase *pDb); /* give the database as argument ; to be
                                         use that any developper call it before
@@ -113,13 +113,14 @@ public:
   bool useGraphics() const;
   int resolutionWidth() const;
   int resolutionHeight() const;
-  int bpp() const;
   int maxRenderFps() const;
   bool windowed() const;
   void setResolutionWidth(int i_value);
   void setResolutionHeight(int i_value);
-  void setBpp(int i_value);
+  void setMaxRenderFps(int i_value);
   void setWindowed(bool i_value);
+  bool useThemeCursor() const;
+  void setUseThemeCursor(bool i_value);
   bool glExts() const;
   bool glVOBS() const;
   std::string drawlib() const;
@@ -142,6 +143,10 @@ public:
   void setUgly(bool i_value);
   bool uglyOver() const;
   void setUglyOver(bool i_value);
+  bool hideSpritesUgly() const;
+  void setHideSpritesUgly(bool i_value);
+  bool hideSpritesMinimap() const;
+  void setHideSpritesMinimap(bool i_value);
   bool noLog() const;
   bool testTheme() const;
   void setTestTheme(bool i_value);
@@ -335,9 +340,10 @@ private:
   bool m_verbose;
   int m_resolutionWidth;
   int m_resolutionHeight;
-  int m_bpp;
+  int m_bpp; // kept for backward compatibility
   int m_maxRenderFps;
   bool m_windowed;
+  bool m_useThemeCursor;
   bool m_glExts;
   bool m_glVOBS;
   std::string m_drawlib;
@@ -354,6 +360,8 @@ private:
   bool m_fps;
   bool m_ugly;
   bool m_uglyOver;
+  bool m_hideSpritesUgly;
+  bool m_hideSpritesMinimap;
   bool m_testTheme;
   bool m_autosaveHighscoreReplays;
   bool m_disableAnimations;

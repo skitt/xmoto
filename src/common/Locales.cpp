@@ -25,13 +25,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "helpers/Log.h"
 #include "helpers/VExcept.h"
 #include <iostream>
-#include <libintl.h>
 
 #define PACKAGE_LANG "xmoto"
 
 std::string Locales::default_LANGUAGE;
 
-#ifndef USE_GETTEXT
+#if !USE_GETTEXT
 char *ngettext(char *msgid, char *msgid_plural, unsigned long int n) {
   if (n > 1) {
     return msgid_plural;
@@ -67,11 +66,13 @@ std::pair<std::string, std::string> Locales::changeLocale(
           setlocale(LC_MESSAGES, NULL));
 #endif
 
+#ifdef __GLIBC__
   /* Make change known.  */
   {
     extern int _nl_msg_cat_cntr;
     ++_nl_msg_cat_cntr;
   }
+#endif
 
   std::pair<std::string, std::string> locale_str(
     locale.first == NULL ? std::string("") : std::string(locale.first),
@@ -81,7 +82,7 @@ std::pair<std::string, std::string> Locales::changeLocale(
 }
 
 std::string Locales::init(std::string i_locale) {
-#ifdef USE_GETTEXT
+#if USE_GETTEXT
   std::pair<std::string, std::string> locale;
   char *btd;
   char *cs;

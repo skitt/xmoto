@@ -50,9 +50,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <algorithm>
 #include <sstream>
 
-#define ABS(x) ((x) > 0.0 ? (x) : -(x))
-#define SIGNE(x) ((x) >= 0.0 ? 1.0 : -1.0)
-
 #ifdef ENABLE_OPENGL
 #include "drawlib/DrawLibOpenGL.h"
 #endif
@@ -76,6 +73,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define GT_GFX_HI_RATIO 0.10
 // how much uglier in uglymode
 #define GT_UGLY_MODE_MULTIPLYER 2
+
+bool isEntityInsignificant(Entity *entity) {
+  return entity->Speciality() & (ET_NONE | ET_PARTICLES_SOURCE | ET_JOINT);
+}
 
 /* to sort blocks on their texture */
 struct AscendingTextureSort {
@@ -701,20 +702,33 @@ void GameRenderer::renderMiniMap(Scene *i_scene,
   std::vector<Entity *> Entities =
     i_scene->getCollisionHandler()->getEntitiesNearPosition(mapBBox);
 
-  for (unsigned int i = 0; i < Entities.size(); i++) {
-    Vector2f entityPos(LEVEL_TO_SCREEN_X(Entities[i]->DynamicPosition().x),
-                       LEVEL_TO_SCREEN_Y(Entities[i]->DynamicPosition().y));
-    if (Entities[i]->DoesMakeWin()) {
-      pDrawlib->drawCircle(entityPos, 3, 0, MAKE_COLOR(255, 0, 255, 255), 0);
-    } else if (Entities[i]->IsToTake()) {
-      pDrawlib->drawCircle(entityPos, 3, 0, MAKE_COLOR(255, 0, 0, 255), 0);
-    } else if (Entities[i]->DoesKill()) {
-      pDrawlib->drawCircle(entityPos, 3, 0, MAKE_COLOR(26, 26, 188, 255), 0);
-    } else if (Entities[i]->IsCheckpoint()) {
-      pDrawlib->drawCircle(entityPos, 3, 0, MAKE_COLOR(26, 188, 26, 255), 0);
-    } else {
-      pDrawlib->drawCircle(entityPos, 3, 0, MAKE_COLOR(230, 226, 100, 255), 0);
+  for (auto &entity : Entities) {
+    if (XMSession::instance()->hideSpritesMinimap() && isEntityInsignificant(entity))
+      continue;
+
+    Vector2f entityPos(LEVEL_TO_SCREEN_X(entity->DynamicPosition().x),
+                       LEVEL_TO_SCREEN_Y(entity->DynamicPosition().y));
+
+    Color color;
+    switch (entity->Speciality()) {
+      case ET_MAKEWIN:
+        color = MAKE_COLOR(255, 0, 255, 255);
+        break;
+      case ET_ISTOTAKE:
+        color = MAKE_COLOR(255, 0, 0, 255);
+        break;
+      case ET_KILL:
+        color = MAKE_COLOR(80, 255, 255, 255);
+        break;
+      case ET_CHECKPOINT:
+        color = MAKE_COLOR(26, 188, 26, 255);
+        break;
+      default:
+        color = MAKE_COLOR(230, 226, 100, 255);
+        break;
     }
+
+    pDrawlib->drawCircle(entityPos, 3, 0, color, 0);
   }
 
 #ifdef ENABLE_OPENGL
@@ -1824,55 +1838,60 @@ void GameRenderer::_RenderSprites(Scene *i_scene,
   }
 }
 
+/*
+ *  For a given entity, return the sprite name and AnimationSprite
+ */
+
+void GameRenderer::_GetSpriteDetails(Scene *scene,
+                                     Entity *entity,
+                                     AnimationSprite* &spriteReference) {
+  AnimationSprite *sprite = nullptr;
+  switch (entity->Speciality()) {
+    case ET_KILL:
+      sprite = (AnimationSprite *)scene->getLevelSrc()->wreckerSprite();
+      break;
+    case ET_MAKEWIN:
+      sprite = (AnimationSprite *)scene->getLevelSrc()->flowerSprite();
+      break;
+    case ET_ISTOTAKE:
+      sprite =
+        (AnimationSprite *)scene->getLevelSrc()->strawberrySprite();
+      break;
+    case ET_CHECKPOINT: {
+      Checkpoint *checkpoint = (Checkpoint *)entity;
+      if (checkpoint->isActivated()) {
+        sprite =
+          (AnimationSprite *)scene->getLevelSrc()->checkpointSpriteUp();
+      } else {
+        sprite =
+          (AnimationSprite *)scene->getLevelSrc()->checkpointSpriteDown();
+      }
+    } break;
+    default:
+      break;
+  }
+
+  if (sprite == nullptr) {
+    sprite = (AnimationSprite *)entity->getSprite();
+  }
+
+  spriteReference = sprite;
+}
+
 /*===========================================================================
 Render a sprite
 ===========================================================================*/
-void GameRenderer::_RenderSprite(Scene *i_scene,
-                                 Entity *pEntity,
-                                 float i_sizeMult) {
-  AnimationSprite *v_sprite = NULL;
+void GameRenderer::_RenderSprite(Scene *i_scene, Entity *pEntity, float i_sizeMult) {
+  AnimationSprite *v_sprite = nullptr;
   float v_centerX = 0.0f;
   float v_centerY = 0.0f;
   float v_width = 0.0f;
   float v_height = 0.0f;
-  std::string v_spriteName = "";
 
-  if (XMSession::instance()->ugly() == false) {
-    switch (pEntity->Speciality()) {
-      case ET_KILL:
-        v_spriteName = i_scene->getLevelSrc()->SpriteForWecker();
-        v_sprite = (AnimationSprite *)i_scene->getLevelSrc()->wreckerSprite();
-        break;
-      case ET_MAKEWIN:
-        v_spriteName = i_scene->getLevelSrc()->SpriteForFlower();
-        v_sprite = (AnimationSprite *)i_scene->getLevelSrc()->flowerSprite();
-        break;
-      case ET_ISTOTAKE:
-        v_spriteName = i_scene->getLevelSrc()->SpriteForStrawberry();
-        v_sprite =
-          (AnimationSprite *)i_scene->getLevelSrc()->strawberrySprite();
-        break;
-      case ET_CHECKPOINT: {
-        Checkpoint *v_checkpoint = (Checkpoint *)pEntity;
-        if (v_checkpoint->isActivated()) {
-          v_spriteName = i_scene->getLevelSrc()->SpriteForCheckpointUp();
-          v_sprite =
-            (AnimationSprite *)i_scene->getLevelSrc()->checkpointSpriteUp();
-        } else {
-          v_spriteName = i_scene->getLevelSrc()->SpriteForCheckpointDown();
-          v_sprite =
-            (AnimationSprite *)i_scene->getLevelSrc()->checkpointSpriteDown();
-        }
-      }
-      default:
-        v_spriteName = pEntity->SpriteName();
-    }
+  _GetSpriteDetails(i_scene, pEntity, v_sprite);
 
-    if (v_sprite == NULL) {
-      v_sprite = (AnimationSprite *)pEntity->getSprite();
-    }
-
-    if (v_sprite != NULL) {
+  if (!XMSession::instance()->ugly()) {
+    if (v_sprite != nullptr) {
       v_centerX = v_sprite->getCenterX();
       v_centerY = v_sprite->getCenterY();
 
@@ -1894,7 +1913,7 @@ void GameRenderer::_RenderSprite(Scene *i_scene,
       v_height *= i_sizeMult;
     }
 
-    if (v_sprite != NULL) {
+    if (v_sprite != nullptr) {
       /* Draw it */
       Vector2f p[4];
 
@@ -1970,52 +1989,57 @@ void GameRenderer::_RenderSprite(Scene *i_scene,
       }
     }
   }
-  /* If this is debug-mode, also draw entity's area of effect */
-  if (XMSession::instance()->debug() || XMSession::instance()->testTheme() ||
-      XMSession::instance()->ugly()) {
-    Vector2f C = pEntity->DynamicPosition();
-    Color v_color;
 
-    switch (pEntity->Speciality()) {
-      case ET_KILL:
-        v_color =
-          MAKE_COLOR(80,
-                     255,
-                     255,
-                     255); /* Fix: color changed a bit so it's easier to spot */
-        break;
-      case ET_MAKEWIN:
-        v_color =
-          MAKE_COLOR(255, 0, 255, 255); /* Fix: color not same as blocks */
-        break;
-      case ET_ISTOTAKE:
-        v_color = MAKE_COLOR(255, 0, 0, 255);
-        break;
-      case ET_ISSTART:
-        v_color = MAKE_COLOR(
-          0,
-          0,
-          0,
-          0); /* we dont wanna have start position displayed in ugly mode */
-        break;
-      case ET_CHECKPOINT:
-        v_color = MAKE_COLOR(
-          26,
-          188,
-          26,
-          255);
-        break;
-      default:
-        v_color = MAKE_COLOR(
-          255,
-          255,
-          90,
-          255); /* then only the entitys used in scripts get displayed */
-        break;
-    }
+  auto sess = XMSession::instance();
+  bool hide = sess->hideSpritesUgly() && isEntityInsignificant(pEntity);
 
-    _RenderCircle(20, v_color, C, pEntity->Size() * i_sizeMult);
+  if (sess->debug() ||
+      sess->testTheme() ||
+      (sess->ugly() && !hide)) {
+    _RenderSpriteCircle(pEntity, i_sizeMult);
   }
+}
+
+void GameRenderer::_RenderSpriteCircle(Entity *entity, float sizeMult) {
+
+  Color color;
+  switch (entity->Speciality()) {
+    case ET_KILL:
+      /* Fix: color changed a bit so it's easier to spot */
+      color = MAKE_COLOR(80, 255, 255, 255);
+      break;
+
+    case ET_MAKEWIN:
+       /* Fix: color not same as blocks */
+      color = MAKE_COLOR(255, 0, 255, 255);
+      break;
+
+    case ET_ISTOTAKE:
+      color = MAKE_COLOR(255, 0, 0, 255);
+      break;
+
+    case ET_ISSTART:
+      /* we dont wanna have start position displayed in ugly mode */
+      color = MAKE_COLOR(0, 0, 0, 0);
+      break;
+
+    case ET_CHECKPOINT:
+      color = MAKE_COLOR(26, 188, 26, 255);
+      break;
+
+    default:
+       /* then only the entities used in scripts get displayed */
+      color = MAKE_COLOR(255, 255, 90, 255);
+      break;
+  }
+
+  _RenderCircle(
+    20,
+    color,
+    entity->DynamicPosition(),
+    entity->Size() * sizeMult
+  );
+
 }
 
 /*===========================================================================
@@ -3917,7 +3941,7 @@ void GameRenderer::calculateCameraScaleAndScreenAABB(Camera *pCamera,
   float newXCamOffset2 = cos(alpha2 + a) * r;
 
   float newXCamOffset = newXCamOffset1, newYCamOffset = newYCamOffset2;
-  if (a < PI / 2 || (a > PI && a < 1.5 * PI)) {
+  if (a < M_PI / 2 || (a > M_PI && a < 1.5 * M_PI)) {
     newXCamOffset = -newXCamOffset2;
     newYCamOffset = -newYCamOffset1;
   }

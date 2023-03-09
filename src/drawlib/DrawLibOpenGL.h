@@ -31,12 +31,13 @@ public:
 
   virtual void init(unsigned int nDispWidth,
                     unsigned int nDispHeight,
-                    unsigned int nDispBPP,
                     bool bWindowed);
   virtual void unInit();
 
   virtual void glVertexSP(float x, float y);
   virtual void glVertex(float x, float y);
+
+  virtual void setCameraDimensionality(CameraDimension dimension);
 
   // texture coordinate
   virtual void glTexCoord(float x, float y);
@@ -101,6 +102,9 @@ public:
 
   virtual Img *grabScreen(int i_reduce = 1);
   virtual bool isExtensionSupported(std::string Ext);
+
+private:
+  SDL_GLContext m_glContext;
 };
 
 #endif

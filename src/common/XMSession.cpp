@@ -50,9 +50,11 @@ void XMSession::setToDefault() {
   m_verbose = DEFAULT_VERBOSE;
   m_resolutionWidth = DEFAULT_RESOLUTION_WIDTH;
   m_resolutionHeight = DEFAULT_RESOLUTION_HEIGHT;
-  m_bpp = DEFAULT_BPP;
-  m_maxRenderFps = DEFAULT_MAXRENDERFPS;
+  if (m_maxRenderFps == DEFAULT_MAXRENDERFPS) {
+    m_maxRenderFps = DEFAULT_MAXRENDERFPS;
+  }
   m_windowed = DEFAULT_WINDOWED;
+  m_useThemeCursor = DEFAULT_USETHEMECURSOR;
   m_glExts = DEFAULT_GLEXTS;
   m_glVOBS = DEFAULT_GLVOBS;
   m_drawlib = DEFAULT_DRAWLIB;
@@ -65,6 +67,8 @@ void XMSession::setToDefault() {
   m_timedemo = DEFAULT_TIMEDEMO;
   m_fps = DEFAULT_FPS;
   m_ugly = DEFAULT_UGLY;
+  m_hideSpritesUgly = DEFAULT_HIDESPRITESUGLY;
+  m_hideSpritesMinimap = DEFAULT_HIDESPRITESMINIMAP;
   m_uglyOver = DEFAULT_UGLYOVER;
   m_testTheme = DEFAULT_TESTTHEME;
   m_noLog = DEFAULT_NOLOG;
@@ -156,17 +160,13 @@ void XMSession::setToDefault() {
   m_proxySettings.setDefault();
 }
 
-void XMSession::load(const XMArguments *i_xmargs) {
+void XMSession::loadArgs(const XMArguments *i_xmargs) {
   if (i_xmargs->isOptVerbose()) {
     m_verbose = true;
   }
   if (i_xmargs->isOptRes()) {
     m_resolutionWidth = i_xmargs->getOpt_res_dispWidth();
     m_resolutionHeight = i_xmargs->getOpt_res_dispHeight();
-  }
-
-  if (i_xmargs->isOptBpp()) {
-    m_bpp = i_xmargs->getOpt_bpp_value();
   }
 
   if (i_xmargs->isOptWindowed()) {
@@ -280,24 +280,27 @@ void XMSession::load(const XMArguments *i_xmargs) {
   }
 }
 
-void XMSession::load(UserConfig *m_Config) {
-  m_profile = m_Config->getString("DefaultProfile");
-  m_resolutionWidth = m_Config->getInteger("DisplayWidth");
-  m_resolutionHeight = m_Config->getInteger("DisplayHeight");
-  m_bpp = m_Config->getInteger("DisplayBPP");
-  m_maxRenderFps = m_Config->getInteger("DisplayMaxRenderFPS");
-  m_windowed = m_Config->getBool("DisplayWindowed");
-  m_drawlib = m_Config->getString("DrawLib");
+void XMSession::loadConfig(UserConfig *config, bool loadProfile) {
+  if (loadProfile)
+    m_profile = config->getString("DefaultProfile");
 
-  m_screenshotFormat = m_Config->getString("ScreenshotFormat");
-  m_storeReplays = m_Config->getBool("StoreReplays");
-  m_replayFrameRate = m_Config->getFloat("ReplayFrameRate");
+  m_resolutionWidth = config->getInteger("DisplayWidth");
+  m_resolutionHeight = config->getInteger("DisplayHeight");
+  m_bpp = config->getInteger("DisplayBPP");
+  m_maxRenderFps = config->getInteger("DisplayMaxRenderFPS");
+  m_windowed = config->getBool("DisplayWindowed");
+  m_drawlib = config->getString("DrawLib");
+  m_useThemeCursor = config->getBool("UseThemeCursor");
 
-  m_uploadHighscoreUrl = m_Config->getString("WebHighscoreUploadURL");
-  m_webThemesURL = m_Config->getString("WebThemesURL");
-  m_webThemesURLBase = m_Config->getString("WebThemesURLBase");
-  m_webLevelsUrl = m_Config->getString("WebLevelsURL");
-  m_uploadDbSyncUrl = m_Config->getString("WebDbSyncUploadURL");
+  m_screenshotFormat = config->getString("ScreenshotFormat");
+  m_storeReplays = config->getBool("StoreReplays");
+  m_replayFrameRate = config->getFloat("ReplayFrameRate");
+
+  m_uploadHighscoreUrl = config->getString("WebHighscoreUploadURL");
+  m_webThemesURL = config->getString("WebThemesURL");
+  m_webThemesURLBase = config->getString("WebThemesURLBase");
+  m_webLevelsUrl = config->getString("WebLevelsURL");
+  m_uploadDbSyncUrl = config->getString("WebDbSyncUploadURL");
 }
 
 void XMSession::loadProfile(const std::string &i_id_profile, xmDatabase *pDb) {
@@ -333,6 +336,7 @@ void XMSession::loadProfile(const std::string &i_id_profile, xmDatabase *pDb) {
     i_id_profile, "AutosaveHighscoreReplays", m_autosaveHighscoreReplays);
   m_notifyAtInit =
     pDb->config_getBool(i_id_profile, "NotifyAtInit", m_notifyAtInit);
+
   m_showMinimap =
     pDb->config_getBool(i_id_profile, "ShowMiniMap", m_showMinimap);
   m_showEngineCounter =
@@ -404,6 +408,10 @@ void XMSession::loadProfile(const std::string &i_id_profile, xmDatabase *pDb) {
     pDb->config_getBool(i_id_profile, "EnableJoysticks", m_enableJoysticks);
   m_beatingMode =
     pDb->config_getBool(i_id_profile, "BeatingMode", m_beatingMode);
+  m_hideSpritesUgly =
+    pDb->config_getBool(i_id_profile, "HideSpritesUgly", m_hideSpritesUgly);
+  m_hideSpritesMinimap =
+    pDb->config_getBool(i_id_profile, "HideSpritesMinimap", m_hideSpritesMinimap);
   m_webForms = pDb->config_getBool(i_id_profile, "WebForms", m_webForms);
 
   m_serverStartAtStartup = pDb->config_getBool(
@@ -515,6 +523,7 @@ void XMSession::save(UserConfig *v_config, xmDatabase *pDb) {
   v_config->setInteger("DisplayBPP", m_bpp);
   v_config->setInteger("DisplayMaxRenderFPS", m_maxRenderFps);
   v_config->setBool("DisplayWindowed", m_windowed);
+  v_config->setBool("UseThemeCursor", m_useThemeCursor);
 
   v_config->setString("WebThemesURL", m_webThemesURL);
   v_config->setString("WebThemesURLBase", m_webThemesURLBase);
@@ -601,6 +610,8 @@ void XMSession::saveProfile(xmDatabase *pDb) {
   pDb->config_setBool(m_profile, "DbSynchronizeOnQuit", m_dbsynchronizeOnQuit);
   pDb->config_setBool(m_profile, "EnableJoysticks", m_enableJoysticks);
   pDb->config_setBool(m_profile, "BeatingMode", m_beatingMode);
+  pDb->config_setBool(m_profile, "HideSpritesUgly", m_hideSpritesUgly);
+  pDb->config_setBool(m_profile, "HideSpritesMinimap", m_hideSpritesMinimap);
   pDb->config_setBool(m_profile, "WebForms", m_webForms);
 
   pDb->config_setBool(
@@ -661,10 +672,6 @@ int XMSession::resolutionHeight() const {
   return m_resolutionHeight;
 }
 
-int XMSession::bpp() const {
-  return m_bpp;
-}
-
 int XMSession::maxRenderFps() const {
   return m_maxRenderFps;
 }
@@ -683,14 +690,23 @@ void XMSession::setResolutionHeight(int i_value) {
   m_resolutionHeight = i_value;
 }
 
-void XMSession::setBpp(int i_value) {
-  PROPAGATE(XMSession, setBpp, i_value, int);
-  m_bpp = i_value;
+void XMSession::setMaxRenderFps(int i_value) {
+  PROPAGATE(XMSession, setMaxRenderFps, i_value, int);
+  m_maxRenderFps = i_value;
 }
 
 void XMSession::setWindowed(bool i_value) {
   PROPAGATE(XMSession, setWindowed, i_value, bool);
   m_windowed = i_value;
+}
+
+bool XMSession::useThemeCursor() const {
+  return m_useThemeCursor;
+}
+
+void XMSession::setUseThemeCursor(bool i_value) {
+  PROPAGATE(XMSession, setUseThemeCursor, i_value, bool);
+  m_useThemeCursor = i_value;
 }
 
 bool XMSession::glExts() const {
@@ -798,6 +814,24 @@ void XMSession::setUglyOver(bool i_value) {
 void XMSession::setTestTheme(bool i_value) {
   PROPAGATE(XMSession, setTestTheme, i_value, bool);
   m_testTheme = i_value;
+}
+
+bool XMSession::hideSpritesUgly() const {
+  return m_hideSpritesUgly;
+}
+
+void XMSession::setHideSpritesUgly(bool i_value) {
+  PROPAGATE(XMSession, setHideSpritesUgly, i_value, bool);
+  m_hideSpritesUgly = i_value;
+}
+
+bool XMSession::hideSpritesMinimap() const {
+  return m_hideSpritesMinimap;
+}
+
+void XMSession::setHideSpritesMinimap(bool i_value) {
+  PROPAGATE(XMSession, setHideSpritesMinimap, i_value, bool);
+  m_hideSpritesMinimap = i_value;
 }
 
 bool XMSession::ghostStrategy_MYBEST() const {
@@ -1640,6 +1674,7 @@ void XMSession::createDefaultConfig(UserConfig *v_config) {
   v_config->createVar("DisplayWindowed", "true");
   v_config->createVar("DisplayMaxRenderFPS", "50");
   v_config->createVar("DrawLib", DEFAULT_DRAWLIB);
+  v_config->createVar("UseThemeCursor", "true");
 
   /* option not easy to change (not in the options tab) ; keep them here */
   v_config->createVar("DefaultProfile", DEFAULT_PROFILE);

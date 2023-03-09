@@ -25,6 +25,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "drawlib/DrawLib.h"
 #include "helpers/utf8.h"
 #include "xmoto/Game.h"
+#include "common/TextEdit.h"
+
+#include <algorithm>
 
 /*===========================================================================
 Painting
@@ -37,18 +40,18 @@ void UIEdit::paint(void) {
 
   if (m_hideText) {
     v_textToDisplay = "";
-    for (unsigned int i = 0; i < utf8::utf8_length(getCaption()); i++) {
+    for (unsigned int i = 0; i < utf8::utf8_length(m_textEdit.text()); i++) {
       v_textToDisplay.append("*");
     }
   } else {
-    v_textToDisplay = getCaption();
+    v_textToDisplay = m_textEdit.text();
   }
 
   /* Where should cursor be located? */
   int nCursorOffset = 0;
   int nCursorWidth = 0;
 
-  std::string s = utf8::utf8_substring(v_textToDisplay, 0, m_nCursorPos);
+  std::string s = utf8::utf8_substring(v_textToDisplay, 0, m_textEdit.cursorPos());
 
   /* cursor offset */
   if (s != "") {
@@ -57,14 +60,20 @@ void UIEdit::paint(void) {
     nCursorOffset = fg->realWidth();
   }
 
-  /* cursor */
-  if (m_nCursorPos == utf8::utf8_length(v_textToDisplay)) {
-    nCursorWidth = 6;
+  // For future use
+  bool selection = false;
+
+  if (!selection) {
+    nCursorWidth = IBeamWidth;
   } else {
-    std::string s = utf8::utf8_substring(v_textToDisplay, m_nCursorPos, 1);
-    FontManager *fm = getFont();
-    FontGlyph *fg = fm->getGlyph(s);
-    nCursorWidth = fg->realWidth();
+    if (m_textEdit.cursorPos() >= utf8::utf8_length(v_textToDisplay)) {
+      nCursorWidth = BlockCursorWidth;
+    } else {
+      std::string s = utf8::utf8_substring(v_textToDisplay, m_textEdit.cursorPos(), 1);
+      FontManager *fm = getFont();
+      FontGlyph *fg = fm->getGlyph(s);
+      nCursorWidth = fg->realWidth();
+    }
   }
 
   /* Draw */
@@ -108,6 +117,7 @@ void UIEdit::paint(void) {
             MAKE_COLOR(0, 0, 0, 127));
   }
 
+  // draw cursor
   if (!bDisabled) {
     if (bActive) {
       if (sin(getApp()->getXMTime() * 13.0f) > 0.0f)
@@ -125,79 +135,103 @@ void UIEdit::paint(void) {
 /*===========================================================================
 Keyboard event handling
 ===========================================================================*/
-bool UIEdit::keyDown(int nKey, SDLMod mod, const std::string &i_utf8Char) {
+bool UIEdit::keyDown(int nKey, SDL_Keymod mod, const std::string &i_utf8Char) {
   switch (nKey) {
     case SDLK_UP:
       getRoot()->activateUp();
       return true;
+
     case SDLK_DOWN:
       getRoot()->activateDown();
       return true;
+
     case SDLK_TAB:
-      getRoot()->activateNext();
-      return true;
-    case SDLK_LEFT:
-      if (m_nCursorPos > 0)
-        m_nCursorPos--;
+      if (mod & KMOD_SHIFT)
+        getRoot()->activatePrevious();
       else
+        getRoot()->activateNext();
+      return true;
+
+    case SDLK_v:
+      if (mod & KMOD_CTRL) {
+        m_textEdit.insertFromClipboard();
+        updateCaption();
+      }
+      return true;
+
+    case SDLK_LEFT:
+      if (m_textEdit.cursorPos() > 0) {
+        if (mod & KMOD_CTRL) {
+          m_textEdit.jumpWordLeft();
+        } else {
+          m_textEdit.moveCursor(-1);
+        }
+      } else {
         getRoot()->activateLeft();
+      }
       return true;
+
     case SDLK_RIGHT:
-      if (m_nCursorPos < utf8::utf8_length(getCaption())) {
-        m_nCursorPos++;
-      } else
+      if (m_textEdit.cursorPos() < utf8::utf8_length(m_textEdit.text())) {
+        if (mod & KMOD_CTRL) {
+          m_textEdit.jumpWordRight();
+        } else {
+          m_textEdit.moveCursor(1);
+        }
+      } else {
         getRoot()->activateRight();
+      }
       return true;
+
     case SDLK_RETURN:
       return true;
+
     case SDLK_END:
-      m_nCursorPos = utf8::utf8_length(getCaption());
+      m_textEdit.jumpToEnd();
       return true;
+
     case SDLK_HOME:
-      m_nCursorPos = 0;
+      m_textEdit.jumpToStart();
       return true;
+
     case SDLK_DELETE: {
-      std::string s = getCaption();
-
-      if (m_nCursorPos < utf8::utf8_length(s)) {
-        setCaptionResetCursor(utf8::utf8_delete(s, m_nCursorPos + 1), false);
+      if (mod & KMOD_CTRL) {
+        m_textEdit.deleteWordRight();
+      } else {
+        m_textEdit.deleteRight();
       }
-    }
+
+      updateCaption();
       return true;
+    }
+
     case SDLK_BACKSPACE: {
-      std::string s = getCaption();
-
-      if (m_nCursorPos > 0) {
-        setCaptionResetCursor(utf8::utf8_delete(s, m_nCursorPos--),
-                              false); // m_nCursorPos-- must be done before
-        // setCaption (setCaption alter it if a
-        // bad value is given)
+      if (mod & KMOD_CTRL) {
+        m_textEdit.deleteWordLeft();
+      } else {
+        m_textEdit.deleteLeft();
       }
-    }
+
+      updateCaption();
       return true;
-    default:
-      if (utf8::utf8_length(i_utf8Char) ==
-          1) { // alt/... and special keys must not be kept
-        std::string s = getCaption();
-
-        if ((unsigned int)m_nCursorPos == s.length()) {
-          s = utf8::utf8_concat(s, i_utf8Char);
-        } else {
-          s = utf8::utf8_insert(s, i_utf8Char, m_nCursorPos);
-        }
-        m_nCursorPos++;
-        setCaptionResetCursor(s, false);
-        return true;
-      }
-      break;
+    }
   }
 
   return false;
 }
 
-bool UIEdit::joystickAxisMotion(Uint8 i_joyNum,
-                                Uint8 i_joyAxis,
-                                Sint16 i_joyAxisValue) {
+bool UIEdit::textInput(int nKey, SDL_Keymod mod, const std::string &i_utf8Char) {
+  // alt/... and special keys must not be kept
+  if (utf8::utf8_length(i_utf8Char) != 1) {
+    return false;
+  }
+
+  m_textEdit.insert(i_utf8Char);
+  updateCaption();
+  return true;
+}
+
+bool UIEdit::joystickAxisMotion(JoyAxisEvent event) {
   return false;
 }
 
@@ -221,17 +255,12 @@ bool UIEdit::hasChanged() {
   return m_hasChanged;
 }
 
-void UIEdit::setCaption(const std::string &Caption) {
-  setCaptionResetCursor(Caption, true);
-}
+void UIEdit::updateCaption() {
+  auto caption = m_textEdit.text();
 
-void UIEdit::setCaptionResetCursor(const std::string &Caption, bool i_value) {
-  if (Caption != getCaption()) {
+  if (caption != getCaption()) {
     m_hasChanged = true;
   }
-  UIWindow::setCaption(Caption);
 
-  if (i_value || m_nCursorPos > utf8::utf8_length(Caption)) {
-    m_nCursorPos = utf8::utf8_length(Caption);
-  }
+  UIWindow::setCaption(caption);
 }

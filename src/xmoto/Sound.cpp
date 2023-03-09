@@ -116,7 +116,11 @@ bool Sound::isInitialized() {
 
 void Sound::update(void) {}
 
-int Sound::RWops_seek(SDL_RWops *context, int offset, int whence) {
+int64_t Sound::RWops_size(SDL_RWops *context) {
+  return -1;
+}
+
+int64_t Sound::RWops_seek(SDL_RWops *context, int64_t offset, int whence) {
   FileHandle *pf = (FileHandle *)context->hidden.unknown.data1;
   switch (whence) {
     case SEEK_SET:
@@ -132,7 +136,7 @@ int Sound::RWops_seek(SDL_RWops *context, int offset, int whence) {
   return XMFS::getOffset(pf);
 }
 
-int Sound::RWops_read(SDL_RWops *context, void *ptr, int size, int maxnum) {
+size_t Sound::RWops_read(SDL_RWops *context, void *ptr, size_t size, size_t maxnum) {
   FileHandle *pf = (FileHandle *)context->hidden.unknown.data1;
   if (XMFS::isEnd(pf))
     return 0;
@@ -147,7 +151,7 @@ int Sound::RWops_read(SDL_RWops *context, void *ptr, int size, int maxnum) {
   return nToRead;
 }
 
-int Sound::RWops_write(SDL_RWops *context, const void *ptr, int size, int num) {
+size_t Sound::RWops_write(SDL_RWops *context, const void *ptr, size_t size, size_t num) {
   return num;
 }
 
@@ -165,6 +169,7 @@ SoundSample *Sound::loadSample(const std::string &File) {
   pOps->close = RWops_close;
   pOps->read = RWops_read;
   pOps->seek = RWops_seek;
+  pOps->size = RWops_size;
   pOps->write = RWops_write;
   pOps->type = 1000;
 
@@ -172,6 +177,7 @@ SoundSample *Sound::loadSample(const std::string &File) {
   FileHandle *pf = XMFS::openIFile(FDT_DATA, File);
   if (pf == NULL) {
     SDL_FreeRW(pOps);
+    delete pSample;
     throw Exception("failed to open sample file " + File);
   }
 
@@ -266,7 +272,7 @@ void Sound::playMusic(std::string i_musicPath) {
   }
 
 /* No music available, try loading */
-#if defined(WIN32) || \
+#if 0 && defined(WIN32) || \
   defined(            \
     __amigaos4__) /* this works around a bug in SDL_mixer 1.2.7 on Windows */
   SDL_RWops *rwfp;

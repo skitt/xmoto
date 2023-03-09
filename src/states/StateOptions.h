@@ -32,10 +32,14 @@ public:
   virtual void enter();
   static void clean();
 
+  virtual void xmKey(InputEventType i_type, const XMKey &i_xmkey);
+
   virtual void sendFromMessageBox(const std::string &i_id,
                                   UIMsgBoxButton i_button,
                                   const std::string &i_input);
   virtual void executeOneCommand(std::string cmd, std::string args);
+
+  UIRoot *getGUI() { return m_GUI; }
 
 protected:
   virtual void checkEvents();
@@ -66,6 +70,8 @@ private:
   void updateResolutionsList();
   void updateControlsList();
   void createRoomsList(UIList *pList);
+  static void cleanRoomsList(UIList *pList);
+  static void cleanRoomsList();
   void updateRoomsList();
   void updateAudioOptions();
   void updateWWWOptions();

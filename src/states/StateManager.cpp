@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "StatePause.h"
 #include "StateRequestKey.h"
 #include "StateServerConsole.h"
+#include "StateWaitServerInstructions.h"
 #include "StateVote.h"
 #include "net/NetClient.h"
 
@@ -74,9 +75,12 @@ StateManager::StateManager() {
 
   m_cursor = NULL;
 
-  // assume focus and visibility at startup
-  m_isVisible = true;
-  m_hasFocus = true;
+  // get the current focus and visibility status
+  GameApp* game = GameApp::instance();
+  m_isVisible = !game->isIconified();
+  m_hasFocus = game->hasKeyboardFocus() || game->hasMouseFocus();
+
+  m_isInvalidated = false;
 
   m_videoRecorder = NULL;
   // video
@@ -96,7 +100,7 @@ StateManager::StateManager() {
                            GameApp::instance()->getDrawLib()->getDispHeight()));
 
   // create the db stats thread
-  m_xmtstas = new XMThreadStats(XMSession::instance()->sitekey(), this);
+  m_xmstats = new XMThreadStats(XMSession::instance()->sitekey(), this);
 
   // create the replay downloader thread
   m_drt = new DownloadReplaysThread(this);
@@ -117,12 +121,12 @@ StateManager::~StateManager() {
   }
 
   /* stats */
-  if (m_xmtstas != NULL) {
+  if (m_xmstats != NULL) {
     // do the stats job to confirm there are no more jobs waiting
-    m_xmtstas->doJob();
+    m_xmstats->doJob();
 
     // be sure the thread is finished before closing xmoto
-    if (m_xmtstas->waitForThreadEnd()) {
+    if (m_xmstats->waitForThreadEnd()) {
       LogError("stats thread failed");
     }
   }
@@ -145,8 +149,8 @@ StateManager::~StateManager() {
   m_registeredStates.clear();
 
   // stats thread
-  if (m_xmtstas != NULL) {
-    delete m_xmtstas;
+  if (m_xmstats != NULL) {
+    delete m_xmstats;
   }
 }
 
@@ -251,6 +255,11 @@ bool StateManager::needUpdateOrRender() {
 
   if (m_hasFocus) { // m_isVisible is not needed while xmoto is rendered after
     // each event (including expose event)
+    return true;
+  }
+
+  if (m_isInvalidated) {
+    setInvalidated(false);
     return true;
   }
 
@@ -626,24 +635,15 @@ void StateManager::render() {
           CURSOR_MOVE_SHOWTIME;
 
       if (XMSession::instance()->ugly()) {
-        if (m_mustCursorBeDisplayed) {
-          if (m_isCursorVisible == false) {
-            SDL_ShowCursor(SDL_ENABLE);
-            m_isCursorVisible = true;
-          }
-        } else {
-          if (m_isCursorVisible) {
-            SDL_ShowCursor(SDL_DISABLE);
-            m_isCursorVisible = false;
-          }
-        }
+        setCursorVisible(m_mustCursorBeDisplayed);
       } else {
-        if (m_mustCursorBeDisplayed) {
-          drawCursor();
-        }
-        if (m_isCursorVisible) {
-          SDL_ShowCursor(SDL_DISABLE); // hide the cursor to show the texture
-          m_isCursorVisible = false;
+        if (XMSession::instance()->useThemeCursor()) {
+          if (m_mustCursorBeDisplayed) {
+            drawCursor();
+          }
+          setCursorVisible(false); // hide the cursor to show the texture
+        } else {
+          setCursorVisible(m_mustCursorBeDisplayed);
         }
       }
     }
@@ -785,6 +785,9 @@ void StateManager::drawStack() {
 void StateManager::drawCursor() {
   Sprite *pSprite;
 
+  if (!XMSession::instance()->useThemeCursor())
+    return;
+
   if (m_cursor == NULL) {
     /* load cursor */
     pSprite = Theme::instance()->getSprite(SPRITE_TYPE_UI, "Cursor");
@@ -808,6 +811,12 @@ void StateManager::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   if (m_statesStack.size() == 0)
     return;
   (m_statesStack.back())->xmKey(i_type, i_xmkey);
+}
+
+void StateManager::fileDrop(const std::string &path) {
+  if (m_statesStack.size() == 0)
+    return;
+  (m_statesStack.back())->fileDrop(path);
 }
 
 void StateManager::changeFocus(bool i_hasFocus) {
@@ -907,12 +916,16 @@ void StateManager::refreshStaticCaptions() {
   //  StateRequestKey::refreshStaticCaptions();
 }
 
-bool StateManager::isTopOfTheStates(GameState *i_state) {
+GameState *StateManager::getTopState() {
   if (m_statesStack.size() == 0) {
-    return false;
+    return NULL;
   }
 
-  return m_statesStack[m_statesStack.size() - 1] == i_state;
+  return m_statesStack[m_statesStack.size() - 1];
+}
+
+bool StateManager::isTopOfTheStates(GameState *i_state) {
+  return i_state && getTopState() == i_state;
 }
 
 int StateManager::numberOfStates() {
@@ -1120,9 +1133,39 @@ bool StateManager::isThereASuchStateType(const std::string &i_type) {
 }
 
 XMThreadStats *StateManager::getDbStatsThread() {
-  return m_xmtstas;
+  return m_xmstats;
 }
 
 DownloadReplaysThread *StateManager::getReplayDownloaderThread() {
   return m_drt;
+}
+
+void StateManager::setCursorVisible(bool visible) {
+  if (m_isCursorVisible == visible)
+    return;
+
+  m_isCursorVisible = visible;
+  SDL_ShowCursor(visible ? SDL_ENABLE : SDL_DISABLE);
+}
+
+void StateManager::connectOrDisconnect() {
+  if (NetClient::instance()->isConnected()) {
+    NetClient::instance()->disconnect();
+  } else {
+    try {
+      NetClient::instance()->connect(
+        XMSession::instance()->clientServerName(),
+        XMSession::instance()->clientServerPort());
+
+      NetClient::instance()->changeMode(
+        XMSession::instance()->clientGhostMode() ? NETCLIENT_GHOST_MODE
+                                                 : NETCLIENT_SLAVE_MODE);
+
+      if (!XMSession::instance()->clientGhostMode())
+        StateManager::instance()->pushState(new StateWaitServerInstructions());
+    } catch (Exception &e) {
+      SysMessage::instance()->displayError(GAMETEXT_UNABLETOCONNECTONTHESERVER);
+      LogError("Unable to connect to the server");
+    }
+  }
 }
