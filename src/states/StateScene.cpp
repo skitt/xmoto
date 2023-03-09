@@ -124,8 +124,7 @@ StateScene::~StateScene() {
   StateManager::instance()->unregisterAsObserver("INTERPOLATION_CHANGED", this);
   StateManager::instance()->unregisterAsObserver("MIRRORMODE_CHANGED", this);
   StateManager::instance()->unregisterAsObserver("REPLAY_DOWNLOADED", this);
-  StateManager::instance()->unregisterAsObserver("REPLAY_FAILEDTODOWNLOAD",
-                                                 this);
+  StateManager::instance()->unregisterAsObserver("REPLAY_FAILEDTODOWNLOAD", this);
   StateManager::instance()->unregisterAsObserver("CHANGE_TRAILCAM", this);
 
   if (m_cameraAnim != NULL) {
@@ -355,7 +354,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   GameApp *pGame = GameApp::instance();
 
   if (i_xmkey ==
-      (*InputHandler::instance()->getGlobalKey(INPUT_LEVELWATCHING))) {
+      (*Input::instance()->getGlobalKey(INPUT_LEVELWATCHING))) {
     if (i_type == INPUT_UP) {
       if (m_cameraAnim != NULL) {
         if (autoZoom() && m_cameraAnim->allowNextStep()) {
@@ -371,7 +370,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHSAFEMODE))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHSAFEMODE))) {
     bool bSafemodeNotActive = !XMSession::instance()->isSafemodeActive();
 
     XMSession::instance()->setSafemodeActive(bSafemodeNotActive);
@@ -382,21 +381,21 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_RESTARTLEVEL))) {
+             (*Input::instance()->getGlobalKey(INPUT_RESTARTLEVEL))) {
     if (!XMSession::instance()->isSafemodeActive())
       restartLevel();
   }
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHPLAYER))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHPLAYER))) {
     if (m_universe != NULL) {
       m_universe->switchFollowCamera();
     }
   }
 
   else if (i_type == INPUT_DOWN &&
-           i_xmkey == (*InputHandler::instance()->getGlobalKey(
+           i_xmkey == (*Input::instance()->getGlobalKey(
                         INPUT_SWITCHTRACKINGSHOTMODE))) {
     if (m_universe != NULL && m_renderer != NULL) {
       m_trackingShotMode = !m_trackingShotMode;
@@ -440,7 +439,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHFAVORITE))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHFAVORITE))) {
     if (m_universe != NULL) {
       if (m_universe->getScenes().size() > 0) { // just add the first world
         pGame->switchLevelToFavorite(
@@ -452,7 +451,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHBLACKLIST))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHBLACKLIST))) {
     if (m_universe != NULL) {
       if (m_universe->getScenes().size() >
           0) { // just blacklist the first world
@@ -466,20 +465,20 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_NEXTLEVEL))) {
+             (*Input::instance()->getGlobalKey(INPUT_NEXTLEVEL))) {
     if (!XMSession::instance()->isSafemodeActive())
       nextLevel();
   }
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_PREVIOUSLEVEL))) {
+             (*Input::instance()->getGlobalKey(INPUT_PREVIOUSLEVEL))) {
     if (!XMSession::instance()->isSafemodeActive())
       nextLevel(false);
   }
 
   else if (i_type == INPUT_DOWN &&
-           i_xmkey == (*InputHandler::instance()->getGlobalKey(
+           i_xmkey == (*Input::instance()->getGlobalKey(
                         INPUT_SWITCHHIGHSCOREINFORMATION))) {
     if (m_renderer != NULL) {
       if (XMSession::instance()->showHighscoreInGame() == false) {
@@ -499,7 +498,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   }
 
   else if (i_type == INPUT_DOWN &&
-           i_xmkey == (*InputHandler::instance()->getGlobalKey(
+           i_xmkey == (*Input::instance()->getGlobalKey(
                         INPUT_SWITCHRENDERGHOSTTRAIL))) {
     // toogle
     XMSession::instance()->setRenderGhostTrail(
@@ -529,7 +528,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
     }
   }
 #if defined(ENABLE_DEV)
-  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP7, KMOD_NONE)) {
+  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP_7, KMOD_NONE)) {
     /* Zoom in */
     if (m_universe != NULL) {
       for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
@@ -543,7 +542,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
     }
   }
 
-  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP9, KMOD_NONE)) {
+  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP_9, KMOD_NONE)) {
     /* Zoom out */
     if (m_universe != NULL) {
       for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
@@ -570,7 +569,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
     }
   }
 
-  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP6, KMOD_NONE)) {
+  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP_6, KMOD_NONE)) {
     if (m_universe != NULL) {
       for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
         for (unsigned int i = 0;
@@ -583,7 +582,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
     }
   }
 
-  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP4, KMOD_NONE)) {
+  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP_4, KMOD_NONE)) {
     if (m_universe != NULL) {
       for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
         for (unsigned int i = 0;
@@ -596,7 +595,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
     }
   }
 
-  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP8, KMOD_NONE)) {
+  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP_8, KMOD_NONE)) {
     if (m_universe != NULL) {
       for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
         for (unsigned int i = 0;
@@ -609,7 +608,7 @@ void StateScene::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
     }
   }
 
-  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP2, KMOD_NONE)) {
+  else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_KP_2, KMOD_NONE)) {
     if (m_universe != NULL) {
       for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
         for (unsigned int i = 0;
@@ -773,7 +772,7 @@ void StateScene::closePlaying() {
     m_universe = NULL;
   }
 
-  InputHandler::instance()->resetScriptKeyHooks();
+  Input::instance()->resetScriptKeyHooks();
 }
 
 bool StateScene::isLockedScene() const {
@@ -987,29 +986,17 @@ void StateScene::displayStats() {
       }
     } else {
       for (int i = 0; i < 5; i++) {
-        if (i < (int)(m_quality)) {
-          drawLib->drawImage(
-            Vector2f(A.x - vborder * 2 + (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - STATS_LEVELS_NOTES_SIZE -
-                       v_quality_yoffset),
-            Vector2f(A.x - vborder * 2 + STATS_LEVELS_NOTES_SIZE +
-                       (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - v_quality_yoffset),
-            m_qualityTex,
-            0xFFFFFFFF,
-            true);
-        } else {
-          drawLib->drawImage(
-            Vector2f(A.x - vborder * 2 + (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - STATS_LEVELS_NOTES_SIZE -
-                       v_quality_yoffset),
-            Vector2f(A.x - vborder * 2 + STATS_LEVELS_NOTES_SIZE +
-                       (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - v_quality_yoffset),
-            m_uncheckedTex,
-            0xFFFFFFFF,
-            true);
-        }
+        drawLib->drawImage(
+          Vector2f(A.x - vborder * 2 + (STATS_LEVELS_NOTES_SIZE * i),
+                   A.y - vborder * 2 - STATS_LEVELS_NOTES_SIZE -
+                     v_quality_yoffset),
+          Vector2f(A.x - vborder * 2 + STATS_LEVELS_NOTES_SIZE +
+                     (STATS_LEVELS_NOTES_SIZE * i),
+                   A.y - vborder * 2 - v_quality_yoffset),
+          (i < (int)m_quality) ? m_qualityTex : m_uncheckedTex,
+          0xFFFFFFFF,
+          true);
+
       }
     }
   }
@@ -1043,29 +1030,16 @@ void StateScene::displayStats() {
       }
     } else {
       for (int i = 0; i < 5; i++) {
-        if (i < (int)(m_difficulty)) {
-          drawLib->drawImage(
-            Vector2f(A.x - vborder * 2 + (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - STATS_LEVELS_NOTES_SIZE -
-                       v_difficulty_yoffset),
-            Vector2f(A.x - vborder * 2 + STATS_LEVELS_NOTES_SIZE +
-                       (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - v_difficulty_yoffset),
-            m_difficultyTex,
-            0xFFFFFFFF,
-            true);
-        } else {
-          drawLib->drawImage(
-            Vector2f(A.x - vborder * 2 + (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - STATS_LEVELS_NOTES_SIZE -
-                       v_difficulty_yoffset),
-            Vector2f(A.x - vborder * 2 + STATS_LEVELS_NOTES_SIZE +
-                       (STATS_LEVELS_NOTES_SIZE * i),
-                     A.y - vborder * 2 - v_difficulty_yoffset),
-            m_uncheckedTex,
-            0xFFFFFFFF,
-            true);
-        }
+        drawLib->drawImage(
+          Vector2f(A.x - vborder * 2 + (STATS_LEVELS_NOTES_SIZE * i),
+                   A.y - vborder * 2 - STATS_LEVELS_NOTES_SIZE -
+                     v_difficulty_yoffset),
+          Vector2f(A.x - vborder * 2 + STATS_LEVELS_NOTES_SIZE +
+                     (STATS_LEVELS_NOTES_SIZE * i),
+                   A.y - vborder * 2 - v_difficulty_yoffset),
+          (i < (int)m_difficulty) ? m_difficultyTex : m_uncheckedTex,
+          0xFFFFFFFF,
+          true);
       }
     }
   }
@@ -1262,6 +1236,10 @@ void StateScene::playLevelMusic() {
 void StateScene::playToCheckpoint() {
   if (m_universe == NULL) {
     return;
+  }
+
+  if (m_cameraAnim) {
+    m_cameraAnim->resetSizeMultipliers();
   }
 
   m_universe->deleteCurrentReplay(); // delete the replay when using checkpoints

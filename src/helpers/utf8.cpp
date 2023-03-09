@@ -138,21 +138,21 @@ std::string utf8::utf8_insert(const std::string &i_a,
   return v_res;
 }
 
-std::string utf8::utf8_delete(const std::string &i_a, unsigned int i_numChar) {
-  unsigned int n = 0;
-  unsigned int nbC = 0;
-  std::string v_res;
-  std::string v_current;
+std::string utf8::utf8_delete(const std::string &input, int32_t at) {
+  int32_t pos = 0;
+  int32_t cursor = 0;
+  std::string result;
+  std::string current;
 
-  while (i_a.length() > n) {
-    v_current = getNextChar(i_a, n);
-    nbC++;
-    if (nbC != i_numChar) {
-      v_res += v_current;
-    }
+  while (input.length() > pos) {
+    current = getNextChar(input, (unsigned int &)pos);
+    cursor++;
+
+    if (cursor != at)
+      result += current;
   }
 
-  return v_res;
+  return result;
 }
 
 unsigned int utf8::utf8_length(const std::string &i_a) {
@@ -168,8 +168,8 @@ unsigned int utf8::utf8_length(const std::string &i_a) {
 }
 
 std::string utf8::utf8_substring(const std::string &i_a,
-                                 unsigned int i_numChar,
-                                 unsigned int i_nbChars) {
+                                 size_t i_numChar,
+                                 size_t i_nbChars) {
   std::string v_res;
   unsigned int n_begin = 0;
   unsigned int n_end;
@@ -180,6 +180,10 @@ std::string utf8::utf8_substring(const std::string &i_a,
     } else {
       throw Exception("Invalid utf-8 char splitting");
     }
+  }
+
+  if (i_nbChars == std::string::npos) {
+    return i_a.substr(n_begin, i_nbChars);
   }
 
   n_end = n_begin;
@@ -193,6 +197,14 @@ std::string utf8::utf8_substring(const std::string &i_a,
 
   return i_a.substr(n_begin, n_end - n_begin);
 }
+
+std::string utf8::utf8_substring_abs(const std::string &str,
+                                     size_t start,
+                                     size_t end) {
+  return utf8::utf8_substring(str, start,
+      (end == std::string::npos) ? end : (end - start));
+}
+
 
 void utf8::utf8_split(const std::string &i_line,
                       const std::string &i_char,

@@ -53,6 +53,19 @@ void StateEditProfile::enter() {
   StateMenu::enter();
 }
 
+void StateEditProfile::highlightSelectedProfile() {
+  const auto &selected = XMSession::instance()->profile();
+  UIList *pList = reinterpret_cast<UIList *>(
+    m_sGUI->getChild("EDITPROFILE_FRAME:PROFILE_LIST"));
+
+  for (int i = 0; i < pList->getEntries().size(); i++) {
+    if (pList->getEntries()[i]->Text[0] != selected)
+      continue;
+    pList->setRealSelected(i);
+    break;
+  }
+}
+
 void StateEditProfile::updateOptions() {
   UIButton *v_button;
 
@@ -63,6 +76,16 @@ void StateEditProfile::updateOptions() {
   if (XMSession::instance()->forceChildrenCompliant()) {
     v_button->setChecked(true);
     v_button->enableWindow(false);
+  }
+
+  UIButton *pCloseButton = reinterpret_cast<UIButton *>(
+    m_sGUI->getChild("EDITPROFILE_FRAME:CLOSE_BUTTON"));
+
+  UIList *list = reinterpret_cast<UIList *>(
+    m_sGUI->getChild("EDITPROFILE_FRAME:PROFILE_LIST"));
+  if (list->getEntries().size() > 0 && XMSession::instance()->profile() != "") {
+    pCloseButton->enableWindow(true);
+    highlightSelectedProfile();
   }
 }
 
@@ -86,7 +109,7 @@ void StateEditProfile::checkEvents() {
 
       /* save previous profile before loading the previous one */
       XMSession::instance()->saveProfile(xmDatabase::instance("main"));
-      InputHandler::instance()->saveConfig(GameApp::instance()->getUserConfig(),
+      Input::instance()->saveConfig(GameApp::instance()->getUserConfig(),
                                            xmDatabase::instance("main"),
                                            XMSession::instance()->profile());
 
@@ -97,6 +120,12 @@ void StateEditProfile::checkEvents() {
       XMSession::instance()->setToDefault();
       XMSession::instance()->loadProfile(pEntry->Text[0],
                                          xmDatabase::instance("main"));
+
+      XMSession::instance()->loadConfig(
+          GameApp::instance()->getUserConfig(),
+          /* don't reload the default profile because that breaks profile selection */
+          false);
+
       XMSession::instance()->setChildrenCompliant(v_ccButton->getChecked());
 
       xmDatabase::instance("main")->stats_xmotoStarted(
@@ -145,9 +174,26 @@ void StateEditProfile::checkEvents() {
     v_msgboxState->setMsgBxId("DELETEPROFILE");
     StateManager::instance()->pushState(v_msgboxState);
   }
+
+  // close profile menu
+  v_button = reinterpret_cast<UIButton *>(
+    m_GUI->getChild("EDITPROFILE_FRAME:CLOSE_BUTTON"));
+  if (v_button->isClicked()) {
+    v_button->setClicked(false);
+
+    m_requestForEnd = true;
+  }
 }
 
 void StateEditProfile::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
+  if (XMSession::instance()->profile() != "" &&
+      i_type == INPUT_DOWN && (
+        i_xmkey == XMKey(SDLK_ESCAPE, KMOD_NONE) ||
+        i_xmkey.getJoyButton() == SDL_CONTROLLER_BUTTON_B)) {
+    m_requestForEnd = true;
+    return;
+  }
+
   StateMenu::xmKey(i_type, i_xmkey);
 }
 
@@ -233,13 +279,23 @@ void StateEditProfile::createGUIIfNeeded(RenderSurface *i_screen) {
 
   v_button = new UIButton(v_frame,
                           v_frame->getPosition().nWidth - 20 - 207,
-                          v_frame->getPosition().nHeight - 40 - 57,
+                          v_frame->getPosition().nHeight - 40 - 57 - 57,
                           GAMETEXT_DELETEPROFILE,
                           207,
                           57);
   v_button->setID("DELETEPROFILE_BUTTON");
   v_button->setContextHelp(CONTEXTHELP_DELETE_PROFILE);
   v_button->setFont(drawLib->getFontSmall());
+
+  v_button = new UIButton(v_frame,
+                          v_frame->getPosition().nWidth - 20 - 207,
+                          v_frame->getPosition().nHeight - 40 - 57,
+                          GAMETEXT_CLOSE,
+                          207,
+                          57);
+  v_button->setID("CLOSE_BUTTON");
+  v_button->setFont(drawLib->getFontSmall());
+
 
   createProfileList();
 }
@@ -281,13 +337,21 @@ void StateEditProfile::createProfileList() {
       m_sGUI->getChild("EDITPROFILE_FRAME:USEPROFILE_BUTTON"));
     UIButton *pDeleteButton = reinterpret_cast<UIButton *>(
       m_sGUI->getChild("EDITPROFILE_FRAME:DELETEPROFILE_BUTTON"));
+    UIButton *pCloseButton = reinterpret_cast<UIButton *>(
+      m_sGUI->getChild("EDITPROFILE_FRAME:CLOSE_BUTTON"));
 
     if (nrow == 0) {
       pUseButton->enableWindow(false);
       pDeleteButton->enableWindow(false);
+      pCloseButton->enableWindow(false);
     } else {
       pUseButton->enableWindow(true);
       pDeleteButton->enableWindow(true);
+      pCloseButton->enableWindow(true);
+    }
+
+    if (XMSession::instance()->profile() == "") {
+      pCloseButton->enableWindow(false);
     }
   }
 }
@@ -304,8 +368,11 @@ void StateEditProfile::sendFromMessageBox(const std::string &i_id,
             XMSession::instance()->sitekey(), PlayerName);
         } catch (Exception &e) {
           LogWarning("Unable to create the profile");
+          break;
         }
+
         createProfileList();
+        highlightSelectedProfile();
         break;
       }
       default:
@@ -322,7 +389,13 @@ void StateEditProfile::sendFromMessageBox(const std::string &i_id,
           if (nIdx >= 0 && nIdx < pList->getEntries().size()) {
             UIListEntry *pEntry = pList->getEntries()[nIdx];
 
-            xmDatabase::instance("main")->stats_destroyProfile(pEntry->Text[0]);
+            auto &profile = pEntry->Text[0];
+            bool isActive = profile == XMSession::instance()->profile();
+            xmDatabase::instance("main")->stats_destroyProfile(profile);
+
+            if (isActive)
+              XMSession::instance()->setProfile("");
+
             pList->setRealSelected(0);
             createProfileList();
           }

@@ -224,8 +224,10 @@ private:
                          float *o_arrowAngle,
                          AABBSide *o_side);
 
+  void _GetSpriteDetails(Scene *scene, Entity *entity, AnimationSprite* &sprite);
   void _RenderSprites(Scene *i_scene, bool bForeground, bool bBackground);
   void _RenderSprite(Scene *i_scene, Entity *pSprite, float i_sizeMult = 1.0);
+  void _RenderSpriteCircle(Entity *entity, float sizeMult);
   void _RenderBike(Biker *i_biker,
                    bool i_renderBikeFront = true,
                    const TColor &i_filterColor = TColor(255, 255, 255, 0),

@@ -20,8 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "Log.h"
 #include "VExcept.h"
-#include "assert.h"
 #include "common/VFileIO.h"
+
+#include <cassert>
 #include <cstdio>
 #include <stdarg.h>
 
@@ -29,20 +30,35 @@ bool Logger::m_isInitialized = false;
 bool Logger::m_activ = true;
 bool Logger::m_verbose = false;
 FILE *Logger::m_fd = NULL;
+std::string Logger::m_logName;
 
-void Logger::init(const std::string &i_logFile) {
-  std::string v_logPath = XMFS::getUserDir(FDT_CACHE) + "/" + i_logFile;
+const int RETENTION_COUNT = 9;
+const std::string LOG_NAME = "xmoto.log";
 
+void Logger::init() {
   assert(XMFS::isInitialized());
 
   m_verbose = false;
+  m_logName = LOG_NAME;
 
-  if (XMFS::fileExists(FDT_CACHE, v_logPath)) {
-    XMFS::deleteFile(FDT_CACHE, v_logPath);
+  auto logDir = XMFS::getUserDir(FDT_CACHE) + "/logs";
+  auto logFile = logDir + "/" + m_logName;
+  XMFS::mkArborescenceDir(logDir);
+
+  // Log rotation
+  for (int i = RETENTION_COUNT - 1; i >= 0; i--) {
+    auto old_file = (i == 0) ? LOG_NAME : (LOG_NAME + "." + std::to_string(i));
+    auto new_file = LOG_NAME + "." + std::to_string(i+1);
+
+    if (!XMFS::doesRealFileOrDirectoryExists(logDir + "/" + old_file))
+      continue;
+
+    XMFS::moveFile(logDir + "/" + old_file, logDir + "/" + new_file);
   }
 
-  m_fd = fopen(v_logPath.c_str(), "w");
-  if (m_fd == NULL) {
+  m_fd = fopen(logFile.c_str(), "w");
+
+  if (!m_fd) {
     throw Exception("Unable to open log file");
   }
 
@@ -115,4 +131,9 @@ void Logger::LogData(void *data, unsigned int len) {
   fflush(m_fd);
   fwrite(data, len, 1, m_fd);
   fprintf(m_fd, "====================\n");
+}
+
+void Logger::deleteLegacyLog() {
+  if (XMFS::fileExists(FDT_CACHE, "xmoto.log"))
+    XMFS::deleteFile(FDT_CACHE, "xmoto.log");
 }

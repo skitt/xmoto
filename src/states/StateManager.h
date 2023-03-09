@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "helpers/RenderSurface.h"
 #include "helpers/Singleton.h"
 #include "include/xm_SDL.h"
-#include "xmoto/XMKey.h"
+#include "xmoto/input/XMKey.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -60,8 +60,14 @@ public:
   // input
   void xmKey(InputEventType i_type, const XMKey &i_xmkey);
 
+  void fileDrop(const std::string &path);
+
   void changeFocus(bool i_hasFocus);
   void changeVisibility(bool i_visible);
+  void setInvalidated(bool i_isInvalidated) { m_isInvalidated = i_isInvalidated; }
+
+  bool hasFocus() const { return m_hasFocus; }
+  bool isInvalidated() const { return m_isInvalidated; }
 
   bool needUpdateOrRender();
 
@@ -84,6 +90,7 @@ public:
                                const std::string &args = "",
                                const std::string &i_parentId = "");
 
+  GameState *getTopState();
   bool isTopOfTheStates(GameState *i_state);
   int numberOfStates();
 
@@ -103,6 +110,10 @@ public:
   XMThreadStats *getDbStatsThread();
 
   DownloadReplaysThread *getReplayDownloaderThread();
+
+  void setCursorVisible(bool visible);
+
+  void connectOrDisconnect();
 
 private:
   GameState *popState();
@@ -124,6 +135,7 @@ private:
 
   bool m_isVisible;
   bool m_hasFocus;
+  bool m_isInvalidated;
 
   std::vector<GameState *> m_statesStack;
   std::vector<GameState *> m_toDeleteStates;
@@ -168,12 +180,11 @@ private:
   std::map<std::string, std::vector<GameState *>> m_registeredStates;
 
   // db stats thread
-  XMThreadStats *m_xmtstas;
+  XMThreadStats *m_xmstats;
 
   // replays downloader
   DownloadReplaysThread *m_drt;
 
-  //
   int m_currentUniqueId;
 
   RenderSurface m_screen;

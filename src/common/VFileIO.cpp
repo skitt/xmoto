@@ -19,16 +19,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 =============================================================================*/
 
 #ifdef WIN32
-#include <direct.h>
-#include <io.h>
-#include <userenv.h>
-#include <winbase.h>
-#include <windows.h>
+  #include <windows.h>
+  #include <direct.h>
+  #include <io.h>
+  #include <userenv.h>
+  #include <winbase.h>
 #else
-#include <dirent.h>
-#include <sys/types.h>
-#include <unistd.h>
+  #include <dirent.h>
+  #include <sys/types.h>
+  #include <unistd.h>
 #endif
+
 #include <stdarg.h>
 #include <sys/stat.h>
 
@@ -133,7 +134,7 @@ bool str_match_wildcard(char *pcMWildcard,
                         bool CaseSensitive) {
   int nPos = 0;
   bool PrevIsWildcard = false;
-  char c1[256], c2[256];
+  char c1[256+1], c2[256+1];
   char *pcWildcard, *pcString;
 
   if (CaseSensitive) {
@@ -141,7 +142,11 @@ bool str_match_wildcard(char *pcMWildcard,
     pcString = pcMString;
   } else {
     strncpy(c1, pcMWildcard, sizeof(c1));
+    c1[sizeof(c1)-1] = '\0';
+
     strncpy(c2, pcMString, sizeof(c2));
+    c2[sizeof(c2)-1] = '\0';
+
     strlwr(c1);
     strlwr(c2);
     pcWildcard = c1;
@@ -251,7 +256,7 @@ void XMFS::_FindFilesRecursive(const std::string &DirX,
                                std::vector<std::string> &List) {
 /* Windows? */
 #ifdef WIN32
-  long fh;
+  intptr_t fh;
   struct _finddata_t fd;
 
   std::string Dir = DirX;
@@ -346,7 +351,7 @@ std::vector<std::string> XMFS::findPhysFiles(FileDataType i_fdt,
     if (bRecurse) {
       _FindFilesRecursive(UDirToSearch, Wildcard, Result);
     } else {
-      long fh;
+      intptr_t fh;
       struct _finddata_t fd;
 
       if ((fh = _findfirst((UDirToSearch + Wildcard).c_str(), &fd)) != -1L) {
@@ -364,7 +369,7 @@ std::vector<std::string> XMFS::findPhysFiles(FileDataType i_fdt,
     if (bRecurse) {
       _FindFilesRecursive(DataDirToSearch, Wildcard, Result);
     } else {
-      long fh;
+      intptr_t fh;
       struct _finddata_t fd;
 
       if ((fh = _findfirst((DataDirToSearch + Wildcard).c_str(), &fd)) != -1L) {
@@ -847,12 +852,12 @@ void XMFS::writeLine(FileHandle *pfh, const std::string &Line) {
 }
 
 void XMFS::writeLineF(FileHandle *pfh, char *pcFmt, ...) {
-  char cBuf[2048], cBuf2[2048];
+  char cBuf[2048], cBuf2[2048+1];
   va_list List;
   va_start(List, pcFmt);
-  vsnprintf(cBuf, 2048, pcFmt, List);
+  vsnprintf(cBuf, sizeof(cBuf), pcFmt, List);
   va_end(List);
-  snprintf(cBuf2, 2048, "%s\n", cBuf);
+  snprintf(cBuf2, sizeof(cBuf2), "%s\n", cBuf);
   if (!writeBuf(pfh, cBuf2, strlen(cBuf2)))
     _ThrowFileError(pfh, "writeLineF -> failed");
 }
@@ -926,21 +931,27 @@ std::string XMFS::getFileDir(const std::string &Path) {
 }
 
 /*===========================================================================
-  Extract file name (with no extension) from path
+  Extract file name (optionally with extension) from path
   ===========================================================================*/
-std::string XMFS::getFileBaseName(const std::string &Path) {
+std::string XMFS::getFileBaseName(const std::string &Path, bool withExt) {
   int n = Path.find_last_of("/");
   if (n < 0)
     n = Path.find_last_of("\\");
   std::string FName;
+
   if (n >= 0) {
     FName = Path.substr(n + 1, Path.length() - n - 1);
   } else {
     FName = Path;
   }
+
+  if (withExt)
+    return FName;
+
   n = FName.find_last_of(".");
   if (n < 0)
     return FName;
+
   return FName.substr(0, n);
 }
 
@@ -1038,7 +1049,8 @@ void XMFS::deleteFile(FileDataType i_fdt, const std::string &File) {
 bool XMFS::copyFile(FileDataType i_fdt,
                     const std::string &From,
                     const std::string &To,
-                    std::string &To_really_done) {
+                    std::string &To_really_done,
+                    bool mkdirs) {
   /* All file copying must happen inside the user directory... */
   if (getUserDir(i_fdt) == "") {
     LogWarning("No user directory, can't copy file '%s' to '%s'",
@@ -1049,6 +1061,10 @@ bool XMFS::copyFile(FileDataType i_fdt,
 
   std::string FullFrom = getUserDir(i_fdt) + std::string("/") + From;
   std::string FullTo = getUserDir(i_fdt) + std::string("/") + To;
+
+  if (mkdirs) {
+    mkArborescence(FullTo);
+  }
 
   /* Does the destination file already exist? */
   FILE *fp = fopen(FullTo.c_str(), "rb");
@@ -1142,7 +1158,7 @@ bool XMFS::copyFile(FileDataType i_fdt,
   return true;
 }
 
-bool XMFS::renameUserFile(const std::string &From, const std::string &To) {
+bool XMFS::moveFile(const std::string &From, const std::string &To) {
   return rename(From.c_str(), To.c_str()) == 0;
 }
 
@@ -1162,7 +1178,6 @@ std::vector<PackFile> XMFS::m_PackFiles;
 
 void XMFS::init(const std::string &AppDir,
                 const std::string &i_binFile,
-                const std::string &i_logFile,
                 bool i_graphics,
                 const std::string &i_userCustomDirPath) {
   m_bGotSystemDataDir = false;
@@ -1360,9 +1375,6 @@ void XMFS::init(const std::string &AppDir,
   if (isDir(m_UserCacheDir) == false) {
     mkArborescenceDir(m_UserCacheDir);
   }
-
-  /* Delete old log */
-  remove((m_UserCacheDir + "/" + i_logFile).c_str());
 
   /* Info */
   if (m_bGotSystemDataDir) {
@@ -1662,7 +1674,7 @@ void XMFS::migrateFSToXdgBaseDirFile(const std::string &i_src,
   mkArborescence(i_dest);
 
   // move the file
-  if (renameUserFile(i_src, i_dest) == false) {
+  if (moveFile(i_src, i_dest) == false) {
     throw Exception("Unable to migrate the file " + i_src + " to " + i_dest);
   }
 }
@@ -1682,7 +1694,8 @@ void XMFS::migrateFSToXdgBaseDirIfRequired(const std::string &AppDir) {
   }
 
   try {
-    migrateFSToXdgBaseDirFile(v_oldUserDir + "/xm.db", DATABASE_FILE);
+    migrateFSToXdgBaseDirFile(v_oldUserDir + "/xm.db",
+                              XMFS::getUserDir(FDT_DATA) + "/" + DATABASE_FILE);
     migrateFSToXdgBaseDirFile(v_oldUserDir + "/config.dat",
                               XMFS::getUserDir(FDT_CONFIG) + "/" +
                                 std::string(XM_CONFIGFILE));

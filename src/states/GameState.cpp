@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "net/NetClient.h"
 #include "xmoto/Game.h"
 #include "xmoto/GameText.h"
-#include "xmoto/Input.h"
+#include "xmoto/input/Input.h"
 #include "xmoto/Renderer.h"
 #include "xmoto/Sound.h"
 #include "xmoto/SysMessage.h"
@@ -59,11 +59,10 @@ GameState::GameState(bool drawStateBehind, bool updateStatesBehind) {
 
   m_showCursor = true;
 
-  StateManager::instance()->registerAsObserver("CLIENT_DISCONNECTED_BY_ERROR",
-                                               this);
+  StateManager::instance()->registerAsObserver("CLIENT_DISCONNECTED_BY_ERROR", this);
   StateManager::instance()->registerAsObserver("MYHIGHSCORES_STOLEN", this);
 
-  if (XMSession::instance()->debug() == true) {
+  if (XMSession::instance()->debug()) {
     StateManager::instance()->registerAsEmitter("CHANGE_WWW_ACCESS");
     StateManager::instance()->registerAsEmitter("INTERPOLATION_CHANGED");
     StateManager::instance()->registerAsEmitter("MIRRORMODE_CHANGED");
@@ -74,8 +73,7 @@ GameState::GameState(bool drawStateBehind, bool updateStatesBehind) {
 }
 
 GameState::~GameState() {
-  StateManager::instance()->unregisterAsObserver("CLIENT_DISCONNECTED_BY_ERROR",
-                                                 this);
+  StateManager::instance()->unregisterAsObserver("CLIENT_DISCONNECTED_BY_ERROR", this);
   StateManager::instance()->unregisterAsObserver("MYHIGHSCORES_STOLEN", this);
   SDL_DestroyMutex(m_commandsMutex);
 }
@@ -250,7 +248,7 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   GameApp *gameApp = GameApp::instance();
 
   if (i_type == INPUT_DOWN &&
-      i_xmkey == (*InputHandler::instance()->getGlobalKey(INPUT_HELP))) {
+      i_xmkey == (*Input::instance()->getGlobalKey(INPUT_HELP))) {
     if (StateManager::instance()->isThereASuchState("StateHelp") == false)
       StateManager::instance()->pushState(
         new StateHelp(true, false, true, false));
@@ -258,14 +256,14 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   }
 
   if (i_type == INPUT_DOWN &&
-      i_xmkey == (*InputHandler::instance()->getGlobalKey(INPUT_SCREENSHOT))) {
+      i_xmkey == (*Input::instance()->getGlobalKey(INPUT_SCREENSHOT))) {
     gameApp->gameScreenshot();
     return;
   }
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHWWWACCESS))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHWWWACCESS))) {
     gameApp->enableWWW(XMSession::instance()->www() == false);
     StateManager::instance()->sendAsynchronousMessage("CHANGE_WWW_ACCESS");
     return;
@@ -273,14 +271,14 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHFPS))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHFPS))) {
     gameApp->enableFps(XMSession::instance()->fps() == false);
     return;
   }
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHUGLYMODE))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHUGLYMODE))) {
     gameApp->switchUglyMode(XMSession::instance()->ugly() == false);
     if (XMSession::instance()->ugly()) {
       SysMessage::instance()->displayText(SYS_MSG_UGLY_MODE_ENABLED);
@@ -292,7 +290,7 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   }
 
   else if (i_type == INPUT_DOWN &&
-           i_xmkey == (*InputHandler::instance()->getGlobalKey(
+           i_xmkey == (*Input::instance()->getGlobalKey(
                         INPUT_SWITCHGFXQUALITYMODE))) {
     /* Toggle GFX Modes */
     if (XMSession::instance()->gameGraphics() == GFX_LOW) {
@@ -310,7 +308,7 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHGFXMODE))) {
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHGFXMODE))) {
     /* F11 toggles TestThemeMode, UglyOver Mode and Normal Mode */
     if (XMSession::instance()->testTheme() == false &&
         XMSession::instance()->uglyOver() == false) {
@@ -355,10 +353,9 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   }
 
   else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_o, KMOD_LCTRL)) {
-    if (StateManager::instance()->isThereASuchState("StateOptions") ==
-        false) { // do not open stateOptions over stateOptions
+    // do not open stateOptions over stateOptions
+    if (!StateManager::instance()->isThereASuchState("StateOptions"))
       StateManager::instance()->pushState(new StateOptions());
-    }
   }
 
   else if (i_type == INPUT_DOWN && i_xmkey == XMKey(SDLK_s, KMOD_LCTRL)) {
@@ -368,7 +365,7 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   // net switch from ghost mode to slave mode
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SWITCHNETMODE)) &&
+             (*Input::instance()->getGlobalKey(INPUT_SWITCHNETMODE)) &&
            NetClient::instance()->isConnected() &&
            XMSession::instance()->clientGhostMode()) {
     XMSession::instance()->setClientGhostMode(
@@ -384,9 +381,9 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   // net chat
   else if (i_type == INPUT_DOWN &&
-           (i_xmkey == (*InputHandler::instance()->getGlobalKey(INPUT_CHAT)) ||
+           (i_xmkey == (*Input::instance()->getGlobalKey(INPUT_CHAT)) ||
             i_xmkey ==
-              (*InputHandler::instance()->getGlobalKey(INPUT_CHATPRIVATE))) &&
+              (*Input::instance()->getGlobalKey(INPUT_CHATPRIVATE))) &&
            NetClient::instance()->isConnected()) {
     if (StateManager::instance()->isThereASuchStateType("CHATMESSAGE") ==
         false) { // do not open several chat box
@@ -394,7 +391,7 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
       // private box ?
       bool v_privateBox =
         (i_xmkey ==
-         (*InputHandler::instance()->getGlobalKey(INPUT_CHATPRIVATE)));
+         (*Input::instance()->getGlobalKey(INPUT_CHATPRIVATE)));
       std::string v_prefilledMsg;
 
       // add player names
@@ -430,7 +427,7 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   }
 
   else if (i_type == INPUT_DOWN &&
-           i_xmkey == (*InputHandler::instance()->getGlobalKey(
+           i_xmkey == (*Input::instance()->getGlobalKey(
                         INPUT_NETWORKADMINCONSOLE)) &&
            NetClient::instance()->isConnected()) {
     if (StateManager::instance()->isThereASuchState("StateServerConsole") ==
@@ -443,12 +440,12 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
 
   else if (i_type == INPUT_DOWN &&
            i_xmkey ==
-             (*InputHandler::instance()->getGlobalKey(INPUT_SHOWCONSOLE))) {
+             (*Input::instance()->getGlobalKey(INPUT_SHOWCONSOLE))) {
     SysMessage::instance()->showConsole();
   }
 
   else if (i_type == INPUT_DOWN &&
-           i_xmkey == (*InputHandler::instance()->getGlobalKey(
+           i_xmkey == (*Input::instance()->getGlobalKey(
                         INPUT_CONSOLEHISTORYPLUS))) {
     SysMessage::instance()->alterConsoleSize(+1);
     XMSession::instance()->setConsoleSize(
@@ -457,7 +454,7 @@ void GameState::xmKey(InputEventType i_type, const XMKey &i_xmkey) {
   }
 
   else if (i_type == INPUT_DOWN &&
-           i_xmkey == (*InputHandler::instance()->getGlobalKey(
+           i_xmkey == (*Input::instance()->getGlobalKey(
                         INPUT_CONSOLEHISTORYMINUS))) {
     SysMessage::instance()->alterConsoleSize(-1);
     XMSession::instance()->setConsoleSize(

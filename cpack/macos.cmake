@@ -1,16 +1,25 @@
-set(CPACK_BUNDLE_NAME "XMoto")
-set(CPACK_BUNDLE_PLIST ${PROJECT_SOURCE_DIR}/macos/Info.plist)
-set(CPACK_BUNDLE_ICON ${PROJECT_SOURCE_DIR}/macos/xmoto.icns)
+set(CPACK_BUNDLE_NAME "${APP_NAME}")
+set(CPACK_BUNDLE_PLIST "${PROJECT_SOURCE_DIR}/macos/Info.plist")
+set(CPACK_BUNDLE_ICON "${PROJECT_SOURCE_DIR}/extra/X-Moto.icns")
+set(CPACK_PACKAGE_ICON "${CPACK_BUNDLE_ICON}")
 
-set(CPACK_DMG_VOLUME_NAME "X-Moto-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+set(MACOS_PLIST_PATH "${CMAKE_BINARY_DIR}/macos/Info.plist")
+set(MACOS_PLIST_IN_PATH "${PROJECT_SOURCE_DIR}/macos/Info.plist.in")
+
+set(CPACK_DMG_VOLUME_NAME "${APP_NAME} ${APP_VERSION_STRING}")
 
 include(InstallRequiredSystemLibraries)
 
 if(BUILD_MACOS_BUNDLE)
+  configure_file("${MACOS_PLIST_IN_PATH}" "${MACOS_PLIST_PATH}")
+
   set_target_properties(xmoto PROPERTIES
+    OUTPUT_NAME "${CPACK_BUNDLE_NAME}"
+
     MACOSX_BUNDLE_INFO_PLIST
-    "${PROJECT_SOURCE_DIR}/macos/Info.plist"
+    "${MACOS_PLIST_PATH}"
   )
+
   install(TARGETS xmoto
     RUNTIME DESTINATION . COMPONENT Runtime
     BUNDLE DESTINATION . COMPONENT Runtime
@@ -18,6 +27,6 @@ if(BUILD_MACOS_BUNDLE)
 
   install(CODE "
     include(BundleUtilities)
-    fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/xmoto.app\"  \"\"  \"\")
+    fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/${CPACK_BUNDLE_NAME}.app\"  \"\"  \"\")
     " COMPONENT Runtime)
 endif()

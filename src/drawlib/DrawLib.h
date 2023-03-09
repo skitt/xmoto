@@ -105,6 +105,14 @@ enum BlendMode {
   BLEND_MODE_B // GL_ONE,GL_ONE
 };
 
+/**
+ * Dimensionality of the camera
+ **/
+enum CameraDimension {
+  CAMERA_2D,
+  CAMERA_3D
+};
+
 /*===========================================================================
   Class with various drawing functions
   ===========================================================================*/
@@ -130,7 +138,6 @@ public:
   static bool isInitialized();
   virtual void init(unsigned int nDispWidth,
                     unsigned int nDispHeight,
-                    unsigned int nDispBPP,
                     bool bWindowed);
 
   virtual void unInit() = 0;
@@ -139,12 +146,14 @@ public:
   unsigned int getDispWidth();
   void setDispHeight(unsigned int height);
   unsigned int getDispHeight(void);
-  void setDispBPP(unsigned int bpp);
-  unsigned int getDispBPP();
   void setWindowed(bool windowed);
   bool getWindowed(void);
   void setNoGraphics(bool disable_graphics);
   bool isNoGraphics();
+
+  SDL_Window *getWindow() const { return m_window; }
+
+  virtual void setCameraDimensionality(CameraDimension dimension);
 
   void setRenderSurface(RenderSurface *renderSurf, bool i_own);
   RenderSurface *getRenderSurface();
@@ -301,7 +310,7 @@ public:
   Camera *getMenuCamera();
 
 protected:
-  unsigned int m_nDispWidth, m_nDispHeight, m_nDispBPP; /* Screen stuff */
+  unsigned int m_nDispWidth, m_nDispHeight; /* Screen stuff */
   unsigned int m_nLScissorX, m_nLScissorY, m_nLScissorW, m_nLScissorH;
 
   FontManager *m_fontSmall;
@@ -321,7 +330,7 @@ protected:
   bool m_bDontUseGLVOBS;
   bool m_bNoGraphics; /* No-graphics mode */
 
-  SDL_Surface *m_screen;
+  SDL_Window *m_window;
   Camera *m_menuCamera;
   RenderSurface *m_renderSurf;
   bool m_ownsRenderSurface;

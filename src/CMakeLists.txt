@@ -1,10 +1,9 @@
 option(STATIC_BUILD "Build a static executable" OFF)
 option(USE_OPENGL "Build with OpenGL for graphics" ON)
-option(USE_SDLGFX "Build with SDL for graphics" OFF)
+option(USE_SDLGFX "Build with SDL2 for graphics" OFF)
 option(USE_GETTEXT "Build with Gettext for internationalization" ON)
 option(PREFER_SYSTEM_BZip2 "Prefer system BZip2" ON)
 option(PREFER_SYSTEM_Lua "Prefer system Lua" ON)
-option(PREFER_SYSTEM_ODE "Prefer system ODE" ON)
 option(PREFER_SYSTEM_XDG "Prefer system XDG" ON)
 option(ALLOW_DEV "Enable some development/debug features" OFF)
 option(BUILD_MACOS_BUNDLE "Build xmoto as a macOS Bundle" OFF)
@@ -17,6 +16,10 @@ if(CMAKE_GENERATOR MATCHES "Ninja")
   endif()
 else()
   message("-- Using " ${CMAKE_GENERATOR})
+endif()
+
+if(POLICY CMP0072)
+  cmake_policy(SET CMP0072 NEW)
 endif()
 
 # find dependencies
@@ -33,15 +36,13 @@ find_package(JPEG REQUIRED)
 find_package(LibLZMA)
 find_package(LibXml2 REQUIRED)
 
-find_package(ODE)
-set(USE_SYSTEM_ODE $<AND:$<BOOL:${PREFER_SYSTEM_ODE}>,$<BOOL:${ODE_FOUND}>>)
 if(USE_OPENGL)
   find_package(OpenGL REQUIRED)
 endif()
 find_package(PNG REQUIRED)
 
 find_package(Lua)
-set(USE_SYSTEM_Lua $<AND:$<BOOL:${PREFER_SYSTEM_Lua}>,$<BOOL:${LUA51_FOUND}>,$<NOT:$<BOOL:${WIN32}>>>)
+set(USE_SYSTEM_Lua $<AND:$<BOOL:${PREFER_SYSTEM_Lua}>,$<BOOL:${LUA_FOUND}>,$<NOT:$<BOOL:${WIN32}>>>)
 if (NOT LUA_VERSION_STRING VERSION_LESS 5.2 AND LUA_VERSION_STRING VERSION_LESS 5.3)
     add_definitions("-DLUA_COMPAT_ALL")
 elseif (LUA_VERSION_STRING VERSION_GREATER_EQUAL "5.3")
@@ -50,10 +51,19 @@ endif()
 
 # Can't disable yet
 if(ON OR USE_SDLGFX)
-  find_package(SDL REQUIRED)
-  find_package(SDL_mixer REQUIRED)
-  find_package(SDL_net REQUIRED)
-  find_package(SDL_ttf REQUIRED)
+  # This is a workaround required on some systems that ship a broken sdl2-config.cmake
+  find_library(SDL2_LIBRARIES NAMES SDL2 SDL2main)
+  if(NOT SDL2_LIBRARIES)
+    find_package(SDL2 REQUIRED)
+
+    if("${SDL2_LIBRARIES}" STREQUAL "")
+      set(SDL2_LIBRARIES SDL2::SDL2)
+    endif()
+  endif()
+
+  find_package(SDL2_mixer REQUIRED)
+  find_package(SDL2_net REQUIRED)
+  find_package(SDL2_ttf REQUIRED)
 endif()
 
 find_package(SQLITE3 REQUIRED)
@@ -63,7 +73,17 @@ set(USE_SYSTEM_XDG $<AND:$<BOOL:${PREFER_SYSTEM_XDG}>,$<BOOL:${XDG_FOUND}>>)
 
 find_package(ZLIB REQUIRED)
 
-# sources
+if(APPLE)
+  find_library(COREFOUNDATION_LIBRARY CoreFoundation)
+endif()
+
+# used by xdgbasedir and xmoto
+check_prototype_definition(mkdir
+  "int mkdir(const char *_Path)"
+  "0"
+  "sys/types.h;sys/stat.h"
+  MS_MKDIR
+)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/bzip2" bzip2)
 add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/libccd" libccd)
@@ -73,6 +93,8 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/md5sum" md5sum)
 add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/ode" ode)
 add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/xdgbasedir" xdgbasedir)
 add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/glad" glad)
+
+configure_file(common/XMBuildConfig.h.in common/XMBuildConfig.h)
 
 set(common_src
   common/BuildConfig.h
@@ -91,6 +113,8 @@ set(common_src
   common/Packager.h
   common/PolyDraw.cpp
   common/PolyDraw.h
+  common/TextEdit.cpp
+  common/TextEdit.h
   common/Theme.cpp
   common/Theme.h
   common/VBezier.cpp
@@ -110,7 +134,6 @@ set(common_src
   common/XMArgs.h
   common/XMBuild.cpp
   common/XMBuild.h
-  common/XMBuild_info.h
   common/XMSession.cpp
   common/XMSession.h
   common/XMSession_default.cpp
@@ -171,6 +194,7 @@ set(helpers_src
   helpers/Environment.cpp helpers/Environment.h
   helpers/FileCompression.cpp helpers/FileCompression.h
   helpers/HighPrecisionTimer.h
+  helpers/ScopedTimer.h
   helpers/Log.cpp helpers/Log.h
   helpers/MultiSingleton.h
   helpers/Random.cpp helpers/Random.h
@@ -178,8 +202,9 @@ set(helpers_src
   helpers/Singleton.h
   helpers/SwapEndian.cpp helpers/SwapEndian.h
   helpers/System.cpp helpers/System.h
-  helpers/TFunctor.h
   helpers/Text.cpp helpers/Text.h
+  helpers/TFunctor.h
+  helpers/Time.cpp helpers/Time.h
   helpers/VExcept.h
   helpers/VMath.cpp helpers/VMath.h
   helpers/iqsort.h
@@ -297,7 +322,6 @@ set(xmoto_src
   xmoto/GameEvents.cpp xmoto/GameEvents.h
   xmoto/GameInit.cpp xmoto/GameText.h
   xmoto/GeomsManager.cpp xmoto/GeomsManager.h
-  xmoto/Input.cpp xmoto/Input.h
   xmoto/LevelsManager.cpp xmoto/LevelsManager.h
   xmoto/LevelsText.h
   xmoto/LuaLibBase.cpp xmoto/LuaLibBase.h
@@ -316,8 +340,14 @@ set(xmoto_src
   xmoto/VideoRecorder.cpp xmoto/VideoRecorder.h
   xmoto/VirtualLevelsList.cpp xmoto/VirtualLevelsList.h
   xmoto/XMDemo.cpp xmoto/XMDemo.h
-  xmoto/XMKey.cpp xmoto/XMKey.h
   xmoto/sqlqueries.h
+)
+
+set(xmoto_input_src
+  xmoto/input/Input.cpp xmoto/input/Input.h
+  xmoto/input/InputLegacy.cpp xmoto/input/InputLegacy.h
+  xmoto/input/Joystick.cpp xmoto/input/Joystick.h
+  xmoto/input/XMKey.cpp xmoto/input/XMKey.h
 )
 
 set(xmscene_src
@@ -386,6 +416,7 @@ add_executable(xmoto
   ${thread_src}
   ${xmincludes_src}
   ${xmoto_src}
+  ${xmoto_input_src}
   ${xmscene_src}
   $<$<PLATFORM_ID:Windows>:${PROJECT_SOURCE_DIR}/extra/xmoto.rc>
   $<$<PLATFORM_ID:Darwin>:${XMOTO_MACOS_ICON}>
@@ -397,13 +428,40 @@ elseif(APPLE AND BUILD_MACOS_BUNDLE)
   set_property(TARGET xmoto PROPERTY MACOSX_BUNDLE TRUE)
 endif()
 
+if(WIN32)
+  # MXE exports MSYS=1 so we can't use that to
+  # differentiate between it and MSYS2
+  if(DEFINED ENV{MSYSTEM_PREFIX})
+    set(IS_MSYS2 TRUE)
+  else()
+    set(IS_MSYS2 FALSE)
+  endif()
+  message("IS_MSYS2: ${IS_MSYS2}")
+endif()
+
+if(WIN32 AND IS_MSYS2)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lmingw32")
+endif()
+
 target_include_directories(xmoto
   PRIVATE
 
   "${PROJECT_SOURCE_DIR}/src"
+
+  "${CURL_INCLUDE_DIR}"
   "${LIBXML2_INCLUDE_DIR}"
+  "${Intl_INCLUDE_DIRS}"
+
+  "${SDL2_INCLUDE_DIRS}"
+  "${SDL2_MIXER_INCLUDE_DIR}"
+  "${SDL2_NET_INCLUDE_DIR}"
+  "${SDL2_TTF_INCLUDE_DIR}"
+
   "$<${USE_SYSTEM_Lua}:${LUA_INCLUDE_DIR}>"
   "$<$<NOT:${USE_SYSTEM_Lua}>:${PROJECT_SOURCE_DIR}/vendor/lua/lua>"
+
+  # Needed for files generated through configure_file()
+  "${PROJECT_BINARY_DIR}/src"
 )
 
 target_link_libraries(xmoto PUBLIC
@@ -429,20 +487,20 @@ target_link_libraries(xmoto PUBLIC
   "$<${USE_SYSTEM_Lua}:${LUA_LIBRARIES}>"
   $<$<NOT:${USE_SYSTEM_Lua}>:lua>
   md5sum
-  $<${USE_SYSTEM_ODE}:${ODE_LIBRARY}>
-  $<$<NOT:${USE_SYSTEM_ODE}>:ode>
+  ode
   glad
   ${CMAKE_DL_LIBS}
   ${OPENGL_LIBRARIES}
   ${PNG_LIBRARY}
-  ${SDL_LIBRARY}
-  ${SDLMIXER_LIBRARY}
-  ${SDLNET_LIBRARY}
-  ${SDLTTF_LIBRARY}
+  ${SDL2_LIBRARIES}
+  ${SDL2_MIXER_LIBRARY}
+  ${SDL2_NET_LIBRARY}
+  ${SDL2_TTF_LIBRARY}
   ${SQLITE3_LIBRARIES}
   $<${USE_SYSTEM_XDG}:${XDG_LIBRARY}>
   $<$<NOT:${USE_SYSTEM_XDG}>:xdgbasedir>
   ${ZLIB_LIBRARIES}
+  $<$<PLATFORM_ID:Darwin>:${COREFOUNDATION_LIBRARY}>
 )
 
 set_property(TARGET xmoto PROPERTY CXX_STANDARD 11)
@@ -453,13 +511,16 @@ check_symbol_exists(putenv stdlib.h HAVE_PUTENV)
 check_symbol_exists(setenv stdlib.h HAVE_SETENV)
 target_compile_definitions(xmoto PUBLIC HAVE_PUTENV=$<BOOL:${HAVE_PUTENV}>)
 target_compile_definitions(xmoto PUBLIC HAVE_SETENV=$<BOOL:${HAVE_SETENV}>)
-check_prototype_definition(mkdir
-  "int mkdir(const char *_Path)"
-  "0"
-  "sys/types.h;sys/stat.h"
-  MS_MKDIR
-)
 target_compile_definitions(xmoto PUBLIC MS_MKDIR=$<BOOL:${MS_MKDIR}>)
+
+if(WIN32)
+  target_compile_definitions(xmoto PRIVATE WIN32_LEAN_AND_MEAN)
+endif()
+
+if(USE_SYSTEM_Lua)
+  check_symbol_exists(luaL_openlib lauxlib.h HAVE_LUAL_OPENLIB)
+  target_compile_definitions(xmoto PUBLIC HAVE_LUAL_OPENLIB=$<BOOL:${HAVE_LUAL_OPENLIB}>)
+endif()
 
 target_compile_definitions(xmoto PUBLIC USE_OPENGL=$<BOOL:${USE_OPENGL}>)
 target_compile_definitions(xmoto PUBLIC USE_SDLGFX=$<BOOL:${USE_SDLGFX}>)
@@ -473,7 +534,7 @@ target_compile_definitions(xmoto PUBLIC $<$<BOOL:${STATIC_BUILD}>:LIBXML_STATIC>
 target_compile_definitions(xmoto PUBLIC SVN_REV=\"git\")
 
 # options
-target_compile_definitions(xmoto PRIVATE CONFIGURE_DEFAULT_THEME=\"Modern\")
+target_compile_definitions(xmoto PRIVATE CONFIGURE_DEFAULT_THEME=\"Classic\")
 
 if(CMAKE_SYSTEM_NAME MATCHES Windows)
   target_compile_definitions(xmoto PRIVATE
@@ -482,12 +543,6 @@ else()
   target_compile_definitions(xmoto PRIVATE
     DEFAULT_ASIAN_TTF_FILE=\"/usr/share/fonts/truetype/arphic/bkai00mp.ttf\")
 endif()
-
-set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION
-  "/usr/share/applications"
-  "/usr/share/pixmaps"
-  "/usr/share/locale"
-)
 
 # Handle localization
 # Based on Dolphin Emulator's Source/Core/DolphinWX/CMakeLists.txt (831ae6a)
@@ -513,15 +568,6 @@ if(USE_GETTEXT AND GETTEXT_MSGMERGE_EXECUTABLE AND GETTEXT_MSGFMT_EXECUTABLE)
       )
     else()
       install(FILES "${mo}" DESTINATION share/locale/${lang}/LC_MESSAGES)
-
-      # work around a problem where cpack thinks it's a good
-      # idea to throw in the parent directories of files in
-      # the rpm that will be installed in the filesystem...
-      set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION
-        ${CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION}
-        "/usr/share/locale/${lang}"
-        "/usr/share/locale/${lang}/LC_MESSAGES"
-      )
     endif()
 
     add_custom_command(OUTPUT "${mo}"
@@ -532,12 +578,6 @@ if(USE_GETTEXT AND GETTEXT_MSGMERGE_EXECUTABLE AND GETTEXT_MSGFMT_EXECUTABLE)
     )
   endforeach()
 endif()
-
-# make this visible to its parent (and therefore to cpack/)
-set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION
-  ${CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION}
-  PARENT_SCOPE
-)
 
 #target_compile_options(xmoto PRIVATE -Wall)
 #target_compile_options(xmoto PRIVATE -Werror)
@@ -550,7 +590,7 @@ function(set_win32_compat_path COMPAT REAL)
   set(${COMPAT} "${_COMPAT}" PARENT_SCOPE)
 endfunction()
 
-function(win32_run_script _CMD _ARGS _IS_MSYS2)
+function(win32_install_command _CMD _ARGS _IS_MSYS2)
   if (IS_MSYS2)
     # msys2's cmake is a native win32 program, and it can't run bash scripts directly
     install(CODE "execute_process(COMMAND bash -l -c '${_CMD} ${_ARGS}' \n\
@@ -569,20 +609,22 @@ function(win32_run_script _CMD _ARGS _IS_MSYS2)
 endfunction()
 
 if(WIN32)
-  # MXE exports MSYS=1 so we can't use that to
-  # differentiate between it and MSYS2
-  if(DEFINED ENV{MSYSTEM_PREFIX})
-    set(IS_MSYS2 TRUE)
-  else()
-    set(IS_MSYS2 FALSE)
-  endif()
-  message("IS_MSYS2: ${IS_MSYS2}")
+  install(
+    FILES
+      "${PROJECT_SOURCE_DIR}/README.md"
+      "${PROJECT_SOURCE_DIR}/COPYING"
+      "${PROJECT_SOURCE_DIR}/ChangeLog"
+    DESTINATION "./"
+  )
+
+  install(TARGETS xmoto RUNTIME DESTINATION "./")
 
   if(IS_MSYS2)
     # use msys prefix path as the target
     set_win32_compat_path(DLLCOPY_TARGET $ENV{MSYSTEM_PREFIX})
   else()
-    set(DLLCOPY_TARGET "i686-w64-mingw32.shared")
+    get_filename_component(mxe_target "${MXE_TOOLCHAIN_PATH}" NAME)
+    set(DLLCOPY_TARGET "${mxe_target}")
   endif()
   message("DLLCOPY_TARGET: ${DLLCOPY_TARGET}")
 
@@ -601,15 +643,10 @@ if(WIN32)
     set(WIN32_COMPAT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
   endif()
 
-  install(
-    FILES
-      "${PROJECT_SOURCE_DIR}/README.md"
-      "${PROJECT_SOURCE_DIR}/COPYING"
-      "${PROJECT_SOURCE_DIR}/ChangeLog"
-    DESTINATION "./"
-  )
   set(WIN32_DLL_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/dll")
   set_win32_compat_path(WIN32_COMPAT_DLL_DEST_DIR "${WIN32_DLL_DEST_DIR}")
+
+
   set(COPY_DLLS_CMD "${WIN32_COMPAT_SOURCE_DIR}/tools/win32_copy_dlls.sh")
   string(CONCAT COPY_DLLS_ARGS
     " -t \"${DLLCOPY_TARGET}\""
@@ -617,50 +654,46 @@ if(WIN32)
     " -e \"${WIN32_COMPAT_CURRENT_BINARY_DIR}/xmoto.exe\""
     " -r"
   )
-  win32_run_script("${COPY_DLLS_CMD}" "${COPY_DLLS_ARGS}" IS_MSYS2)
 
-  install(TARGETS xmoto RUNTIME DESTINATION "./")
-
-  install(
-    # NOTE: don't use WIN32_COMPAT_DLL_DEST_DIR here!
-    DIRECTORY "${WIN32_DLL_DEST_DIR}/"
-    DESTINATION "./"
-    FILES_MATCHING PATTERN "*.dll"
-  )
+  win32_install_command("${COPY_DLLS_CMD}" "${COPY_DLLS_ARGS}" IS_MSYS2)
 
   if (CMAKE_BUILD_TYPE STREQUAL "Release")
-    # strip the dlls
     set(STRIP_DLLS_CMD "${WIN32_COMPAT_SOURCE_DIR}/tools/win32_strip_dlls.sh")
     string(CONCAT
       STRIP_DLLS_ARGS
       " \"${CMAKE_STRIP}\"" # (path to) strip program
-      " \"${WIN32_COMPAT_INSTALL_PREFIX}\"" # DLL folder
+      " \"${WIN32_COMPAT_DLL_DEST_DIR}\"" # DLL folder
     )
-    win32_run_script("${STRIP_DLLS_CMD}" "${STRIP_DLLS_ARGS}" IS_MSYS2)
+    win32_install_command("${STRIP_DLLS_CMD}" "${STRIP_DLLS_ARGS}" IS_MSYS2)
   endif()
+
+  install(
+    DIRECTORY "${WIN32_DLL_DEST_DIR}/"
+    DESTINATION "./"
+    FILES_MATCHING PATTERN "*.dll"
+  )
 elseif(NOT BUILD_MACOS_BUNDLE)
   # for macOS bundles, this is set in cpack/macos.cmake
   # because otherwise fixup_bundle() would complain
   install(TARGETS xmoto RUNTIME DESTINATION bin)
 endif()
 
-message("BZip2     libraries: ${BZIP2_LIBRARIES}")
-message("Curl      libraries: ${CURL_LIBRARIES}")
-message("Intl      libraries: ${Intl_LIBRARIES}")
-message("Jpeg      libraries: ${JPEG_LIBRARIES}")
-message("LibXml2   libraries: ${LIBXML2_LIBRARIES}")
-message("LibLZMA   libraries: ${LIBLZMA_LIBRARIES}")
-message("Lua       libraries: ${LUA_LIBRARIES}")
-message("Ode       libraries: ${ODE_LIBRARY}")
-message("OpenGL    libraries: ${OPENGL_LIBRARIES}")
-message("Png       libraries: ${PNG_LIBRARY}")
-message("SDL       libraries: ${SDL_LIBRARY}")
-message("SDL_mixer libraries: ${SDLMIXER_LIBRARY}")
-message("SDL_net   libraries: ${SDLNET_LIBRARY}")
-message("SDL_ttf   libraries: ${SDLTTF_LIBRARY}")
-message("Sqlite3   libraries: ${SQLITE3_LIBRARIES}")
-message("Xdg       libraries: ${XDG_LIBRARY}")
-message("Zlib      libraries: ${ZLIB_LIBRARIES}")
+message("BZip2      libraries: ${BZIP2_LIBRARIES}")
+message("Curl       libraries: ${CURL_LIBRARIES}")
+message("Intl       libraries: ${Intl_LIBRARIES}")
+message("Jpeg       libraries: ${JPEG_LIBRARIES}")
+message("LibXml2    libraries: ${LIBXML2_LIBRARIES}")
+message("LibLZMA    libraries: ${LIBLZMA_LIBRARIES}")
+message("Lua        librarues: ${LUA_LIBRARIES}")
+message("OpenGL     libraries: ${OPENGL_LIBRARIES}")
+message("Png        libraries: ${PNG_LIBRARY}")
+message("SDL2       libraries: ${SDL2_LIBRARIES}")
+message("SDL2_mixer libraries: ${SDL2_MIXER_LIBRARY}")
+message("SDL2_net   libraries: ${SDL2_NET_LIBRARY}")
+message("SDL2_ttf   libraries: ${SDL2_TTF_LIBRARY}")
+message("Sqlite3    libraries: ${SQLITE3_LIBRARIES}")
+message("Xdg        libraries: ${XDG_LIBRARY}")
+message("Zlib       libraries: ${ZLIB_LIBRARIES}")
 message("")
 
 message("Installation path: ${CMAKE_INSTALL_PREFIX}")

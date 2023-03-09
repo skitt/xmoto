@@ -79,7 +79,6 @@ public:
   /* Methods */
   static void init(const std::string &AppDir,
                    const std::string &i_binFile,
-                   const std::string &i_logFile,
                    bool i_graphics,
                    const std::string &i_userCustomDirPath = "");
   static void uninit();
@@ -93,11 +92,11 @@ public:
     FileDataType i_fdt,
     const std::string &From,
     const std::string &To,
-    std::string &To_really_done); /* To_really_done is out : it is the name of
-                                     the file really written */
+    /* To_really_done is out : it is the name of the file really written */
+    std::string &To_really_done,
+    bool mkdirs = false);
 
-  // you can rename only user files
-  static bool renameUserFile(const std::string &From, const std::string &To);
+  static bool moveFile(const std::string &From, const std::string &To);
 
   static void deleteFile(FileDataType i_fdt, const std::string &File);
 
@@ -161,7 +160,7 @@ public:
 
   /* File name mangling */
   static std::string getFileDir(const std::string &Path);
-  static std::string getFileBaseName(const std::string &Path);
+  static std::string getFileBaseName(const std::string &Path, bool withExt = false);
   static std::string getFileExtension(
     const std::string &Path); // do not require FS initialization
 

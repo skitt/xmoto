@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "StatePlaying.h"
 #include "common/XMSession.h"
+#include "helpers/VExcept.h"
 #include "xmoto/LuaLibGame.h"
 #include "xmoto/Renderer.h"
 #include "xmoto/Universe.h"
@@ -78,131 +79,127 @@ void StatePlaying::enterAfterPop() {
 
 void StatePlaying::handleControllers(InputEventType Type,
                                      const XMKey &i_xmkey) {
-  unsigned int p, pW;
+  uint32_t p, pW;
   Biker *v_biker;
 
+  const auto checkKey = [i_xmkey](INPUT_PLAYERKEYS key, uint32_t player) -> bool {
+    // This is a dirty workaround for the following bug:
+    // 1. Press down key <x> (where x is a key that controls the bike)
+    // 2. Press down ctrl
+    // 3. Release key <x>
+    // 3. Release ctrl
+    // 4. Key <x> gets "stuck", e.g. if it's the "drive forward" key, the bike keeps
+    //    driving after the key is released
+    // This needs to be properly fixed by overhauling the input code.
+    return i_xmkey.equalsIgnoreMods(*Input::instance()->getPlayerKey(key, player));
+  };
+
+  bool mirrorMode = XMSession::instance()->mirrorMode();
+
   switch (Type) {
-    case INPUT_DOWN:
+    case INPUT_DOWN: {
       p = 0; // player number p
       pW = 0; // number of players in the previous worlds
-      for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
-        for (unsigned int i = 0;
-             i < m_universe->getScenes()[j]->Players().size();
-             i++) {
-          v_biker = m_universe->getScenes()[j]->Players()[i];
 
+      for (auto &scene : m_universe->getScenes()) {
+        for (auto &v_biker : scene->Players()) {
           // if else is not valid while axis up can be a signal for two sides
-          if ((*InputHandler::instance()->getPlayerKey(INPUT_DRIVE, p)) ==
-              i_xmkey) {
+          if (checkKey(INPUT_DRIVE, p)) {
             /* Start driving */
-            if (i_xmkey.isAnalogic()) {
-              v_biker->getControler()->setThrottle(
-                fabs(i_xmkey.getAnalogicValue()));
+            if (i_xmkey.isAnalog()) {
+              float throttle = fabs(i_xmkey.getAnalogValue());
+              v_biker->getControler()->setThrottle(throttle);
             } else {
               v_biker->getControler()->setThrottle(1.0f);
             }
           }
 
-          if ((*InputHandler::instance()->getPlayerKey(INPUT_BRAKE, p)) ==
-              i_xmkey) {
+          if (checkKey(INPUT_BRAKE, p)) {
             /* Brake */
             v_biker->getControler()->setBreak(1.0f);
           }
 
-          if (((*InputHandler::instance()->getPlayerKey(INPUT_FLIPLEFT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode() == false) ||
-              ((*InputHandler::instance()->getPlayerKey(INPUT_FLIPRIGHT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode())) {
+          if ((checkKey(INPUT_FLIPLEFT, p) && !mirrorMode) ||
+              (checkKey(INPUT_FLIPRIGHT, p) && mirrorMode)) {
             /* Pull back */
-            if (i_xmkey.isAnalogic()) {
-              v_biker->getControler()->setPull(
-                fabs(i_xmkey.getAnalogicValue()));
+            if (i_xmkey.isAnalog()) {
+              float pull = fabs(i_xmkey.getAnalogValue());
+              v_biker->getControler()->setPull(pull);
             } else {
               v_biker->getControler()->setPull(1.0f);
             }
           }
 
-          if (((*InputHandler::instance()->getPlayerKey(INPUT_FLIPRIGHT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode() == false) ||
-              ((*InputHandler::instance()->getPlayerKey(INPUT_FLIPLEFT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode())) {
+          if ((checkKey(INPUT_FLIPRIGHT, p) && !mirrorMode) ||
+              (checkKey(INPUT_FLIPLEFT, p) && mirrorMode)) {
             /* Push forward */
-            if (i_xmkey.isAnalogic()) {
-              v_biker->getControler()->setPull(
-                -fabs(i_xmkey.getAnalogicValue()));
+            if (i_xmkey.isAnalog()) {
+              float pull = -fabs(i_xmkey.getAnalogValue());
+              v_biker->getControler()->setPull(pull);
             } else {
               v_biker->getControler()->setPull(-1.0f);
             }
           }
 
-          if ((*InputHandler::instance()->getPlayerKey(INPUT_CHANGEDIR, p)) ==
-              i_xmkey) {
+          if (checkKey(INPUT_CHANGEDIR, p)) {
             /* Change dir */
             if (m_changeDirKeyAlreadyPress[p] == false) {
               v_biker->getControler()->setChangeDir(true);
               m_changeDirKeyAlreadyPress[p] = true;
             }
           }
+
           p++;
         }
-        pW += m_universe->getScenes()[j]->Players().size();
+
+        pW += scene->Players().size();
       }
 
       break;
-    case INPUT_UP:
+    }
+
+    case INPUT_UP: {
       p = 0; // player number p
       pW = 0; // number of players in the previous worlds
-      for (unsigned int j = 0; j < m_universe->getScenes().size(); j++) {
-        for (unsigned int i = 0;
-             i < m_universe->getScenes()[j]->Players().size();
-             i++) {
-          v_biker = m_universe->getScenes()[j]->Players()[i];
-
+      for (auto &scene : m_universe->getScenes()) {
+        for (auto &v_biker : scene->Players()) {
           // if else is not valid while axis up can be a signal for two sides
-          if ((*InputHandler::instance()->getPlayerKey(INPUT_DRIVE, p)) ==
-              i_xmkey) {
+          if (checkKey(INPUT_DRIVE, p)) {
             /* Stop driving */
             v_biker->getControler()->setThrottle(0.0f);
           }
 
-          if ((*InputHandler::instance()->getPlayerKey(INPUT_BRAKE, p)) ==
-              i_xmkey) {
+          if (checkKey(INPUT_BRAKE, p)) {
             /* Don't brake */
             v_biker->getControler()->setBreak(0.0f);
           }
 
-          if (((*InputHandler::instance()->getPlayerKey(INPUT_FLIPLEFT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode() == false) ||
-              ((*InputHandler::instance()->getPlayerKey(INPUT_FLIPRIGHT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode())) {
+          if ((checkKey(INPUT_FLIPLEFT, p) && !mirrorMode) ||
+              (checkKey(INPUT_FLIPRIGHT, p) && mirrorMode)) {
             /* Pull back */
             v_biker->getControler()->setPull(0.0f);
           }
 
-          if (((*InputHandler::instance()->getPlayerKey(INPUT_FLIPRIGHT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode() == false) ||
-              ((*InputHandler::instance()->getPlayerKey(INPUT_FLIPLEFT, p)) ==
-                 i_xmkey &&
-               XMSession::instance()->mirrorMode())) {
+          if ((checkKey(INPUT_FLIPRIGHT, p) && !mirrorMode) ||
+              (checkKey(INPUT_FLIPLEFT, p) && mirrorMode)) {
             /* Push forward */
             v_biker->getControler()->setPull(0.0f);
           }
 
-          if ((*InputHandler::instance()->getPlayerKey(INPUT_CHANGEDIR, p)) ==
-              i_xmkey) {
+          if (checkKey(INPUT_CHANGEDIR, p)) {
             m_changeDirKeyAlreadyPress[p] = false;
           }
+
           p++;
         }
-        pW += m_universe->getScenes()[j]->Players().size();
+
+        pW += scene->Players().size();
       }
+
+      break;
+    }
+
+    default:
       break;
   }
 }
@@ -210,22 +207,22 @@ void StatePlaying::handleControllers(InputEventType Type,
 void StatePlaying::handleScriptKeys(InputEventType Type, const XMKey &i_xmkey) {
   /* Have the script hooked this key? */
   if (Type == INPUT_DOWN) {
-    for (int i = 0; i < InputHandler::instance()->getNumScriptKeyHooks(); i++) {
-      if (InputHandler::instance()->getScriptKeyHooks(i).nKey == i_xmkey) {
+    for (int i = 0; i < Input::instance()->getNumScriptKeyHooks(); i++) {
+      if (Input::instance()->getScriptKeyHooks(i).nKey == i_xmkey) {
         /* Invoke script */
-        InputHandler::instance()
+        Input::instance()
           ->getScriptKeyHooks(i)
           .pGame->getLuaLibGame()
           ->scriptCallVoid(
-            InputHandler::instance()->getScriptKeyHooks(i).FuncName);
+            Input::instance()->getScriptKeyHooks(i).FuncName);
       }
       for (int j = 0; j < INPUT_NB_PLAYERS; j++) {
-        if (InputHandler::instance()->getScriptActionKeys(j, i) == i_xmkey) {
-          InputHandler::instance()
+        if (Input::instance()->getScriptActionKeys(j, i) == i_xmkey) {
+          Input::instance()
             ->getScriptKeyHooks(i)
             .pGame->getLuaLibGame()
             ->scriptCallVoid(
-              InputHandler::instance()->getScriptKeyHooks(i).FuncName);
+              Input::instance()->getScriptKeyHooks(i).FuncName);
         }
       }
     }
@@ -233,7 +230,12 @@ void StatePlaying::handleScriptKeys(InputEventType Type, const XMKey &i_xmkey) {
 }
 
 void StatePlaying::dealWithActivedKeys() {
-  Uint8 *v_keystate = SDL_GetKeyState(NULL);
+  int numkeys = 0;
+  const Uint8 *v_keystate = SDL_GetKeyboardState(&numkeys);
+  if (!v_keystate) {
+    throw Exception("dealWithActivedKeys: SDL_GetKeyboardState returned NULL");
+  }
+
   Uint8 v_mousestate = SDL_GetMouseState(NULL, NULL);
   unsigned int p, pW;
   Biker *v_biker;
@@ -245,18 +247,18 @@ void StatePlaying::dealWithActivedKeys() {
          i++) {
       v_biker = m_universe->getScenes()[j]->Players()[i];
 
-      if (InputHandler::instance()
+      if (Input::instance()
             ->getPlayerKey(INPUT_DRIVE, p)
-            ->isPressed(v_keystate, v_mousestate)) {
+            ->isPressed(v_keystate, v_mousestate, numkeys)) {
         /* Start driving */
         v_biker->getControler()->setThrottle(1.0f);
       } else {
         v_biker->getControler()->setThrottle(0.0f);
       }
 
-      if (InputHandler::instance()
+      if (Input::instance()
             ->getPlayerKey(INPUT_BRAKE, p)
-            ->isPressed(v_keystate, v_mousestate)) {
+            ->isPressed(v_keystate, v_mousestate, numkeys)) {
         /* Brake */
         v_biker->getControler()->setBreak(1.0f);
       } else {
@@ -264,25 +266,25 @@ void StatePlaying::dealWithActivedKeys() {
       }
 
       // pull
-      if ((InputHandler::instance()
+      if ((Input::instance()
              ->getPlayerKey(INPUT_FLIPLEFT, p)
-             ->isPressed(v_keystate, v_mousestate) &&
+             ->isPressed(v_keystate, v_mousestate, numkeys) &&
            XMSession::instance()->mirrorMode() == false) ||
-          (InputHandler::instance()
+          (Input::instance()
              ->getPlayerKey(INPUT_FLIPRIGHT, p)
-             ->isPressed(v_keystate, v_mousestate) &&
+             ->isPressed(v_keystate, v_mousestate, numkeys) &&
            XMSession::instance()->mirrorMode())) {
         /* Pull back */
         v_biker->getControler()->setPull(1.0f);
       } else {
         // push // must be in pull else block to not set pull to 0
-        if ((InputHandler::instance()
+        if ((Input::instance()
                ->getPlayerKey(INPUT_FLIPRIGHT, p)
-               ->isPressed(v_keystate, v_mousestate) &&
+               ->isPressed(v_keystate, v_mousestate, numkeys) &&
              XMSession::instance()->mirrorMode() == false) ||
-            (InputHandler::instance()
+            (Input::instance()
                ->getPlayerKey(INPUT_FLIPLEFT, p)
-               ->isPressed(v_keystate, v_mousestate) &&
+               ->isPressed(v_keystate, v_mousestate, numkeys) &&
              XMSession::instance()->mirrorMode())) {
           /* Push forward */
           v_biker->getControler()->setPull(-1.0f);
@@ -291,9 +293,19 @@ void StatePlaying::dealWithActivedKeys() {
         }
       }
 
-      if (InputHandler::instance()
-            ->getPlayerKey(INPUT_CHANGEDIR, p)
-            ->isPressed(v_keystate, v_mousestate)) {
+      if (Input::instance()
+          ->getPlayerKey(INPUT_CHANGEDIR, p)
+          ->isPressed(v_keystate, v_mousestate, numkeys)
+          /*
+           * Make sure we aren't holding down the A button, as this would cause
+           * the player to change directions instantly after opening the level
+           * (or after skipping the initial zoom) or restarting/resuming from
+           * the pause menu, as this likely isn't wanted when playing with a
+           * controller. Note that this behavior still stands for the spacebar.
+           */
+          && !(Input::instance()
+               ->getPlayerKey(INPUT_CHANGEDIR, p)
+               ->getJoyButton() == SDL_CONTROLLER_BUTTON_A)) {
         /* Change dir */
         if (m_changeDirKeyAlreadyPress[p] == false) {
           v_biker->getControler()->setChangeDir(true);
