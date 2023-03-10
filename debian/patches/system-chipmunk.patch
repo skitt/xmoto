@@ -3,9 +3,9 @@ Author: Stephen Kitt <skitt@debian.org>
 
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -65,7 +65,6 @@
- 
- # sources
+@@ -85,7 +85,6 @@
+   MS_MKDIR
+ )
  
 -add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/chipmunk" chipmunk)
  add_subdirectory("${PROJECT_SOURCE_DIR}/vendor/md5sum" md5sum)
@@ -49,7 +49,7 @@ Author: Stephen Kitt <skitt@debian.org>
  
  #define XM_DEFAULT_BLOCK_TEXTURE "default"
  #define XM_DEFAULT_PHYS_BLOCK_MASS 30.0
-@@ -234,8 +234,7 @@
+@@ -243,8 +243,7 @@
  }
  
  void Block::setPhysicsPosition(float ix, float iy) {
@@ -59,7 +59,7 @@ Author: Stephen Kitt <skitt@debian.org>
  }
  
  void Block::setDynamicPositionAccordingToCenter(
-@@ -291,15 +290,16 @@
+@@ -300,15 +299,16 @@
    // move block according to chipmunk, only if they have moved
    bool moved = false;
  
@@ -80,7 +80,7 @@ Author: Stephen Kitt <skitt@debian.org>
      moved = true;
    }
  
-@@ -308,7 +308,8 @@
+@@ -317,7 +317,8 @@
      io_collisionSystem->moveDynBlock(this);
    }
  
@@ -90,7 +90,7 @@ Author: Stephen Kitt <skitt@debian.org>
  }
  
  int Block::loadToPlay(CollisionSystem *io_collisionSystem,
-@@ -366,10 +367,9 @@
+@@ -375,10 +376,9 @@
  
          cpShape *seg =
            cpSegmentShapeNew(i_chipmunkWorld->getBody(), a, b, 0.0f);
@@ -101,10 +101,10 @@ Author: Stephen Kitt <skitt@debian.org>
 +        cpShapeSetFriction(seg, m_friction);
 +        cpShapeSetElasticity(seg, m_elasticity);
 +        cpSpaceAddShape(i_chipmunkWorld->getSpace(), seg);
+         m_shapes.push_back(seg);
        }
      }
- 
-@@ -498,16 +498,18 @@
+@@ -508,16 +508,18 @@
          cpFloat circle_moment =
            cpMomentForCircle(m_mass, radius, 0.0f, cpvzero);
          myBody = cpBodyNew(m_mass, circle_moment);
@@ -128,7 +128,7 @@ Author: Stephen Kitt <skitt@debian.org>
          }
  
          cpSpaceAddShape(i_chipmunkWorld->getSpace(), m_shape);
-@@ -521,13 +523,13 @@
+@@ -533,13 +535,13 @@
  
          // Create body to attach shapes to
          cpFloat bMoment =
@@ -145,7 +145,7 @@ Author: Stephen Kitt <skitt@debian.org>
          cpSpaceAddBody(i_chipmunkWorld->getSpace(), myBody);
          mBody = myBody;
  
-@@ -549,11 +551,14 @@
+@@ -562,11 +564,14 @@
  
              // collision shape
              m_shape = cpPolyShapeNew(
@@ -175,7 +175,16 @@ Author: Stephen Kitt <skitt@debian.org>
  
  #define CHIPMUNK_ITERATION 8
  
-@@ -38,7 +38,7 @@
+@@ -35,7 +35,7 @@
+ 
+ ChipmunkWorld::~ChipmunkWorld() {
+   for (size_t i = 0;i < m_joints.size();i++) {
+-    cpJointFree(m_joints[i]);
++    cpConstraintFree(m_joints[i]);
+   }
+   for (size_t i = 0;i < m_shapes.size();i++) {
+     cpShapeFree(m_shapes[i]);
+@@ -60,7 +60,7 @@
  }
  
  void ChipmunkWorld::setGravity(float i_x, float i_y) {
@@ -184,7 +193,7 @@ Author: Stephen Kitt <skitt@debian.org>
  }
  
  void ChipmunkWorld::initPhysics(PhysicsSettings *i_physicsSettings,
-@@ -47,19 +47,14 @@
+@@ -69,19 +69,14 @@
    float v_dm;
    int v_count;
  
@@ -206,7 +215,7 @@ Author: Stephen Kitt <skitt@debian.org>
    setBody(staticBody);
  
    // The spatial hashes used by Chipmunk’s collision detection are fairly size
-@@ -77,7 +72,7 @@
+@@ -99,7 +94,7 @@
    v_count = i_level->nbPhysicBlocks() * 10;
  
    resizeHashes(v_dm, v_count);
@@ -215,7 +224,7 @@ Author: Stephen Kitt <skitt@debian.org>
  
    LogInfo("Chipmunk init : hash (dimension=%.2f, count=%i), iteration=%i",
            v_dm,
-@@ -87,8 +82,7 @@
+@@ -109,8 +104,7 @@
  
  void ChipmunkWorld::resizeHashes(float i_dim, unsigned int i_size) {
    if (m_space != NULL) {
@@ -225,7 +234,18 @@ Author: Stephen Kitt <skitt@debian.org>
    }
  }
  
-@@ -140,8 +134,8 @@
+@@ -153,8 +147,8 @@
+   cpBody *v_wb;
+   cpBody *v_wf;
+ 
+-  cpJoint *v_jb;
+-  cpJoint *v_jf;
++  cpConstraint *v_jb;
++  cpConstraint *v_jf;
+ 
+   // Wheel mass.. as above ODE/Chipmunk
+   cpFloat mass = CHIP_WHEEL_MASS;
+@@ -165,8 +159,8 @@
      cpvzero);
    cpShape *shape;
  
@@ -236,20 +256,24 @@ Author: Stephen Kitt <skitt@debian.org>
  
    // Create the wheels which will be ODE's surrogates in Chipmunk
    v_wb = cpBodyNew(mass, wheel_moment);
-@@ -151,9 +145,9 @@
+@@ -176,11 +170,11 @@
    cpSpaceAddBody(m_space, v_wb);
    cpSpaceAddBody(m_space, v_wf);
  
 -  // Pin-joint the wheels to the anchors
--  cpSpaceAddJoint(m_space, cpPinJointNew(v_ab, v_wb, cpvzero, cpvzero));
--  cpSpaceAddJoint(m_space, cpPinJointNew(v_af, v_wf, cpvzero, cpvzero));
+-  v_jb = cpPinJointNew(v_ab, v_wb, cpvzero, cpvzero);
+-  v_jf = cpPinJointNew(v_af, v_wf, cpvzero, cpvzero);
+-  cpSpaceAddJoint(m_space, v_jb);
+-  cpSpaceAddJoint(m_space, v_jf);
 +  // Pivot-joint the wheels to the anchors
-+  cpSpaceAddConstraint(m_space, cpPivotJointNew(v_ab, v_wb, cpvzero));
-+  cpSpaceAddConstraint(m_space, cpPivotJointNew(v_af, v_wf, cpvzero));
++  v_jb = cpPivotJointNew(v_ab, v_wb, cpvzero);
++  v_jf = cpPivotJointNew(v_af, v_wf, cpvzero);
++  cpSpaceAddConstraint(m_space, v_jb);
++  cpSpaceAddConstraint(m_space, v_jf);
  
    // creating collision shapes for the wheels
    //   change to collision group 1
-@@ -162,18 +156,22 @@
+@@ -189,9 +183,11 @@
                             i_biker->getPhysicsSettings()->BikeWheelRadius() *
                               CHIP_SCALE_RATIO,
                             cpvzero);
@@ -262,8 +286,9 @@ Author: Stephen Kitt <skitt@debian.org>
 +  filter.group = 1;
 +  cpShapeSetFilter(shape, filter);
    cpSpaceAddShape(m_space, shape);
+   m_shapes.push_back(shape);
  
-   shape = cpCircleShapeNew(v_wb,
+@@ -199,9 +195,11 @@
                             i_biker->getPhysicsSettings()->BikeWheelRadius() *
                               CHIP_SCALE_RATIO,
                             cpvzero);
@@ -276,10 +301,10 @@ Author: Stephen Kitt <skitt@debian.org>
 +  filter.group = 1;
 +  cpShapeSetFilter(shape, filter);
    cpSpaceAddShape(m_space, shape);
+   m_shapes.push_back(shape);
  
-   m_ab.push_back(v_ab);
-@@ -182,38 +180,41 @@
-   m_wf.push_back(v_wf);
+@@ -214,38 +212,41 @@
+   m_joints.push_back(v_jf);
  
    /* init position */
 -  v_af->p = cpv(i_biker->getState()->FrontWheelP.x * CHIP_SCALE_RATIO,
@@ -407,3 +432,23 @@ Author: Stephen Kitt <skitt@debian.org>
  
  Level::Level() {
    m_xmotoTooOld = false;
+--- a/src/xmscene/ChipmunkWorld.h
++++ b/src/xmscene/ChipmunkWorld.h
+@@ -25,7 +25,7 @@
+ 
+ class cpSpace;
+ class cpBody;
+-class cpJoint;
++class cpConstraint;
+ class cpShape;
+ class PlayerLocalBiker;
+ class Biker;
+@@ -61,7 +61,7 @@
+   std::vector<cpBody *> m_af;
+   std::vector<cpBody *> m_wb; // wheel bodies
+   std::vector<cpBody *> m_wf;
+-  std::vector<cpJoint *> m_joints;
++  std::vector<cpConstraint *> m_joints;
+   std::vector<cpShape *> m_shapes;
+ };
+ 

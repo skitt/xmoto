@@ -16,18 +16,18 @@ Author: Stephen Kitt <skitt@debian.org>
  endif()
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -507,7 +507,7 @@
+@@ -562,7 +562,7 @@
          MACOSX_PACKAGE_LOCATION "Resources/locale/${lang}/LC_MESSAGES"
        )
      else()
 -      install(FILES "${mo}" DESTINATION share/locale/${lang}/LC_MESSAGES)
 +      install(FILES "${mo}" DESTINATION share/games/locale/${lang}/LC_MESSAGES)
+     endif()
  
-       # work around a problem where cpack thinks it's a good
-       # idea to throw in the parent directories of files in
+     add_custom_command(OUTPUT "${mo}"
 --- a/src/common/VFileIO.cpp
 +++ b/src/common/VFileIO.cpp
-@@ -1323,7 +1323,7 @@
+@@ -1338,7 +1338,7 @@
    /* Try some default fallbacks */
    if (!m_bGotSystemDataDir) {
      const std::vector<std::string> dataDirs = {
@@ -36,7 +36,7 @@ Author: Stephen Kitt <skitt@debian.org>
      };
      for (auto &dir : dataDirs) {
        if (isDir(dir + "/xmoto")) {
-@@ -1335,7 +1335,7 @@
+@@ -1350,7 +1350,7 @@
    }
    /* Default to /usr/share */
    if (!m_bGotSystemDataDir) {

@@ -4,11 +4,11 @@ Bug: http://todo.xmoto.tuxfamily.org/index.php?do=details&task_id=800
 
 --- a/src/helpers/System.cpp
 +++ b/src/helpers/System.cpp
-@@ -24,6 +24,7 @@
- #include "common/VCommon.h"
- #include "include/xm_SDL.h"
+@@ -26,6 +26,7 @@
  #include <sstream>
+ #include <utility>
+ #include <algorithm>
 +#include <unistd.h>
  
- #if defined(WIN32) || defined(__APPLE__)
- #else
+ #if !(defined(WIN32) || defined(__APPLE__))
+ #include <sys/types.h>
