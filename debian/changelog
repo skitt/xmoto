@@ -2,6 +2,7 @@ xmoto (0.6.2+repack-1) UNRELEASED; urgency=medium
 
   * New upstream release, switching to SDL2.
   * Enable LZMA support.
+  * Drop gcc-4.7-fixes.patch, it’s no longer necessary.
 
  -- Stephen Kitt <skitt@debian.org>  Fri, 10 Mar 2023 12:19:09 +0100
 
